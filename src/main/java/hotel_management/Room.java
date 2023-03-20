@@ -47,7 +47,7 @@ public class Room {
     public int getQualityType() {
         return qualityLevel;
     }
-    public void setID(QualityType qualityLevel) {
+    public void setQualityType(QualityType qualityLevel) {
         this.qualityLevel = qualityLevel;
     }
 }
