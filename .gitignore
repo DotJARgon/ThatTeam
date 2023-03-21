@@ -1,5 +1,7 @@
 /.idea/*
-/target/
-/bin/
-/.project/
-/.settings/
+/target/*
+/bin/*
+/.project/*
+/.settings/*
+.classpath
+.project
