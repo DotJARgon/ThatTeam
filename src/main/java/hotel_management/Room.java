@@ -17,7 +17,6 @@ public class Room {
     private int numBeds;
     private BedType bedType;
     private boolean canSmoke;
-    private int qualityLevel;
     private QualityType qualityLevel;
 
     public int getID() {
@@ -32,7 +31,7 @@ public class Room {
     public void setNumBeds(int numBeds) {
         this.numBeds = numBeds;
     }
-    public int getBedType() {
+    public BedType getBedType() {
         return bedType;
     }
     public void setBedType(BedType bedType) {
@@ -44,7 +43,7 @@ public class Room {
     public void setCanSmoke(boolean canSmoke) {
         this.canSmoke = canSmoke;
     }
-    public int getQualityType() {
+    public QualityType getQualityType() {
         return qualityLevel;
     }
     public void setQualityType(QualityType qualityLevel) {
