@@ -1,6 +1,6 @@
 package billing_services;
 
-import hotel_management.*;
+import user_services.Account;
 
 public class Billing {
     private Account user;
