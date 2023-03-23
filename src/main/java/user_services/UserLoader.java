@@ -13,19 +13,6 @@ public class UserLoader {
         ArrayList<String[]> allEntries = CSVParser.loadCSV(USER_FILE);
         Vector<Account> users = new Vector<>();
         if(allEntries != null) {
-            //        username = "";
-        password = "";
-        email = "";
-        firstName = "";
-        lastName = "";
-        phoneNumber = "";
-        address = "";
-        city = "";
-        state = "";
-        zipCode = "";
-        country = "";
-        id = 0;
-        isManager = false;
             for(String[] line : allEntries) {
                 String username = line[0];
                 String password = line[1];
