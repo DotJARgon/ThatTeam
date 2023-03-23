@@ -1,7 +1,6 @@
 package hotel_management;
 
 import java.util.Date;
-
 import billing_services.Billing;
 
 public class Reservation {
@@ -67,4 +66,5 @@ public class Reservation {
 	public void setRooms(Room[] rooms) {
 		this.rooms = rooms;
 	}
-}
+    
+} 
