@@ -1,17 +1,32 @@
 package hotel_management;
 public class Room {
-    private enum BedType {
-        //todo
+    public enum BedType {
         TWIN,
         FULL,
         KING,
-        QUEEN
+        QUEEN;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+        public static BedType fromString(String bedType) {
+            return BedType.valueOf(BedType.class, bedType);
+        }
     }
-    private enum QualityType {
+    public enum QualityType {
         EXECUTIVE,
         BUSINESS,
         COMFORT,
-        ECONOMY
+        ECONOMY;
+
+        @Override
+        public String toString() {
+            return this.name();
+        }
+        public static QualityType fromString(String qualityType) {
+            return QualityType.valueOf(QualityType.class, qualityType);
+        }
     }
     private int id;
     private int numBeds;
