@@ -27,7 +27,7 @@ public class CSVParser {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
             for(Object[] line : allEntries) {
-                for(Object o : line) bw.write(o.toString());
+                for(Object o : line) bw.write(o.toString()+",");
                 bw.write('\n');
             }
             bw.close();
