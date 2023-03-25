@@ -2,9 +2,7 @@ package hotel_management;
 
 import billing_services.Billing;
 import user_services.Account;
-
-import java.util.Vector;
-
+import java.util.*;
 public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;
     private Vector<Reservation> reservations;
@@ -13,13 +11,11 @@ public class HotelManagement {
     //HashSets for better look up times
     private Vector<Account> accounts;
     //there is a static number of rooms
-    private Room[] rooms;
-
+    private static Map<Room, Boolean> rooms = new HashMap<>();
     public HotelManagement() {
         this.reservations = new Vector<>();
         this.paymentHistory = new Vector<>();
         this.accounts = new Vector<>();
-        this.rooms = new Room[NUMBER_OF_ROOMS];
     }
 
     public Billing generateBilling(Reservation reservation) {
@@ -52,6 +48,15 @@ public class HotelManagement {
         //logs the user out of their session, this
         //will clear any lingering temporary data
         //about this user
+        return true;
+    }
+    public static boolean checkRoomAvailability(Room room) {
+        //todo
+        if (rooms.containsKey(room)) {
+            if (rooms.get(room) == true) {
+                return true;
+            }
+        }
         return true;
     }
 }

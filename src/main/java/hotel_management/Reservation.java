@@ -2,18 +2,19 @@ package hotel_management;
 
 import java.util.Date;
 import billing_services.Billing;
+import java.util.Vector;
 
 public class Reservation {
     private int id;
     //TODO
-    //private Guest guest;
+    private Account guest;
     private Date startDate, endDate;
     private Billing billing;
-    private Room[] rooms;
+    private Vector <Room> rooms = new Vector<>();
     
     //Custom constructor for object, where each object is determined by whoever
     //is instantiating the object
-    public Reservation(int i, /*Guest g, */Date s, Date e, Billing b, Room[] r) {
+    public Reservation(int i, /*Guest g, */Date s, Date e, Billing b, Vector <Room> r) {
     	id = i;
     	//guest = g;
     	startDate = s;
@@ -59,12 +60,25 @@ public class Reservation {
 	}
 
 	//Accessor function for rooms
-	public Room[] getRooms() {
+	public Vector<Room> getRooms() {
 		return rooms;
 	}
 	//Mutator function for rooms
-	public void setRooms(Room[] rooms) {
+	public void setRooms(Vector<Room> rooms) {
 		this.rooms = rooms;
 	}
     
+    public int reserveRoom(Account x, Room y, Date z, Date a) {
+    	guest = x;
+        if (HotelManagement.checkRoomAvailability(y) == false) {
+            return 1;
+        }
+        rooms.add(y);
+        if (z.compareTo(a) > 0) { //check to see if startDate is after endDate
+            return 1;
+        }
+        startDate = z;
+        endDate = a;
+    	return 0;
+    }
 } 
