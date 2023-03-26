@@ -1,25 +1,42 @@
 package ui;
-import javax.swing.*;
-
-import hotel_management.Room;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import hotel_management.Room;
 
 public class UI {
     public static enum op {DATESET, ROOMSET, CONFIRM};
 
-    public static Date start;
-    public static Date end;
+    public static Calendar start;
+    public static Calendar end;
     public static int room;
     public static op operation;
     public static Room room1;
     //write a function that takes in a string and returns a date
-    private static Date stringToDate(String result) {
-        //TODO
-        return null; //FIXME
+    //Assumes correct format, verify before calling function
+    //Format: "HH:MMAM MM/DD/YY"
+    private static Calendar stringToCalendar(String calStr) {
+        Calendar ret = new GregorianCalendar();
+        ret.set(Integer.parseInt(calStr.substring(14)), Integer.parseInt(calStr.substring(8,10)), Integer.parseInt(calStr.substring(11,13)));
+        ret.set(Calendar.HOUR, Integer.parseInt(calStr.substring(0,2)));
+        ret.set(Calendar.MINUTE, Integer.parseInt(calStr.substring(3,5)));
+        if(calStr.substring(5,7).equals("AM"))
+        	ret.set(Calendar.AM_PM, Calendar.AM);
+        else
+        	ret.set(Calendar.AM_PM, Calendar.PM);
+        return ret;
     }
 
     public static void main(String[] args) {
@@ -48,8 +65,7 @@ public class UI {
                         null,
                         "Red"
                 );
-                start = new Date();
-                start = stringToDate(result);
+                start = stringToCalendar(result);
             }
         });
         jb2.setBorder(BorderFactory.createBevelBorder(1, Color.red, Color.blue));
@@ -65,8 +81,7 @@ public class UI {
                         null,
                         "Red"
                 );
-                end = new Date();
-                end = stringToDate(result);
+                end = stringToCalendar(result);
             }
         });
         jb3.setBorder(BorderFactory.createBevelBorder(1, Color.red, Color.blue));
