@@ -1,11 +1,13 @@
 package ui;
+import ui.user.LoginPage;
+import ui.user.RegisterPage;
 import user_services.Account;
 
 import java.awt.*;
 import javax.swing.*;
 
 public class UI extends JFrame {
-    enum Routes {
+    public enum Routes {
         LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS");
 
         public final String route;
@@ -22,7 +24,7 @@ public class UI extends JFrame {
         if(ui == null) ui = new UI();
         return ui;
     }
-    protected static void updateCurrentClient(Account account) {
+    public static void updateCurrentClient(Account account) {
         currentClient = account;
     }
     public static Account getCurrentClient() {
@@ -80,7 +82,7 @@ public class UI extends JFrame {
     private void nav(String page) {
         cl.show(this.main, page);
     }
-    protected static void navTo(Routes page) {
+    public static void navTo(Routes page) {
         UI.getUI().nav(page.route);
     }
 

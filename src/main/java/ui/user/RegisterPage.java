@@ -1,9 +1,9 @@
-package ui;
+package ui.user;
 
+import ui.UI;
 import user_services.Account;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class RegisterPage extends UserField {

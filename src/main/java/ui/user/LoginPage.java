@@ -1,10 +1,10 @@
-package ui;
+package ui.user;
 
 import hotel_management.HotelManagement;
+import ui.UI;
 import user_services.Account;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class LoginPage extends UserField {
