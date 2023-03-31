@@ -2,7 +2,6 @@ package ui;
 import user_services.Account;
 
 import java.awt.*;
-
 import javax.swing.*;
 
 public class UI extends JFrame {
@@ -51,24 +50,29 @@ public class UI extends JFrame {
         }
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.nav = new JPanel(new GridLayout(2, 1));
-        //card layout
+        //initialization
+        this.nav = new JPanel();
         this.cl = new CardLayout();
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
 
-        this.main = new JPanel(cl);
+        //doesnt work????
+        this.nav.setAlignmentX(Component.CENTER_ALIGNMENT);
+        this.nav.setAlignmentY(Component.CENTER_ALIGNMENT);
 
+        //set up main page
+        this.main = new JPanel(cl);
         this.main.add(this.loginPage);
         this.main.add(this.registerPage);
+
+        //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
 
         this.nav.add(this.main);
+        this.add(this.nav);
 
-        super.add(this.nav);
-
-        super.setPreferredSize(new Dimension(700, 700));
+        this.setPreferredSize(new Dimension(500, 500));
 
         this.pack();
         this.setVisible(true);

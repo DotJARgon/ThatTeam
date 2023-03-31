@@ -9,11 +9,9 @@ public class UserField extends JPanel {
     public UserField() {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.add(Box.createHorizontalGlue());
 
         this.textPanel = new JPanel(new GridLayout(2, 1, 10, 10));
-        this.textPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         this.textPanel.add(username);
         this.textPanel.add(password);
