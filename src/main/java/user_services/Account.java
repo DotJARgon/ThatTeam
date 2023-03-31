@@ -15,7 +15,7 @@ public class Account {
     private int id;
     private boolean isManager;
     public Vector<Integer> reservations = new Vector<>();
-    Account() {
+    public Account() {
         username = "";
         password = "";
         email = "";
