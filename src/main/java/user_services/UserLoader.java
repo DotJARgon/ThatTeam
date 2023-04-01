@@ -2,6 +2,7 @@ package user_services;
 
 import file_utilities.CSVParser;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Vector;
@@ -27,8 +28,10 @@ public class UserLoader {
                 String country = line[10];
                 int id = Integer.parseInt(line[11]);
                 Vector<Integer> numRooms = new Vector<>();
+                for(int i = 12; i < line.length; i++){
+                    numRooms.add(Integer.parseInt(line[i]));
+                }
                 Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id, numRooms);
-
                 users.add(user);
             }
         }
