@@ -6,6 +6,7 @@ import user_services.UserLoader;
 
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;
@@ -16,7 +17,7 @@ public class HotelManagement {
     private Vector<Billing> paymentHistory;
     //likely there needs to be a change of these from Vector to
     //HashSets for better look up times
-    private Vector<Account> accounts;
+    private ConcurrentHashMap<String, Account> accounts;
     //there is a static number of rooms
     private Vector<Room> rooms;
 
@@ -71,13 +72,24 @@ public class HotelManagement {
         //query data base, will be added soon,
         //likely will need to change the logIn with a token
         for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.elementAt(i).getUsername().equals(username)) {
-                if (accounts.elementAt(i).getPassword().equals(password)) {
-                    return accounts.elementAt(i);
+            Account account = accounts.get(username);
+            if(account != null) {
+                if(account.getPassword().equals(password)) {
+                    return account;
                 }
             }
         }
         //if no username or password matches with the ones of an already existing account
+        return null;
+    }
+
+    public Account registerUser(String username, String password) {
+        if(!accounts.containsKey(username)) {
+            Account acc = new Account(username, password);
+            accounts.put(username, acc);
+            UserLoader.saveUsers(accounts.values().stream().collect(Collectors.toSet()));
+            return acc;
+        }
         return null;
     }
 }

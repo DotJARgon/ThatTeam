@@ -1,5 +1,6 @@
 package ui.user;
 
+import hotel_management.HotelManagement;
 import ui.UI;
 import user_services.Account;
 
@@ -24,11 +25,14 @@ public class RegisterPage extends UserField {
         if(option == 0) {
             //create a new account, temporary until register user
             //exists
-            Account account = new Account();
-            account.setUsername(username.getText());
-            account.setPassword(password.getText());
-            UI.updateCurrentClient(account);
-            UI.navTo(UI.Routes.MAKE_RESERVATIONS);
+            Account account = HotelManagement.getHotelManagement().registerUser(username.getText(), password.getText());
+            if(account != null) {
+                UI.updateCurrentClient(account);
+                UI.navTo(UI.Routes.MAKE_RESERVATIONS);
+            }
+            else {
+                UI.navTo(UI.Routes.REGISTER);
+            }
         }
         else {
             UI.navTo(UI.Routes.REGISTER);

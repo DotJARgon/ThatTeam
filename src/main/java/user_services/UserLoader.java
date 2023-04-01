@@ -6,13 +6,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserLoader {
     public static final String USER_FILE = "users.csv";
 
-    public static Vector<Account> loadUsers() {
+    public static ConcurrentHashMap<String, Account> loadUsers() {
         ArrayList<String[]> allEntries = CSVParser.loadCSV(USER_FILE);
-        Vector<Account> users = new Vector<>();
+        ConcurrentHashMap<String, Account> users = new ConcurrentHashMap<>();
         if(allEntries != null) {
             for(String[] line : allEntries) {
                 String username = line[0];
@@ -32,7 +33,7 @@ public class UserLoader {
                     numRooms.add(Integer.parseInt(line[i]));
                 }
                 Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id);
-                users.add(user);
+                users.put(username, user);
             }
         }
         return users;

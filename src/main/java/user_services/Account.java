@@ -3,19 +3,19 @@ package user_services;
 import java.util.Vector;
 import java.security.*;
 public class Account {
-    private String username;
-    private String password;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String address;
-    private String city;
-    private String state;
-    private String zipCode;
-    private String country;
-    private int id;
-    private Vector<Integer> roomNums;
+    private String username = "";
+    private String password = "";
+    private String email = "";
+    private String firstName = "";
+    private String lastName = "";
+    private String phoneNumber = "";
+    private String address = "";
+    private String city = "";
+    private String state = "";
+    private String zipCode = "";
+    private String country = "";
+    private int id = 0;
+    private Vector<Integer> roomNums = new Vector<>();
     public Account() {
         username = "";
         password = "";
@@ -29,7 +29,6 @@ public class Account {
         zipCode = "";
         country = "";
         id = 0;
-        roomNums = null;
     }
     Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id) {
         this.username = username;
@@ -44,10 +43,9 @@ public class Account {
         this.zipCode = zipCode;
         this.country = country;
         this.id = id;
-        roomNums = new Vector<Integer>();
     }
 
-    Account(String username, String password) {
+    public Account(String username, String password) {
         this.username = username;
         this.password = password;
     }
