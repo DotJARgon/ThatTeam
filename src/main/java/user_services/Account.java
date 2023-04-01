@@ -1,5 +1,4 @@
 package user_services;
-import java.util.Vector;
 public class Account {
     private String username;
     private String password;
@@ -13,8 +12,6 @@ public class Account {
     private String zipCode;
     private String country;
     private int id;
-    private boolean isManager;
-    public Vector<Integer> reservations = new Vector<>();
     public Account() {
         username = "";
         password = "";
@@ -28,9 +25,8 @@ public class Account {
         zipCode = "";
         country = "";
         id = 0;
-        isManager = false;
     }
-    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id, Vector<Integer> roomNumber, boolean isManager) {
+    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -43,8 +39,6 @@ public class Account {
         this.zipCode = zipCode;
         this.country = country;
         this.id = id;
-        this.reservations = roomNumber; 
-        this.isManager = isManager;
     }
     public String getUsername() {
         return username;
@@ -117,17 +111,5 @@ public class Account {
     }
     public void setId(int id) {
         this.id = id;
-    }
-    public Vector<Integer> getReservations() {
-        return reservations;
-    }
-    public void setReservations(Vector<Integer> reservations) {
-        this.reservations = reservations;
-    }
-    public boolean isManager() {
-        return isManager;
-    }
-    public void setManager(boolean manager) {
-        isManager = manager;
     }
 }
