@@ -9,7 +9,8 @@ public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;
     private static HotelManagement hotelManagement = null;
 
-    private Vector<Reservation> reservations;
+    private Vector<Reservation> activeReservations;
+    private Vector<Reservation> inactiveReservations;
     private Vector<Billing> paymentHistory;
     //likely there needs to be a change of these from Vector to
     //HashSets for better look up times
@@ -23,7 +24,8 @@ public class HotelManagement {
     }
 
     public HotelManagement() {
-        this.reservations = new Vector<>();
+        this.activeReservations = new Vector<>();
+        this.inactiveReservations = new Vector<>();
         this.paymentHistory = new Vector<>();
         this.accounts = new Vector<>();
         this.rooms = RoomLoader.loadRooms();
@@ -60,5 +62,12 @@ public class HotelManagement {
         //will clear any lingering temporary data
         //about this user
         return true;
+    }
+
+    public void checkIn(Reservation r){
+        r.setCheckedIn(true);
+    }
+    public void checkOut(Reservation r){
+        r.setCheckedOut(true);
     }
 }
