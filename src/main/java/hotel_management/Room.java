@@ -33,7 +33,13 @@ public class Room {
     private BedType bedType;
     private boolean canSmoke;
     private QualityType qualityLevel;
-
+    private boolean isCurrentlyOccupied; //change to map of reservations?
+    public boolean getIsCurrentlyOccupied() {
+        return isCurrentlyOccupied;
+    }
+    public void setIsCurrentlyOccupied(boolean isCurrentlyOccupied) {
+        this.isCurrentlyOccupied = isCurrentlyOccupied;
+    }
     public int getID() {
         return id;
     }

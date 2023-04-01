@@ -22,7 +22,6 @@ public class DateSelector extends JPanel {
         for(int i = 0; i < 12; i++) DateSelector.HOUR[i] = i + 1;
         DateSelector.MINUTE = new Integer[60];
         for(int i = 0; i < 60; i++) DateSelector.MINUTE[i] = i;
-
     }
     private JComboBox<Integer> month, day, year, hour, minute;
     private final String name;

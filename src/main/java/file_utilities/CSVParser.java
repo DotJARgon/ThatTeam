@@ -25,7 +25,7 @@ public class CSVParser {
 
     public static void writeCSV(String filename, ArrayList<Object[]> allEntries) {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
             for(Object[] line : allEntries) {
                 for(Object o : line) bw.write(o.toString()+",");
                 bw.write('\n');
