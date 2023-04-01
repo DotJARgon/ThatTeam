@@ -90,7 +90,7 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
 
-        this.setPreferredSize(new Dimension(500, 500));
+        this.setPreferredSize(new Dimension(500, 700));
 
         this.pack();
         this.setVisible(true);

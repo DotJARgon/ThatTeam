@@ -3,6 +3,10 @@ package ui.rooms;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class DateSelector extends JPanel {
     private static Integer[] MONTH, DAY, YEAR, HOUR, MINUTE;
@@ -94,5 +98,11 @@ public class DateSelector extends JPanel {
 
     private void buildLabel() {
         this.selected.setText(this.name + ": " + this.mm + "/" + this.dd + "/" + this.yy + " " + this.hr + ":" + this.mn);
+    }
+
+    public Date getDate() throws ParseException {
+        String sDate = this.yy + "-" + this.mm + "-" + this.dd + " " + this.hr + ":" + this.mn + ":00";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return formatter.parse(sDate);
     }
 }
