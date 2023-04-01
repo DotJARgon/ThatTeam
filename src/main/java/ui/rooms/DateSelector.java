@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateSelector extends JPanel {
@@ -18,8 +18,8 @@ public class DateSelector extends JPanel {
         DateSelector.YEAR = new Integer[100];
         for(int i = 0; i < 100; i++) DateSelector.YEAR[i] = 2000+i;
 
-        DateSelector.HOUR = new Integer[12];
-        for(int i = 0; i < 12; i++) DateSelector.HOUR[i] = i + 1;
+        DateSelector.HOUR = new Integer[24];
+        for(int i = 0; i < 24; i++) DateSelector.HOUR[i] = i + 1;
         DateSelector.MINUTE = new Integer[60];
         for(int i = 0; i < 60; i++) DateSelector.MINUTE[i] = i;
     }
@@ -78,6 +78,19 @@ public class DateSelector extends JPanel {
         this.year.addActionListener(yearListener);
         this.hour.addActionListener(hourListener);
         this.minute.addActionListener(minuteListener);
+
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        int hour = cal.get(Calendar.HOUR);
+        int minute = cal.get(Calendar.MINUTE);
+        this.month.setSelectedItem(month + 1);
+        this.day.setSelectedItem(day);
+        this.year.setSelectedItem(year);
+        this.hour.setSelectedItem(hour);
+        this.minute.setSelectedItem(minute);
+
 
         this.comboPanel.add(new JLabel("Month"));
         this.comboPanel.add(new JLabel("Day"));

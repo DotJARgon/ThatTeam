@@ -2,6 +2,7 @@ package hotel_management;
 
 import billing_services.Billing;
 import user_services.Account;
+import user_services.UserLoader;
 
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,10 +26,10 @@ public class HotelManagement {
     }
 
     public HotelManagement() {
-        this.activeReservations = new ConcurrentHashMap<>();
-        this.inactiveReservations = new ConcurrentHashMap<>();
+        this.activeReservations = ReservationLoader.loadReservations(ReservationLoader.Status.ACTIVE);
+        this.inactiveReservations = ReservationLoader.loadReservations(ReservationLoader.Status.INACTIVE);
         this.paymentHistory = new Vector<>();
-        this.accounts = new Vector<>();
+        this.accounts = UserLoader.loadUsers();
         this.rooms = RoomLoader.loadRooms();
     }
 

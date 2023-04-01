@@ -29,7 +29,7 @@ public class Account {
         zipCode = "";
         country = "";
         id = 0;
-        roomNums = null;
+        roomNums = new Vector<>();
     }
     Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id, Vector<Integer> roomNums) {
         this.username = username;

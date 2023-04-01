@@ -6,25 +6,22 @@ import billing_services.Billing;
 
 public class Reservation {
     private int id;
-    //TODO
-    //private Guest guest;
     private Date startDate, endDate;
     private Billing billing;
-    private Room[] rooms;
+    private int[] rooms;
 	private boolean checkedIn;
 	private boolean checkedOut;
 
 	//Custom constructor for object, where each object is determined by whoever
     //is instantiating the object
-    public Reservation(int i, /*Guest g, */Date s, Date e, Billing b, Room[] r, boolean chI, boolean chO) {
-    	id = i;
-    	//guest = g;
-    	startDate = s;
-    	endDate = e;
-    	billing = b;
-    	rooms = r;
-		checkedIn = chI;
-		checkedOut = chO;
+    public Reservation(int i, Date s, Date e, Billing b, int[] r, boolean chI, boolean chO) {
+    	this.id = i;
+		this.startDate = s;
+		this.endDate = e;
+		this.billing = b;
+		this.rooms = r;
+		this.checkedIn = chI;
+		this.checkedOut = chO;
     }
     
     //Accessor function for id
@@ -64,11 +61,11 @@ public class Reservation {
 	}
 
 	//Accessor function for rooms
-	public Room[] getRooms() {
+	public int[] getRooms() {
 		return rooms;
 	}
 	//Mutator function for rooms
-	public void setRooms(Room[] rooms) {
+	public void setRooms(int[] rooms) {
 		this.rooms = rooms;
 	}
 
