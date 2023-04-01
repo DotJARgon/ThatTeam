@@ -59,8 +59,8 @@ public class ReservationLoader {
         for(Reservation reservation : reservations) {
             Object[] properties = new Object[6 + reservation.getRooms().length];
             properties[0] = reservation.getID();
-            properties[1] = formatter.format(reservation.getStartDate());
-            properties[2] = formatter.format(reservation.getEndDate());
+            properties[1] = formatter.format(reservation.getStart());
+            properties[2] = formatter.format(reservation.getEnd());
             properties[3] = "null";
             properties[4] = reservation.getCheckedIn();
             properties[5] = reservation.getCheckedOut();

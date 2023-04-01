@@ -1,9 +1,11 @@
 package hotel_management;
 
+import java.util.Date;
+import java.util.Vector;
+
 import billing_services.Billing;
 import user_services.Account;
 import user_services.UserLoader;
-
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -38,15 +40,34 @@ public class HotelManagement {
         //todo
         return null;
     }
-
-    public Vector<Room> getAvailableRooms(Account account) {
-        //dummy for now
-        return this.rooms;
+    //Assumes end > start
+    public Vector<Room> getAvailableRooms(Date start, Date end) {
+        Vector<Room> availableRooms = new Vector<Room>();
+        for(Room r: rooms) {
+        	boolean roomAvailable = true;
+        	for(Reservation res: r.getReservations()) {
+        		if(start.before(res.getStart())) {
+        			if(end.after(res.getStart()))
+        				roomAvailable = false;
+        		}
+        		else if(start.before(res.getEnd())) {
+        			roomAvailable = false;
+        		}
+        	}
+        	if(roomAvailable)
+        		availableRooms.add(r);
+        }
+        return availableRooms;
     }
-
-    public Vector<Reservation> getReservations(Account account) {
-        //todo
-        return new Vector<>();
+    
+    public void addReservation(Reservation res, /*Guest g, */Room room) {
+    	activeReservations.put(res.getID(), res);
+    	//g.addReservation(r)
+    	room.addReservation(res);
+    }
+    
+    public Vector<Room> getRooms(){
+    	return rooms;
     }
 
     public Vector<Billing> generateSummary() {

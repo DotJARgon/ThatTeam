@@ -5,7 +5,8 @@ import java.util.Date;
 import billing_services.Billing;
 
 public class Reservation {
-    private int id;
+	private int id;
+	private Date start, end;
     private Date startDate, endDate;
     private Billing billing;
     private int[] rooms;
@@ -23,41 +24,32 @@ public class Reservation {
 		this.checkedIn = chI;
 		this.checkedOut = chO;
     }
-    
-    //Accessor function for id
+	
+	//Accessor function for start
+	public Date getStart() {
+    	return start;
+    }
+	//Mutator function for start
+	public void setStart(Date s) {
+		this.start = s;
+	}
+
+	//Accessor function for end
 	public int getID() {
 		return id;
 	}
-	//Mutator function for id
+	//Mutator function for end
 	public void setID(int id) {
 		this.id = id;
 	}
 	
-	//Accessor function for startDate
-	public Date getStartDate() {
-    	return startDate;
-    }
-	//Mutator function for startDate
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	//Accessor function for end
+	public Date getEnd() {
+		return end;
 	}
-
-	//Accessor function for endDate
-	public Date getEndDate() {
-		return endDate;
-	}
-	//Mutator function for endDate
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	//Accessor function for billing
-	public Billing getBilling() {
-		return billing;
-	}
-	//Mutator function for billing
-	public void setBilling(Billing billing) {
-		this.billing = billing;
+	//Mutator function for end
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	//Accessor function for rooms

@@ -1,17 +1,26 @@
 package ui.rooms;
 
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Vector;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import hotel_management.HotelManagement;
 import hotel_management.Room;
 import ui.NavUpdate;
 import ui.UI;
 import user_services.Account;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.Vector;
 
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     private final JTable roomsTable;
@@ -84,7 +93,13 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         this.tablePanel.setVisible(true);
         Account account = UI.getCurrentClient();
         if(account != null) {
-            Vector<Room> rooms = HotelManagement.getHotelManagement().getAvailableRooms(UI.getCurrentClient());
+        	Vector<Room> rooms;
+        	try {
+				rooms= HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
+			} catch (ParseException e) {
+				rooms = new Vector<>();
+			}
+
 
             //populate all rooms
             String[] columns = new String[] {
