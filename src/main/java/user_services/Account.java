@@ -31,7 +31,7 @@ public class Account {
         id = 0;
         roomNums = null;
     }
-    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id, Vector<Integer> roomNums) {
+    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -44,7 +44,11 @@ public class Account {
         this.zipCode = zipCode;
         this.country = country;
         this.id = id;
-        this.roomNums = roomNums;
+    }
+
+    Account(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
     public String getUsername() {
         return username;
@@ -125,4 +129,5 @@ public class Account {
     public void setReservations(Vector<Integer> roomNums) {
         this.roomNums = roomNums;
     }
+
 }
