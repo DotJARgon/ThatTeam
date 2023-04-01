@@ -1,4 +1,7 @@
 package user_services;
+
+import java.util.Vector;
+
 public class Account {
     private String username;
     private String password;
@@ -12,6 +15,7 @@ public class Account {
     private String zipCode;
     private String country;
     private int id;
+    private Vector<Integer> roomNums;
     public Account() {
         username = "";
         password = "";
@@ -25,8 +29,9 @@ public class Account {
         zipCode = "";
         country = "";
         id = 0;
+        roomNums = null;
     }
-    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id) {
+    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id, Vector<Integer> roomNums) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -39,6 +44,7 @@ public class Account {
         this.zipCode = zipCode;
         this.country = country;
         this.id = id;
+        this.roomNums = roomNums;
     }
     public String getUsername() {
         return username;
@@ -111,5 +117,12 @@ public class Account {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Vector<Integer> getReservations() {
+        return roomNums;
+    }
+    public void setReservations(Vector<Integer> roomNums) {
+        this.roomNums = roomNums;
     }
 }
