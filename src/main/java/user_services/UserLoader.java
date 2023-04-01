@@ -31,7 +31,7 @@ public class UserLoader {
                 for(int i = 12; i < line.length; i++){
                     numRooms.add(Integer.parseInt(line[i]));
                 }
-                Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id, numRooms);
+                Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id);
                 users.add(user);
             }
         }
