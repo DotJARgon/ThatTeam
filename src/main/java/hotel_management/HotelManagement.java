@@ -4,13 +4,14 @@ import billing_services.Billing;
 import user_services.Account;
 
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;
     private static HotelManagement hotelManagement = null;
 
-    private Vector<Reservation> activeReservations;
-    private Vector<Reservation> inactiveReservations;
+    private ConcurrentHashMap<Integer, Reservation> activeReservations;
+    private ConcurrentHashMap<Integer, Reservation> inactiveReservations;
     private Vector<Billing> paymentHistory;
     //likely there needs to be a change of these from Vector to
     //HashSets for better look up times
@@ -24,8 +25,8 @@ public class HotelManagement {
     }
 
     public HotelManagement() {
-        this.activeReservations = new Vector<>();
-        this.inactiveReservations = new Vector<>();
+        this.activeReservations = new ConcurrentHashMap<>();
+        this.inactiveReservations = new ConcurrentHashMap<>();
         this.paymentHistory = new Vector<>();
         this.accounts = new Vector<>();
         this.rooms = RoomLoader.loadRooms();
