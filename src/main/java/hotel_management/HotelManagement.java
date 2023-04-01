@@ -5,12 +5,15 @@ import java.util.Vector;
 
 import billing_services.Billing;
 import user_services.Account;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;
     private static HotelManagement hotelManagement = null;
 
-    private Vector<Reservation> reservations;
+    private ConcurrentHashMap<Integer, Reservation> activeReservations;
+    private ConcurrentHashMap<Integer, Reservation> inactiveReservations;
     private Vector<Billing> paymentHistory;
     //likely there needs to be a change of these from Vector to
     //HashSets for better look up times
@@ -24,7 +27,8 @@ public class HotelManagement {
     }
 
     public HotelManagement() {
-        this.reservations = new Vector<>();
+        this.activeReservations = new ConcurrentHashMap<>();
+        this.inactiveReservations = new ConcurrentHashMap<>();
         this.paymentHistory = new Vector<>();
         this.accounts = new Vector<>();
         this.rooms = RoomLoader.loadRooms();
@@ -55,15 +59,11 @@ public class HotelManagement {
     }
     
     public void addReservation(Reservation res, /*Guest g, */Room room) {
-    	reservations.add(res);
+    	activeReservations.put(res.getID(), res);
     	//g.addReservation(r)
     	room.addReservation(res);
     }
-
-    public Vector<Reservation> getReservations() {
-        //todo
-        return reservations;
-    }
+    
     public Vector<Room> getRooms(){
     	return rooms;
     }
@@ -84,5 +84,12 @@ public class HotelManagement {
         //will clear any lingering temporary data
         //about this user
         return true;
+    }
+
+    public void checkIn(Reservation r){
+        r.setCheckedIn(true);
+    }
+    public void checkOut(Reservation r){
+        r.setCheckedOut(true);
     }
 }

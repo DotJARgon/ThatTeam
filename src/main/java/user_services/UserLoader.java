@@ -2,6 +2,7 @@ package user_services;
 
 import file_utilities.CSVParser;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.Vector;
@@ -26,12 +27,11 @@ public class UserLoader {
                 String zipCode = line[9];
                 String country = line[10];
                 int id = Integer.parseInt(line[11]);
-                boolean isManager = Boolean.parseBoolean(line[12]);
-                //PARSE THE ROOM NUMBERS FROM CSV FILE LATER
-                Vector<Integer> roomNumbers = new Vector<>();
-
-                Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id, roomNumbers, isManager);
-
+                Vector<Integer> numRooms = new Vector<>();
+                for(int i = 12; i < line.length; i++){
+                    numRooms.add(Integer.parseInt(line[i]));
+                }
+                Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id, numRooms);
                 users.add(user);
             }
         }
@@ -56,8 +56,7 @@ public class UserLoader {
                     user.getZipCode(),
                     user.getCountry(),
                     user.getId(),
-                    user.getReservations(),
-                    user.isManager()
+                    user.getReservations()
             };
             allUsers.add(properties);
         }
