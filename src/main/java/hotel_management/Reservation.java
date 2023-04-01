@@ -2,23 +2,27 @@ package hotel_management;
 
 import java.util.Date;
 
+import billing_services.Billing;
+
 public class Reservation {
 	private int id;
 	private Date start, end;
-    private Room[] rooms;
+    private Date startDate, endDate;
+    private Billing billing;
+    private int[] rooms;
 	private boolean checkedIn;
 	private boolean checkedOut;
 
 	//Custom constructor for object, where each object is determined by whoever
     //is instantiating the object
-
-    public Reservation(int i, Date s, Date e, /*Billing b, */Room[] r, boolean chI, boolean chO) {
-    	id = i;
-    	start = s;
-    	end = e;
-    	rooms = r;
-		checkedIn = chI;
-		checkedOut = chO;
+    public Reservation(int i, Date s, Date e, Billing b, int[] r, boolean chI, boolean chO) {
+    	this.id = i;
+		this.startDate = s;
+		this.endDate = e;
+		this.billing = b;
+		this.rooms = r;
+		this.checkedIn = chI;
+		this.checkedOut = chO;
     }
 	
 	//Accessor function for start
@@ -49,11 +53,11 @@ public class Reservation {
 	}
 
 	//Accessor function for rooms
-	public Room[] getRooms() {
+	public int[] getRooms() {
 		return rooms;
 	}
 	//Mutator function for rooms
-	public void setRooms(Room[] rooms) {
+	public void setRooms(int[] rooms) {
 		this.rooms = rooms;
 	}
 

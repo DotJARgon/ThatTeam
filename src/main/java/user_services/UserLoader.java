@@ -31,11 +31,10 @@ public class UserLoader {
                 for(int i = 12; i < line.length; i++){
                     numRooms.add(Integer.parseInt(line[i]));
                 }
-                Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id, numRooms);
+                Account user = new Account(username, password, email, firstName, lastName, phoneNumber, address, city, state, zipCode, country, id);
                 users.add(user);
             }
         }
-
         return users;
     }
 
@@ -43,22 +42,24 @@ public class UserLoader {
         ArrayList<Object[]> allUsers = new ArrayList<>();
 
         for(Account user : users) {
-            Object[] properties = new Object[] {
-                    user.getUsername(),
-                    user.getPassword(),
-                    user.getEmail(),
-                    user.getFirstName(),
-                    user.getLastName(),
-                    user.getPhoneNumber(),
-                    user.getAddress(),
-                    user.getCity(),
-                    user.getState(),
-                    user.getZipCode(),
-                    user.getCountry(),
-                    user.getId(),
-                    user.getReservations()
-            };
-            allUsers.add(properties);
+            ArrayList<Object> props = new ArrayList<>();
+            props.add(user.getUsername());
+            props.add(user.getPassword());
+            props.add(user.getEmail());
+            props.add(user.getFirstName());
+            props.add(user.getLastName());
+            props.add(user.getPhoneNumber());
+            props.add(user.getCity());
+            props.add(user.getState());
+            props.add(user.getZipCode());
+            props.add(user.getCountry());
+            props.add(user.getId());
+
+            for(Integer i : user.getReservations()) {
+                props.add(i);
+            }
+
+            allUsers.add(props.toArray());
         }
 
         CSVParser.writeCSV(USER_FILE, allUsers);

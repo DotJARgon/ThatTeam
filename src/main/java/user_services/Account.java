@@ -1,7 +1,7 @@
 package user_services;
 
 import java.util.Vector;
-
+import java.security.*;
 public class Account {
     private String username;
     private String password;
@@ -31,7 +31,7 @@ public class Account {
         id = 0;
         roomNums = null;
     }
-    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id, Vector<Integer> roomNums) {
+    Account(String username, String password, String email, String firstName, String lastName, String phoneNumber, String address, String city, String state, String zipCode, String country, int id) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -44,7 +44,12 @@ public class Account {
         this.zipCode = zipCode;
         this.country = country;
         this.id = id;
-        this.roomNums = roomNums;
+        roomNums = new Vector<Integer>();
+    }
+
+    Account(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
     public String getUsername() {
         return username;
@@ -124,5 +129,22 @@ public class Account {
     }
     public void setReservations(Vector<Integer> roomNums) {
         this.roomNums = roomNums;
+    }
+    private String md5(String ptxt, String salt) { //salt is meant to be the username
+        String ptxtSalt = ptxt + salt; // concatenate the password and salt
+        String result = null; // initialize the generated password
+        try {  //code is from https://www.mkyong.com/java/java-md5-hashing-example/, thinking of using a different hashing algorithm, like sha256
+          MessageDigest md = MessageDigest.getInstance("MD5"); 
+          md.update(ptxtSalt.getBytes());
+          byte[] bytes = md.digest();
+          StringBuilder sb = new StringBuilder();
+          for (int i = 0; i < bytes.length; i++) {
+            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+          }
+          result = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+          e.printStackTrace();
+        }
+        return result;
     }
 }
