@@ -2,61 +2,34 @@ package hotel_management;
 
 import java.util.Date;
 
-import billing_services.Billing;
-
 public class Reservation {
-    private int id;
-    //TODO
-    //private Guest guest;
-    private Date startDate, endDate;
-    private Billing billing;
+	private Date start, end;
     private Room[] rooms;
     
     //Custom constructor for object, where each object is determined by whoever
     //is instantiating the object
-    public Reservation(int i, /*Guest g, */Date s, Date e, Billing b, Room[] r) {
-    	id = i;
-    	//guest = g;
-    	startDate = s;
-    	endDate = e;
-    	billing = b;
+    public Reservation(Date s, Date e, /*Billing b,*/ Room[] r) {
+    	start = s;
+    	end = e;
     	rooms = r;
     }
-    
-    //Accessor function for id
-	public int getID() {
-		return id;
-	}
-	//Mutator function for id
-	public void setID(int id) {
-		this.id = id;
-	}
 	
-	//Accessor function for startDate
-	public Date getStartDate() {
-    	return startDate;
+	//Accessor function for start
+	public Date getStart() {
+    	return start;
     }
-	//Mutator function for startDate
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	//Mutator function for start
+	public void setStart(Date s) {
+		this.start = s;
 	}
 
-	//Accessor function for endDate
-	public Date getEndDate() {
-		return endDate;
+	//Accessor function for end
+	public Date getEnd() {
+		return end;
 	}
-	//Mutator function for endDate
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	//Accessor function for billing
-	public Billing getBilling() {
-		return billing;
-	}
-	//Mutator function for billing
-	public void setBilling(Billing billing) {
-		this.billing = billing;
+	//Mutator function for end
+	public void setEnd(Date end) {
+		this.end = end;
 	}
 
 	//Accessor function for rooms

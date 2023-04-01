@@ -1,4 +1,7 @@
 package hotel_management;
+
+import java.util.Vector;
+
 public class Room {
     public enum BedType {
         TWIN,
@@ -33,12 +36,12 @@ public class Room {
     private BedType bedType;
     private boolean canSmoke;
     private QualityType qualityLevel;
-    private boolean isCurrentlyOccupied; //change to map of reservations?
-    public boolean getIsCurrentlyOccupied() {
-        return isCurrentlyOccupied;
+    private Vector<Reservation> reservations;
+    public Vector<Reservation> getReservations() {
+        return reservations;
     }
-    public void setIsCurrentlyOccupied(boolean isCurrentlyOccupied) {
-        this.isCurrentlyOccupied = isCurrentlyOccupied;
+    public void addReservation(Reservation r) {
+        reservations.add(r);
     }
     public int getID() {
         return id;
