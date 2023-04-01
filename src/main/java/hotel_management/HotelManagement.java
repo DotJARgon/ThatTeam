@@ -65,10 +65,11 @@ public class HotelManagement {
         return true;
     }
 
-    public void checkIn(Reservation r){
-        r.setCheckedIn(true);
+    public void checkIn(int reserveID){
+        this.activeReservations.get(reserveID).setCheckedIn(true);
     }
-    public void checkOut(Reservation r){
-        r.setCheckedOut(true);
+    public void checkOut(int reserveID){
+        this.inactiveReservations.put(reserveID, this.activeReservations.get(reserveID));
+        this.activeReservations.remove(reserveID);
     }
 }

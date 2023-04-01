@@ -35,7 +35,6 @@ public class UserLoader {
                 users.add(user);
             }
         }
-
         return users;
     }
 
