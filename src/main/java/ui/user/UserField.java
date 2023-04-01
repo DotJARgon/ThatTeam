@@ -1,9 +1,11 @@
 package ui.user;
 
+import ui.NavUpdate;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class UserField extends JPanel {
+public class UserField extends JPanel implements NavUpdate {
     protected final JTextField username = new JTextField(), password = new JTextField();
     protected final JPanel textPanel, buttonPanel;
     public UserField() {
@@ -24,5 +26,10 @@ public class UserField extends JPanel {
         this.buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         this.add(buttonPanel);
+    }
+
+    @Override
+    public void navUpdate() {
+        //do nothing for this one
     }
 }

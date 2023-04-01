@@ -15,7 +15,7 @@ public class HotelManagement {
     //HashSets for better look up times
     private Vector<Account> accounts;
     //there is a static number of rooms
-    private Room[] rooms;
+    private Vector<Room> rooms;
 
     public static HotelManagement getHotelManagement() {
         if(hotelManagement == null) hotelManagement = new HotelManagement();
@@ -26,7 +26,7 @@ public class HotelManagement {
         this.reservations = new Vector<>();
         this.paymentHistory = new Vector<>();
         this.accounts = new Vector<>();
-        this.rooms = new Room[NUMBER_OF_ROOMS];
+        this.rooms = RoomLoader.loadRooms();
     }
 
     public Billing generateBilling(Reservation reservation) {
@@ -36,7 +36,7 @@ public class HotelManagement {
 
     public Vector<Room> getAvailableRooms(Account account) {
         //dummy for now
-        return new Vector<>();
+        return this.rooms;
     }
 
     public Vector<Reservation> getReservations(Account account) {

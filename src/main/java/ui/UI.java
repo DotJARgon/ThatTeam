@@ -1,9 +1,16 @@
 package ui;
+import hotel_management.Room;
+import hotel_management.RoomLoader;
+import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
 import user_services.Account;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.*;
 
 public class UI extends JFrame {
@@ -35,7 +42,11 @@ public class UI extends JFrame {
     private final CardLayout cl;
     private final LoginPage loginPage;
     private final RegisterPage registerPage;
+    private final ReserveRoomsPage reserveRoomsPage;
     private final JPanel main, nav;
+
+    private final HashMap<String, NavUpdate> pageUpdates;
+
     private UI() {
         super("Hotel Reservations brought to you by That Team");
         try {
@@ -57,22 +68,27 @@ public class UI extends JFrame {
         this.cl = new CardLayout();
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
-
-        //doesnt work????
-        this.nav.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.nav.setAlignmentY(Component.CENTER_ALIGNMENT);
+        this.reserveRoomsPage = new ReserveRoomsPage();
 
         //set up main page
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
         this.main.add(this.registerPage);
+        this.main.add(this.reserveRoomsPage);
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
+        cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
 
         this.nav.add(this.main);
         this.add(this.nav);
+
+        this.pageUpdates = new HashMap<>();
+
+        this.pageUpdates.put(Routes.LOGIN.route, this.loginPage);
+        this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
+        this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
 
         this.setPreferredSize(new Dimension(500, 500));
 
@@ -83,10 +99,27 @@ public class UI extends JFrame {
         cl.show(this.main, page);
     }
     public static void navTo(Routes page) {
+        NavUpdate navUpdate = UI.getUI().pageUpdates.get(page.route);
+        if(navUpdate != null) {
+            navUpdate.navUpdate();
+        }
         UI.getUI().nav(page.route);
     }
 
     public static void main(String[] args) {
+        ArrayList<Room> roomsDebug = new ArrayList<Room>();
+        for(int i = 0; i < 10; i++) {
+            Room room = new Room();
+            room.setID(i);
+            room.setQualityType(Room.QualityType.COMFORT);
+            room.setNumBeds(2);
+            room.setBedType(Room.BedType.QUEEN);
+            room.setCanSmoke(false);
+            roomsDebug.add(room);
+        }
+        Set<Room> r = new HashSet<>(roomsDebug);
+        RoomLoader.saveRooms(r);
+        System.out.println("testing");
         UI ui = getUI();
     }
 }
