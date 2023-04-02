@@ -27,7 +27,7 @@ public class HotelManagement {
         return hotelManagement;
     }
 
-    public HotelManagement() {
+    private HotelManagement() {
         this.activeReservations = ReservationLoader.loadReservations(ReservationLoader.Status.ACTIVE);
         this.inactiveReservations = ReservationLoader.loadReservations(ReservationLoader.Status.INACTIVE);
         this.paymentHistory = new Vector<>();
@@ -45,13 +45,19 @@ public class HotelManagement {
         for(Room r: rooms) {
             boolean roomAvailable = true;
             for(Reservation res: r.getReservations()) {
-                if(start.before(res.getStart())) {
-                    if(end.after(res.getStart()))
+                if(end.after(start)) {
+                    if(start.before(res.getStart())) {
+                        if(end.after(res.getStart()))
+                            roomAvailable = false;
+                    }
+                    else if(start.before(res.getEnd())) {
                         roomAvailable = false;
+                    }
                 }
-                else if(start.before(res.getEnd())) {
+                else {
                     roomAvailable = false;
                 }
+
             }
             if(roomAvailable)
                 availableRooms.add(r);

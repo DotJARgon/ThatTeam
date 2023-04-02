@@ -15,7 +15,7 @@ public class Account {
     private String zipCode = "";
     private String country = "";
     private int id = 0;
-    private Vector<Integer> roomNums = new Vector<>();
+    private Vector<Integer> reservations = new Vector<>();
     public Account() {
         username = "";
         password = "";
@@ -123,10 +123,10 @@ public class Account {
     }
 
     public Vector<Integer> getReservations() {
-        return roomNums;
+        return reservations;
     }
     public void setReservations(Vector<Integer> roomNums) {
-        this.roomNums = roomNums;
+        this.reservations = roomNums;
     }
     private String md5(String ptxt, String salt) { //salt is meant to be the username
         String ptxtSalt = ptxt + salt; // concatenate the password and salt

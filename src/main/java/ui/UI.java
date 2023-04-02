@@ -146,7 +146,8 @@ public class UI extends JFrame {
         Set<Account> acc = new HashSet<>(accountsDebug);
         UserLoader.saveUsers(acc);
 
-        System.out.println("testing");
+        System.out.println("");
+
         UI ui = getUI();
     }
 }
