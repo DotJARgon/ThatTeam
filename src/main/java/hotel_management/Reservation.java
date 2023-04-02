@@ -7,7 +7,6 @@ import billing_services.Billing;
 public class Reservation {
 	private int id;
 	private Date start, end;
-    private Date startDate, endDate;
     private Billing billing;
     private int[] rooms;
 	private boolean checkedIn;
@@ -17,8 +16,8 @@ public class Reservation {
     //is instantiating the object
     public Reservation(int i, Date s, Date e, Billing b, int[] r, boolean chI, boolean chO) {
     	this.id = i;
-		this.startDate = s;
-		this.endDate = e;
+		this.start = s;
+		this.end = e;
 		this.billing = b;
 		this.rooms = r;
 		this.checkedIn = chI;

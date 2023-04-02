@@ -36,7 +36,7 @@ public class Room {
     private BedType bedType;
     private boolean canSmoke;
     private QualityType qualityLevel;
-    private Vector<Reservation> reservations;
+    private Vector<Reservation> reservations = new Vector<>();
     public Vector<Reservation> getReservations() {
         return reservations;
     }

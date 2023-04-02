@@ -2,10 +2,7 @@ package ui.rooms;
 
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Vector;
+import java.util.*;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -17,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import hotel_management.HotelManagement;
+import hotel_management.Reservation;
 import hotel_management.Room;
 import ui.NavUpdate;
 import ui.UI;
@@ -76,14 +74,19 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
             int[] rows = this.roomsTable.getSelectedRows();
             int[] roomIds = new int[rows.length];
             for(int i = 0; i < rows.length; i++) {
-                roomIds[i] = Integer.parseInt((String)this.roomsTable.getValueAt(rows[i], 0));
+                roomIds[i] = Integer.parseInt((String) this.roomsTable.getValueAt(rows[i], 0));
             }
 
-            System.out.println(Arrays.toString(roomIds));
+            try {
+                Date start = startDate.getDate();
+                Date end = endDate.getDate();
+                Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
 
-            //make a call to reserving this room
+                HotelManagement.getHotelManagement().addReservation(res, roomIds);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
-            //calling the navUpdate actually refreshes this page
             this.navUpdate();
         }
     }
