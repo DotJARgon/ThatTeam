@@ -5,6 +5,8 @@ import ui.UI;
 import user_services.Account;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class LoginPage extends UserField {
@@ -67,7 +69,20 @@ public class LoginPage extends UserField {
         this.login.addActionListener(this.loginAction);
         this.register.addActionListener(this.registerAction);
 
-        this.buttonPanel.add(login);
-        this.buttonPanel.add(register);
+        GridBagConstraints loginC = new GridBagConstraints();
+        GridBagConstraints registerC = new GridBagConstraints();
+
+        loginC.fill = GridBagConstraints.NONE;
+        loginC.anchor = GridBagConstraints.EAST;
+        loginC.insets = new Insets(0, 0, 0, 10);
+        loginC.gridx = 0;
+
+        registerC.fill = GridBagConstraints.NONE;
+        registerC.anchor = GridBagConstraints.WEST;
+        registerC.insets = new Insets(0, 10, 0, 0);
+        registerC.gridx = 2;
+
+        this.buttonPanel.add(login, loginC);
+        this.buttonPanel.add(register, registerC);
     }
 }

@@ -14,7 +14,7 @@ public class UserField extends JPanel implements NavUpdate {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createHorizontalGlue());
 
-        this.textPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        this.textPanel = new JPanel(new GridLayout(4, 1, 0, 5));
 
         this.enterUsername = new JLabel("Enter Username:");
         this.enterPassword = new JLabel("Enter Password:");
@@ -27,8 +27,10 @@ public class UserField extends JPanel implements NavUpdate {
         this.add(textPanel);
 
         this.buttonPanel = new JPanel();
-        this.buttonPanel.setLayout(new BoxLayout(this.buttonPanel, BoxLayout.Y_AXIS));
-        this.buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        /*this.buttonPanel.setLayout(new BoxLayout(this.buttonPanel, BoxLayout.X_AXIS));
+        this.buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);*/
+        this.buttonPanel.setLayout(new GridBagLayout());
+        //this.buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         this.add(buttonPanel);
     }
