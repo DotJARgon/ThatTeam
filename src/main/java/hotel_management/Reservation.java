@@ -51,6 +51,15 @@ public class Reservation {
 		this.end = end;
 	}
 
+	//Accessor function for billing
+	public Billing getBilling() {
+		return billing;
+	}
+	//Mutator function for billing
+	public void setRooms(Billing billing) {
+		this.billing = billing;
+	}
+
 	//Accessor function for rooms
 	public int[] getRooms() {
 		return rooms;

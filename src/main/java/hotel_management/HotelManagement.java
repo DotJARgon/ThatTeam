@@ -38,7 +38,7 @@ public class HotelManagement {
 
     public Billing generateBilling(Reservation reservation) {
         //todo
-        return null;
+        return reservation.getBilling();
     }
     //Assumes end > start
     public Vector<Room> getAvailableRooms(Date start, Date end) {
@@ -87,11 +87,11 @@ public class HotelManagement {
         return new Vector<>();
     }
     
-    public boolean logOut(String username) {
+    public Account logOut() {
         //logs the user out of their session, this
         //will clear any lingering temporary data
         //about this user
-        return true;
+        return null;
     }
 
     public void checkIn(int reserveID){
@@ -106,8 +106,8 @@ public class HotelManagement {
         //likely will need to change the logIn with a token
         for (int i = 0; i < accounts.size(); i++) {
             Account account = accounts.get(username);
-            if(account != null) {
-                if(account.getPassword().equals(password)) {
+            if (account != null) {
+                if (account.getPassword().equals(password)) {
                     return account;
                 }
             }
