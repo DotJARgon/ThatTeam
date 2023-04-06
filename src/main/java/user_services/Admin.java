@@ -1,5 +1,7 @@
 package user_services;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "admin")
 public class Admin extends Account{
 	public void addClerk() {
 		

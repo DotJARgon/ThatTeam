@@ -1,5 +1,6 @@
 package user_services;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +10,10 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import file_utilities.CSVParser;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 public class UserLoader {
     public static final String USER_FILE = "users.csv";
@@ -33,21 +38,23 @@ public class UserLoader {
         }
         return users;
     }
-    public static void saveUsers(Set<Account> users) {
-    	ArrayList<Object[]> allUsers = new ArrayList<>();
+    public static void saveUsers(AccountList accountList) {
 
-        for(Account user : users) {
-            ArrayList<Object> props = new ArrayList<>();
-            props.add(user.getUsername());
-            props.add(user.getPassword());
-            props.add(user.getFirstName());
-            props.add(user.getLastName());
-            props.add(user.getId());
+        try {
+            JAXBContext context = JAXBContext.newInstance(AccountList.class, Account.class, Guest.class, Clerk.class, Admin.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty("com.sun.xml.bind.xmlDeclaration", Boolean.TRUE);
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-            allUsers.add(props.toArray());
+            // Write to System.out
+            m.marshal(accountList, System.out);
+
+            // Write to File
+            m.marshal(accountList, new File("output-JAXB.xml"));
         }
-
-        CSVParser.writeCSV(USER_FILE, allUsers);
+        catch(JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ConcurrentHashMap<String, Guest> loadGuests() {

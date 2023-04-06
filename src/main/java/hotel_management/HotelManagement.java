@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import billing_services.Billing;
 import user_services.Account;
+import user_services.AccountList;
 import user_services.Guest;
 import user_services.UserLoader;
 
@@ -120,7 +121,9 @@ public class HotelManagement {
         if(!accounts.containsKey(username)) {
             Account acc = new Account(username, password);
             accounts.put(username, acc);
-            UserLoader.saveUsers(accounts.values().stream().collect(Collectors.toSet()));
+            AccountList accountList = new AccountList();
+            accountList.setAccountsList(accounts.values().stream().collect(Collectors.toList()));
+            UserLoader.saveUsers(accountList);
             return acc;
         }
         return null;

@@ -13,6 +13,7 @@ import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
 import user_services.Account;
+import user_services.AccountList;
 import user_services.Guest;
 import user_services.UserLoader;
 
@@ -203,11 +204,12 @@ public class UI extends JFrame {
             g.setReservations(rv);
             accountsDebug.add(g);
         }
-        Set<Account> acc = new HashSet<>(accountsDebug);
-        UserLoader.saveUsers(acc);
+        AccountList accountList = new AccountList();
+        accountList.setAccountsList(accountsDebug);
+        UserLoader.saveUsers(accountList);
 
         System.out.println("");
 
-        UI ui = getUI();
+        //UI ui = getUI();
     }
 }

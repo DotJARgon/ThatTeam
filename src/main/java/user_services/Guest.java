@@ -1,8 +1,12 @@
 package user_services;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.Vector;
 
+
+@XmlRootElement(name = "guest")
 public class Guest extends Account {
     private Vector<Integer> reservations;
     private String address;

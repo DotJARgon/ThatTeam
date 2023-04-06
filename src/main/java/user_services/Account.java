@@ -1,7 +1,12 @@
 package user_services;
 
-import java.util.Vector;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.security.*;
+
+
+@XmlRootElement(name = "account")
+//@XmlType(propOrder = { "username", "password", "firstName", "lastName", "id" })
 public class Account {
     private String username = "";
     private String password = "";
