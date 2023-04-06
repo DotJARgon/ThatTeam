@@ -36,11 +36,11 @@ public class Room {
     private BedType bedType;
     private boolean canSmoke;
     private QualityType qualityLevel;
-    private Vector<Reservation> reservations = new Vector<>();
-    public Vector<Reservation> getReservations() {
+    private Vector<Integer> reservations = new Vector<>();
+    public Vector<Integer> getReservations() {
         return reservations;
     }
-    public void addReservation(Reservation r) {
+    public void addReservation(int r) {
         reservations.add(r);
     }
     public int getID() {

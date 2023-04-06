@@ -45,20 +45,16 @@ public class HotelManagement {
         Vector<Room> availableRooms = new Vector<>();
         for(Room r: rooms) {
             boolean roomAvailable = true;
-            for(Reservation res: r.getReservations()) {
+            for(Integer res: r.getReservations()) {
                 if(end.after(start)) {
-                    if(start.before(res.getStart())) {
-                        if(end.after(res.getStart()))
+                    if(start.before(activeReservations.get(res).getStart()))
+                        if(end.after(activeReservations.get(res).getStart()))
                             roomAvailable = false;
-                    }
-                    else if(start.before(res.getEnd())) {
+                    else if(start.before(activeReservations.get(res).getEnd()))
                         roomAvailable = false;
-                    }
                 }
-                else {
+                else 
                     roomAvailable = false;
-                }
-
             }
             if(roomAvailable)
                 availableRooms.add(r);
@@ -66,15 +62,19 @@ public class HotelManagement {
         return availableRooms;
     }
     
-    public void addReservation(Reservation res, int[] room) {
+    public void addReservation(Reservation res, Guest g, int[] room) {
         activeReservations.put(res.getID(), res);
-        for(Room r : rooms) {
-            for(int j = 0; j < room.length; j++) {
+        //loop thru reservation's rooms. Will typically be 1 room
+        for(int j = 0; j < room.length; j++) {
+        	//loop thru hotel's rooms to see which room object it is so that
+        	//the reservation can be added to the correct one
+            for(Room r : rooms) {
                 if(r.getID() == room[j]) {
-                    r.addReservation(res);
+                    r.addReservation(res.getID());
                 }
             }
         }
+        g.addReservation(res.getID());
         ReservationLoader.saveReservations(activeReservations.values().stream().collect(Collectors.toSet()), ReservationLoader.Status.ACTIVE);
     }
     

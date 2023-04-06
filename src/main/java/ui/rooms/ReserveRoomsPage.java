@@ -2,7 +2,8 @@ package ui.rooms;
 
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,6 +20,7 @@ import hotel_management.Room;
 import ui.NavUpdate;
 import ui.UI;
 import user_services.Account;
+import user_services.Guest;
 
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     private final JTable roomsTable;
@@ -82,7 +84,9 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
                 Date end = endDate.getDate();
                 Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
 
-                HotelManagement.getHotelManagement().addReservation(res, roomIds);
+                //TODO: Implement it so that a clerk can register an account for a guest
+                if(UI.getCurrentClient() instanceof Guest)
+                	HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient(),roomIds);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
