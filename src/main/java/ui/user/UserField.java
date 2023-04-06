@@ -4,35 +4,66 @@ import ui.NavUpdate;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class UserField extends JPanel implements NavUpdate {
     protected final JTextField username = new JTextField(), password = new JTextField();
-    protected final JPanel textPanel, buttonPanel;
     private final JLabel enterUsername, enterPassword;
-    public UserField() {
+    protected final JButton left, right;
+    public UserField(String leftName, String rightName) {
         super();
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.add(Box.createHorizontalGlue());
 
-        this.textPanel = new JPanel(new GridLayout(4, 1, 0, 5));
+        this.left = new JButton(leftName);
+        this.right = new JButton(rightName);
 
+        this.setLayout(new GridBagLayout());
         this.enterUsername = new JLabel("Enter Username:");
         this.enterPassword = new JLabel("Enter Password:");
 
-        this.textPanel.add(enterUsername);
-        this.textPanel.add(username);
-        this.textPanel.add(enterPassword);
-        this.textPanel.add(password);
+        this.username.setToolTipText("enter username");
+        this.password.setToolTipText("enter password");
 
-        this.add(textPanel);
+        GridBagConstraints enterUserC = new GridBagConstraints();
+        enterUserC.fill = GridBagConstraints.NONE;
+        enterUserC.gridx = 0;
+        enterUserC.gridy = 0;
 
-        this.buttonPanel = new JPanel();
-        /*this.buttonPanel.setLayout(new BoxLayout(this.buttonPanel, BoxLayout.X_AXIS));
-        this.buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);*/
-        this.buttonPanel.setLayout(new GridBagLayout());
-        //this.buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        GridBagConstraints userC = new GridBagConstraints();
+        userC.fill = GridBagConstraints.HORIZONTAL;
+        userC.gridx = 0;
+        userC.gridy = 1;
+        userC.gridwidth = 3;
 
-        this.add(buttonPanel);
+        GridBagConstraints enterPassC = new GridBagConstraints();
+        enterPassC.fill = GridBagConstraints.NONE;
+        enterPassC.gridx = 0;
+        enterPassC.gridy = 2;
+
+        GridBagConstraints passC = new GridBagConstraints();
+        passC.fill = GridBagConstraints.HORIZONTAL;
+        passC.gridx = 0;
+        passC.gridy = 3;
+        passC.gridwidth = 3;
+
+        this.add(enterUsername, enterUserC);
+        this.add(username, userC);
+        this.add(enterPassword, enterPassC);
+        this.add(password, passC);
+
+
+        GridBagConstraints loginC = new GridBagConstraints();
+        GridBagConstraints registerC = new GridBagConstraints();
+
+        loginC.fill = GridBagConstraints.NONE;
+        loginC.gridx = 0;
+        loginC.gridy = 4;
+
+        registerC.fill = GridBagConstraints.NONE;
+        registerC.gridx = 2;
+        registerC.gridy = 4;
+
+        this.add(left, loginC);
+        this.add(right, registerC);
     }
 
     @Override

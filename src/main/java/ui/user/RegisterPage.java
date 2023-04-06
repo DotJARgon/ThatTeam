@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class RegisterPage extends UserField {
-    private final JButton register;
-
     private final ActionListener registerAction = e -> {
         //immediately go to register user
         UI.navTo(UI.Routes.REGISTER);
@@ -39,16 +37,13 @@ public class RegisterPage extends UserField {
         }
     };
 
+    private final ActionListener loginPageAction = e -> {
+        UI.navTo(UI.Routes.LOGIN);
+    };
+
     public RegisterPage() {
-        super();
-
-        this.register = new JButton("Register");
-
-        this.username.setToolTipText("enter username");
-        this.password.setToolTipText("enter password");
-
-        this.register.addActionListener(this.registerAction);
-
-        this.buttonPanel.add(register);
+        super("Register", "Return to login");
+        this.left.addActionListener(this.registerAction);
+        this.right.addActionListener(this.loginPageAction);
     }
 }

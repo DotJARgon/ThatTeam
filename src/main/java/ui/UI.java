@@ -86,7 +86,7 @@ public class UI extends JFrame {
         GridBagConstraints themeC = new GridBagConstraints();
         GridBagConstraints mainC = new GridBagConstraints();
 
-        mainC.fill = GridBagConstraints.HORIZONTAL;
+        mainC.fill = GridBagConstraints.BOTH;
         mainC.anchor = GridBagConstraints.CENTER;
         mainC.weightx = 0.80;
         mainC.weighty = 0.80;
