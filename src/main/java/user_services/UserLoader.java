@@ -57,30 +57,33 @@ public class UserLoader {
             for(String[] line : allEntries) {
                 String username = line[0];
                 String password = line[1];
-                String firstName = line[3];
-                String lastName = line[4];
-                //String phoneNumber = line[5];
-                String address = line[6];
-                address += "," + line[7]; // city
-                address += "," + line[8]; //state
-                address += "," + line[9]; //zipCode
-                address += "," + line[10];//country
-                int id = Integer.parseInt(line[11]);
-                int creditNum = Integer.parseInt(line[12]);//DNE yet
-                //TODO: implement Calendar
+                String firstName = line[2];
+                String lastName = line[3];
+                String address = line[4];
+                address += "," + line[5]; // city
+                address += "," + line[6]; //state
+                address += "," + line[7]; //zipCode
+                address += "," + line[8];//country
+                int id = Integer.parseInt(line[9]);
+                int creditNum = Integer.parseInt(line[10]);
                 Calendar creditExp = new GregorianCalendar();
-                Vector<Integer> numRooms = new Vector<>();
-                for(int i = 12; i < line.length; i++){
-                    numRooms.add(Integer.parseInt(line[i]));
+                creditExp.set(Calendar.DATE, 1);
+                creditExp.set(Calendar.MONTH, Integer.parseInt(line[11]));
+                creditExp.set(Calendar.YEAR, Integer.parseInt(line[12]));
+                Vector<Integer> resNums = new Vector<>();
+                for(int i = 13; i < line.length; i++){
+                    resNums.add(Integer.parseInt(line[i]));
                 }
-                Guest user = new Guest(username, password, firstName, lastName, id, address, creditNum, new Date());
+                //TODO: Test the use of getTime
+                Guest user = new Guest(username, password, firstName, lastName, id, address, creditNum, creditExp.getTime());
+                user.setReservations(resNums);
                 users.put(username, user);
             }
         }
         return users;
     }
     public static void saveGuests(Set<Guest> users) {
-        ArrayList<Object[]> allUsers = new ArrayList<>();
+        ArrayList<Object[]> allGuests = new ArrayList<>();
 
         for(Guest user : users) {
             ArrayList<Object> props = new ArrayList<>();
@@ -91,15 +94,17 @@ public class UserLoader {
             props.add(user.getAddress());
             props.add(user.getId());
             props.add(user.getCardNum());
-            //TODO: Add exp date.
-
+            Calendar exp = new GregorianCalendar();
+            exp.setTime(user.getCardExpiration());
+            props.add(exp.get(Calendar.MONTH));
+            props.add(exp.get(Calendar.YEAR));
             for(Integer i : user.getReservations()) {
                 props.add(i);
             }
 
-            allUsers.add(props.toArray());
+            allGuests.add(props.toArray());
         }
 
-        CSVParser.writeCSV(USER_FILE, allUsers);
+        CSVParser.writeCSV(USER_FILE, allGuests);
     }
 }

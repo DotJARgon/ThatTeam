@@ -16,7 +16,7 @@ public class Account {
         lastName = "";
         id = 0;
     }
-    Account(String username, String password, String firstName, String lastName, int id) {
+    public Account(String username, String password, String firstName, String lastName, int id) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
