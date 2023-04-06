@@ -2,12 +2,13 @@ package hotel_management;
 
 import java.util.Date;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import billing_services.Billing;
 import user_services.Account;
+import user_services.Guest;
 import user_services.UserLoader;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;

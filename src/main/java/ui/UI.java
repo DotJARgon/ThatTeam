@@ -1,4 +1,18 @@
 package ui;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import hotel_management.Reservation;
 import hotel_management.ReservationLoader;
 import hotel_management.Room;
@@ -7,11 +21,8 @@ import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
 import user_services.Account;
+import user_services.Guest;
 import user_services.UserLoader;
-
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
 
 public class UI extends JFrame {
     public enum Routes {
@@ -132,16 +143,16 @@ public class UI extends JFrame {
 
         ArrayList<Account> accountsDebug = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
-            Account acc = new Account();
-            acc.setUsername("bob" + i);
-            acc.setPassword(Integer.toString(i));
+            Guest g = new Guest();
+            g.setUsername("bob" + i);
+            g.setPassword(Integer.toString(i));
             Vector<Integer> rv = new Vector<>();
             rv.add(1);
             rv.add(2);
             rv.add(3);
 
-            acc.setReservations(rv);
-            accountsDebug.add(acc);
+            g.setReservations(rv);
+            accountsDebug.add(g);
         }
         Set<Account> acc = new HashSet<>(accountsDebug);
         UserLoader.saveUsers(acc);
