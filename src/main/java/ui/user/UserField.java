@@ -1,20 +1,20 @@
 package ui.user;
 
-import ui.NavUpdate;
+import ui.custom.ClickableText;
+import ui.custom.NavUpdate;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class UserField extends JPanel implements NavUpdate {
     protected final JTextField username = new JTextField(), password = new JTextField();
     private final JLabel enterUsername, enterPassword;
-    protected final JButton left, right;
+    protected final ClickableText left, right;
     public UserField(String leftName, String rightName) {
         super();
 
-        this.left = new JButton(leftName);
-        this.right = new JButton(rightName);
+        this.left = new ClickableText(leftName);
+        this.right = new ClickableText(rightName);
 
         this.setLayout(new GridBagLayout());
         this.enterUsername = new JLabel("Enter Username:");

@@ -5,6 +5,8 @@ import hotel_management.Reservation;
 import hotel_management.ReservationLoader;
 import hotel_management.Room;
 import hotel_management.RoomLoader;
+import ui.custom.DateBox;
+import ui.custom.NavUpdate;
 import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
@@ -151,6 +153,8 @@ public class UI extends JFrame {
 
         this.pack();
         this.setVisible(true);
+
+        JOptionPane.showMessageDialog(null, new DateBox());
     }
     private void nav(String page) {
         cl.show(this.main, page);
