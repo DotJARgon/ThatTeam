@@ -1,22 +1,14 @@
 package ui;
-import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.*;
+import java.util.*;
 
-import hotel_management.Reservation;
-import hotel_management.ReservationLoader;
-import hotel_management.Room;
-import hotel_management.RoomLoader;
+import javax.swing.*;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import hotel_management.*;
+import ui.custom.DateBox;
+import ui.custom.NavUpdate;
 import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
@@ -56,23 +48,33 @@ public class UI extends JFrame {
     private final ReserveRoomsPage reserveRoomsPage;
     private final JPanel main, nav;
 
+    enum Theme {
+        LIGHT("light mode"), DARK("dark mode");
+
+        public final String mode;
+        Theme(String mode) {
+            this.mode = mode;
+        }
+    }
+
+    private final JComboBox<String> theme;
+    private final String[] themes = new String[] {
+            Theme.LIGHT.mode,
+            Theme.DARK.mode
+    };
+
     private final HashMap<String, NavUpdate> pageUpdates;
 
     private UI() {
         super("Hotel Reservations brought to you by That Team");
         try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            UIManager.setLookAndFeel( new FlatLightLaf() );
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.theme = new JComboBox<>(themes);
 
         //initialization
         this.nav = new JPanel();
@@ -80,6 +82,31 @@ public class UI extends JFrame {
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
+
+        this.nav.setLayout(new GridBagLayout());
+        GridBagConstraints themeC = new GridBagConstraints();
+        GridBagConstraints mainC = new GridBagConstraints();
+
+        mainC.fill = GridBagConstraints.BOTH;
+        mainC.anchor = GridBagConstraints.CENTER;
+        mainC.weightx = 0.80;
+        mainC.weighty = 0.80;
+        mainC.gridx = 0;
+        mainC.gridy = 1;
+        mainC.gridwidth = 3;
+        mainC.gridheight = 3;
+        mainC.insets = new Insets(0, 30, 0, 30);
+
+        themeC.anchor = GridBagConstraints.NORTH;
+        themeC.fill = GridBagConstraints.NONE;
+        themeC.weightx = 0.25;
+        themeC.weighty = 0.10;
+        themeC.gridx = 1;
+        themeC.gridy = 0;
+        themeC.gridwidth = 1;
+        themeC.gridheight = 1;
+
+        this.nav.add(this.theme, themeC);
 
         //set up main page
         this.main = new JPanel(cl);
@@ -92,7 +119,7 @@ public class UI extends JFrame {
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
 
-        this.nav.add(this.main);
+        this.nav.add(this.main, mainC);
         this.add(this.nav);
 
         this.pageUpdates = new HashMap<>();
@@ -101,10 +128,32 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
 
+        this.theme.addActionListener(event -> {
+            String selected = this.theme.getSelectedItem().toString();
+            if(selected.equals(Theme.LIGHT.mode)) {
+                try {
+                    UIManager.setLookAndFeel( new FlatLightLaf() );
+                    SwingUtilities.updateComponentTreeUI(this);
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(selected.equals(Theme.DARK.mode)) {
+                try {
+                    UIManager.setLookAndFeel( new FlatDarkLaf() );
+                    SwingUtilities.updateComponentTreeUI(this);
+                } catch (UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         this.setPreferredSize(new Dimension(500, 700));
 
         this.pack();
         this.setVisible(true);
+
+        JOptionPane.showMessageDialog(null, new DateBox());
     }
     private void nav(String page) {
         cl.show(this.main, page);

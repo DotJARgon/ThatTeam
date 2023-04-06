@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
-import ui.NavUpdate;
+import ui.custom.NavUpdate;
 import ui.UI;
 import user_services.Account;
 import user_services.Guest;

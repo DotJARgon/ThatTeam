@@ -1,19 +1,14 @@
 package ui.user;
 
 import hotel_management.HotelManagement;
+import ui.custom.Clickable;
 import ui.UI;
 import user_services.Account;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class LoginPage extends UserField {
-    //temporary
-    public static int i = 0;
-    //these have to be intialized here
-    private final JButton login, register;
-
-    private final ActionListener loginAction = e -> {
+    private final Clickable loginAction = () -> {
         Account account = HotelManagement.getHotelManagement().logIn(username.getText(), password.getText());
 
         if(account == null) {
@@ -51,23 +46,13 @@ public class LoginPage extends UserField {
 
         }
     };
-    private final ActionListener registerAction = e -> {
+    private final Clickable registerAction = () -> {
         //immediately go to register user
         UI.navTo(UI.Routes.REGISTER);
     };
     public LoginPage() {
-        super();
-
-        this.register = new JButton("Register new account?");
-        this.login = new JButton("Login");
-
-        this.username.setToolTipText("enter username");
-        this.password.setToolTipText("enter password");
-
-        this.login.addActionListener(this.loginAction);
-        this.register.addActionListener(this.registerAction);
-
-        this.buttonPanel.add(login);
-        this.buttonPanel.add(register);
+        super("Login", "Register new account?");
+        this.left.addClickAction(this.loginAction);
+        this.right.addClickAction(this.registerAction);
     }
 }

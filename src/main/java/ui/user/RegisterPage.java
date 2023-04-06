@@ -1,16 +1,14 @@
 package ui.user;
 
 import hotel_management.HotelManagement;
+import ui.custom.Clickable;
 import ui.UI;
 import user_services.Account;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class RegisterPage extends UserField {
-    private final JButton register;
-
-    private final ActionListener registerAction = e -> {
+    private final Clickable registerAction = () -> {
         //immediately go to register user
         UI.navTo(UI.Routes.REGISTER);
 
@@ -39,16 +37,13 @@ public class RegisterPage extends UserField {
         }
     };
 
+    private final Clickable loginPageAction = () -> {
+        UI.navTo(UI.Routes.LOGIN);
+    };
+
     public RegisterPage() {
-        super();
-
-        this.register = new JButton("Register");
-
-        this.username.setToolTipText("enter username");
-        this.password.setToolTipText("enter password");
-
-        this.register.addActionListener(this.registerAction);
-
-        this.buttonPanel.add(register);
+        super("Register", "Return to login");
+        this.left.addClickAction(this.registerAction);
+        this.right.addClickAction(this.loginPageAction);
     }
 }
