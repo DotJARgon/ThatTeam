@@ -51,7 +51,7 @@ public class DateBox extends JPanel {
     public DateBox() {
         super();
         this.setLayout(new GridBagLayout());
-        this.setBorder(new EmptyBorder(32, 32, 32, 32));
+        this.setBorder(new EmptyBorder(16, 16, 16, 16));
 
         this.dayPanel = new JPanel(new GridLayout(5, 7, 1, 1));
 
@@ -188,7 +188,7 @@ public class DateBox extends JPanel {
         if(this.year == y && this.month+1 == m) {
             this.day = Math.max(this.day, d);
         }
-        
+
         this.dayButtons[this.day - 1].setForeground(this.highlightColor);
     }
 
