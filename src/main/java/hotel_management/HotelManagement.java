@@ -1,6 +1,7 @@
 package hotel_management;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -17,11 +18,9 @@ public class HotelManagement {
     private ConcurrentHashMap<Integer, Reservation> activeReservations;
     private ConcurrentHashMap<Integer, Reservation> inactiveReservations;
     private Vector<Billing> paymentHistory;
-    //likely there needs to be a change of these from Vector to
-    //HashSets for better look up times
     private ConcurrentHashMap<String, Account> accounts;
     //there is a static number of rooms
-    private Vector<Room> rooms;
+    private ConcurrentHashMap<Integer, Room> rooms;
 
     public static HotelManagement getHotelManagement() {
         if(hotelManagement == null) hotelManagement = new HotelManagement();
@@ -33,7 +32,8 @@ public class HotelManagement {
         this.inactiveReservations = ReservationLoader.loadReservations(ReservationLoader.Status.INACTIVE);
         this.paymentHistory = new Vector<>();
         this.accounts = UserLoader.loadUsers();
-        this.rooms = RoomLoader.loadRooms();
+        //TODO: Load rooms using XML
+        //this.rooms = RoomLoader.loadRooms();
     }
 
     public Billing generateBilling(Reservation reservation) {
@@ -43,9 +43,9 @@ public class HotelManagement {
     //Assumes end > start
     public Vector<Room> getAvailableRooms(Date start, Date end) {
         Vector<Room> availableRooms = new Vector<>();
-        for(Room r: rooms) {
+        for(Map.Entry<Integer,Room> entry: rooms.entrySet()) {
             boolean roomAvailable = true;
-            for(Integer res: r.getReservations()) {
+            for(Integer res: entry.getValue().getReservations()) {
                 if(end.after(start)) {
                     if(start.before(activeReservations.get(res).getStart()))
                         if(end.after(activeReservations.get(res).getStart()))
@@ -57,28 +57,42 @@ public class HotelManagement {
                     roomAvailable = false;
             }
             if(roomAvailable)
-                availableRooms.add(r);
+                availableRooms.add(entry.getValue());
         }
         return availableRooms;
     }
     
-    public void addReservation(Reservation res, Guest g, int[] room) {
+    public void addReservation(Reservation res, Guest g) {
         activeReservations.put(res.getID(), res);
-        //loop thru reservation's rooms. Will typically be 1 room
-        for(int j = 0; j < room.length; j++) {
-        	//loop thru hotel's rooms to see which room object it is so that
-        	//the reservation can be added to the correct one
-            for(Room r : rooms) {
-                if(r.getID() == room[j]) {
-                    r.addReservation(res.getID());
-                }
-            }
+        for(int i = 0; i < res.getRooms().length; i++) {
+        	this.rooms.get(i).addReservation(res.getID());
         }
         g.addReservation(res.getID());
         ReservationLoader.saveReservations(activeReservations.values().stream().collect(Collectors.toSet()), ReservationLoader.Status.ACTIVE);
     }
     
-    public Vector<Room> getRooms(){
+    public void cancelReservation(int res, Guest g) {
+    	if(activeReservations.containsKey(res)) {
+	    	g.cancelReservation(res);
+	    	for(Integer i: activeReservations.get(res).getRooms()) 
+	    		this.rooms.get(i).cancelReservation(res);
+	    	activeReservations.remove(res);
+	    	//TODO: Save to XML
+    	}
+    	else {
+    		//TODO: Throw exception
+    	}
+    }
+    
+    //hotelManagement, being the only one to hold a complete instance of the reservations,
+    //should be the only one allowed to directly modify it
+    public void modifyReservation(int id, Date start, Date end, int[] r) {
+    	activeReservations.get(id).setStart(start);
+    	activeReservations.get(id).setEnd(end);
+    	activeReservations.get(id).setRooms(r);
+    }
+    
+    public Map<Integer,Room> getRooms(){
     	return rooms;
     }
 

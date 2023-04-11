@@ -41,8 +41,13 @@ public class Room {
         return reservations;
     }
     public void addReservation(int r) {
+    	//TODO: Throw exception if the reservation already is associated
         reservations.add(r);
     }
+	public void cancelReservation(int r) {
+		reservations.removeElement(r);
+	}
+    
     public int getID() {
         return id;
     }

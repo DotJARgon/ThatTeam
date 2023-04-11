@@ -52,4 +52,7 @@ public class Guest extends Account {
 	public void setCardExpiration(Date creditCardExpiration) {
 		this.creditCardExpiration = creditCardExpiration;
 	}
+	public void cancelReservation(int r) {
+		reservations.removeElement(r);
+	}
 }
