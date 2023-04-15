@@ -196,7 +196,7 @@ public class UI extends JFrame {
         for(int i = 0; i < 10; i++) {
             Guest g = new Guest();
             g.setUsername("bob" + i);
-            g.setPassword(Integer.toString(i));
+            g.setHashedPassword(Integer.toString(i));
             Vector<Integer> rv = new Vector<>();
             rv.add(1);
             rv.add(2);
@@ -213,6 +213,6 @@ public class UI extends JFrame {
         ConcurrentHashMap<String, Account> accounts = UserLoader.loadUsers();
         for(Account a : accounts.values()) System.out.println(a.getUsername());
 
-        //UI ui = getUI();
+        UI ui = getUI();
     }
 }

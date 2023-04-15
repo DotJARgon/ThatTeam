@@ -107,7 +107,7 @@ public class HotelManagement {
         for (int i = 0; i < accounts.size(); i++) {
             Account account = accounts.get(username);
             if (account != null) {
-                if (account.getPassword().equals(password)) {
+                if (account.matches(password)) {
                     return account;
                 }
             }

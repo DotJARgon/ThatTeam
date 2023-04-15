@@ -23,14 +23,14 @@ public class Account {
     }
     public Account(String username, String password, String firstName, String lastName, int id) {
         this.username = username;
-        this.password = password;
+        this.password = md5(password, "salt");
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
     }
     public Account(String username, String password) {
         this.username = username;
-        this.password = password;
+        this.password = md5(password, "salt");
     }
     
     public String getUsername() {
@@ -44,6 +44,9 @@ public class Account {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+    public void setHashedPassword(String password) {
+        this.password = md5(password, "salt");
     }
     public String getFirstName() {
         return firstName;
@@ -62,6 +65,10 @@ public class Account {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean matches(String password) {
+        return this.password.equals(md5(password, "salt"));
     }
 
     private String md5(String ptxt, String salt) { //salt is meant to be the username
