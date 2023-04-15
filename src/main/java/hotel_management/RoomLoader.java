@@ -1,13 +1,10 @@
 package hotel_management;
 
-import file_utilities.CSVParser;
 import file_utilities.XMLList;
 import file_utilities.XMLParser;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 public class RoomLoader {
