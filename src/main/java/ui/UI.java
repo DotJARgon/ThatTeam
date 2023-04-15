@@ -1,21 +1,25 @@
 package ui;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.*;
+import javax.xml.bind.annotation.XmlList;
+
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import file_utilities.XMLList;
+import file_utilities.XMLParser;
 import hotel_management.*;
 import ui.custom.DateBox;
 import ui.custom.NavUpdate;
 import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
-import user_services.Account;
-import user_services.AccountList;
-import user_services.Guest;
-import user_services.UserLoader;
+import user_services.*;
 
 public class UI extends JFrame {
     public enum Routes {
@@ -178,8 +182,7 @@ public class UI extends JFrame {
             room.setCanSmoke(false);
             roomsDebug.add(room);
         }
-        Set<Room> r = new HashSet<>(roomsDebug);
-        RoomLoader.saveRooms(r);
+        RoomLoader.saveRooms(roomsDebug);
 
         ArrayList<Reservation> reservationsDebug = new ArrayList<>();
         Calendar cal = Calendar.getInstance();
@@ -187,9 +190,7 @@ public class UI extends JFrame {
             Reservation reservation = new Reservation(i, cal.getTime(), cal.getTime(), null, new int[] {1, 2, 3}, false, false);
             reservationsDebug.add(reservation);
         }
-        Set<Reservation> res = new HashSet<>(reservationsDebug);
-        ReservationLoader.saveReservations(res, ReservationLoader.Status.ACTIVE);
-        ReservationLoader.saveReservations(res, ReservationLoader.Status.INACTIVE);
+        ReservationLoader.saveReservations(reservationsDebug);
 
         ArrayList<Account> accountsDebug = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
@@ -204,11 +205,13 @@ public class UI extends JFrame {
             g.setReservations(rv);
             accountsDebug.add(g);
         }
-        AccountList accountList = new AccountList();
+        /*AccountList accountList = new AccountList();
         accountList.setAccountsList(accountsDebug);
-        UserLoader.saveUsers(accountList);
+        UserLoader.saveUsers(accountList);*/
 
-        System.out.println("");
+        UserLoader.saveUsers(accountsDebug);
+        ConcurrentHashMap<String, Account> accounts = UserLoader.loadUsers();
+        for(Account a : accounts.values()) System.out.println(a.getUsername());
 
         //UI ui = getUI();
     }

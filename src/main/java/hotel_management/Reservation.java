@@ -4,6 +4,9 @@ import java.util.Date;
 
 import billing_services.Billing;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "reservation")
 public class Reservation {
 	private int id;
 	private Date start, end;
@@ -11,6 +14,8 @@ public class Reservation {
     private int[] rooms;
 	private boolean checkedIn;
 	private boolean checkedOut;
+
+	public Reservation() {}
 
 	//Custom constructor for object, where each object is determined by whoever
     //is instantiating the object

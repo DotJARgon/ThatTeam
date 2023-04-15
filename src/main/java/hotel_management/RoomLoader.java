@@ -1,55 +1,33 @@
 package hotel_management;
 
 import file_utilities.CSVParser;
+import file_utilities.XMLList;
+import file_utilities.XMLParser;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
 public class RoomLoader {
-    public static final String ROOM_FILE = "rooms.csv";
+    public static final String ROOM_FILE = "rooms.that.xml";
 
     public static Vector<Room> loadRooms() {
-        ArrayList<String[]> allEntries = CSVParser.loadCSV(ROOM_FILE);
         Vector<Room> rooms = new Vector<>();
-        if(allEntries != null) {
-            //id, numBeds, bedType, canSmoke, qualityLevel
-            for(String[] line : allEntries) {
-                String id = line[0];
-                String numBeds = line[1];
-                String bedType = line[2];
-                String canSmoke = line[3];
-                String quality = line[4];
+        try {
+            List<Room> res = XMLParser.load(ROOM_FILE, XMLList.class, Room.class);
+            rooms = new Vector<>(res);
 
-                Room room = new Room();
-
-                room.setID(Integer.parseInt(id));
-                room.setNumBeds(Integer.parseInt(numBeds));
-                room.setBedType(Room.BedType.fromString(bedType));
-                room.setCanSmoke(Boolean.parseBoolean(canSmoke));
-                room.setQualityType(Room.QualityType.fromString(quality));
-
-                rooms.add(room);
-            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-
-        return rooms;
+        finally {
+            return rooms;
+        }
     }
 
-    public static void saveRooms(Set<Room> rooms) {
-        ArrayList<Object[]> allRooms = new ArrayList<>();
-
-        for(Room room : rooms) {
-            Object[] properties = new Object[] {
-                    room.getID(),
-                    room.getNumBeds(),
-                    room.getBedType(),
-                    room.getCanSmoke(),
-                    room.getQualityType()
-            };
-            allRooms.add(properties);
-        }
-
-        CSVParser.writeCSV(ROOM_FILE, allRooms);
+    public static void saveRooms(List<Room> rooms) {
+        XMLParser.save(rooms, ROOM_FILE, XMLList.class, Room.class);
     }
 }
