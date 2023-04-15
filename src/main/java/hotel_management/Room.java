@@ -1,7 +1,9 @@
 package hotel_management;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Vector;
 
+@XmlRootElement(name = "room")
 public class Room {
     public enum BedType {
         TWIN,
