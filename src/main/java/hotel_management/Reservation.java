@@ -51,6 +51,11 @@ public class Reservation {
 	public Date getEnd() {
 		return end;
 	}
+
+	public void setBilling(Billing billing) {
+		this.billing = billing;
+	}
+
 	//Mutator function for end
 	public void setEnd(Date end) {
 		this.end = end;

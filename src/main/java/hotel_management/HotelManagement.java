@@ -1,6 +1,7 @@
 package hotel_management;
 
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -8,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import billing_services.Billing;
+import billing_services.BillingCalculator;
 import file_utilities.XMLList;
 import file_utilities.XMLParser;
 import user_services.*;
@@ -37,7 +39,8 @@ public class HotelManagement {
     }
 
     public Billing generateBilling(Reservation reservation) {
-        //todo
+        Billing billing = BillingCalculator.generate(reservation);
+        reservation.setBilling(billing);
         return reservation.getBilling();
     }
     //Assumes end > start
@@ -82,9 +85,15 @@ public class HotelManagement {
     	return rooms;
     }
 
-    public Vector<Billing> generateSummary() {
+    //DO LATE WHEN CALENDAR OBJECTS ARE IMPLEMENTED ACROSS THE BOARD
+    public Vector<Reservation> generateSummary(Calendar day) {
+        Vector<Reservation> summary = new Vector<>();
+        for(Reservation r : allReservations.values()){
+            //if(r.getStart() == day.getTimeInMillis())
+        }
+
         //a summary of the billings for a day
-        return new Vector<>();
+        return summary;
     }
     
     public Account logOut() {
