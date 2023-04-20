@@ -85,13 +85,14 @@ public class HotelManagement {
     	return rooms;
     }
 
-    //DO LATE WHEN CALENDAR OBJECTS ARE IMPLEMENTED ACROSS THE BOARD
-    public Vector<Reservation> generateSummary(Calendar day) {
+
+    public Vector<Reservation> generateSummary(Date day) {
         Vector<Reservation> summary = new Vector<>();
         for(Reservation r : allReservations.values()){
-            //if(r.getStart() == day.getTimeInMillis())
+            if(r.getStart() == day){
+                summary.add(r);
+            }
         }
-
         //a summary of the billings for a day
         return summary;
     }
