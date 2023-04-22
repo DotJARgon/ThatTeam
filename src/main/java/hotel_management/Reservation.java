@@ -94,4 +94,10 @@ public class Reservation {
 	public void setCheckedOut(boolean checkedOut) {
 		this.checkedOut = checkedOut;
 	}
+
+	@Override
+	public String toString() {
+		return "ID: "+this.id+"\nStart Date: "+this.start+"\nEnd Date: "+this.end+"\nBilling: "+this.billing+
+				"\n# of Rooms: "+this.rooms.length+"\nChecked In: "+this.checkedIn+"\nChecked Out: "+this.checkedOut;
+	}
 }

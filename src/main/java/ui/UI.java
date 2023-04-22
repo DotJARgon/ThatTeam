@@ -46,7 +46,6 @@ public class UI extends JFrame {
         if(currentClient == null) UI.navTo(Routes.LOGIN);
         return currentClient;
     }
-
     private final CardLayout cl;
     private final LoginPage loginPage;
     private final RegisterPage registerPage;

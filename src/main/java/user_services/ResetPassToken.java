@@ -7,13 +7,8 @@ public class ResetPassToken {
     private String answer1;
     private String answer2;
     private String answer3;
-    private String username;
-    private String password;
-    private String newPassword;
-    
-    public ResetPassToken(String username, String password, String question1, String question2, String question3, String answer1, String answer2, String answer3) {
-        this.username = username;
-        this.password = md5(password, username);
+
+    public ResetPassToken(String question1, String question2, String question3, String answer1, String answer2, String answer3) {
         this.question1 = question1;
         this.question2 = question2;
         this.question3 = question3;
@@ -26,16 +21,16 @@ public class ResetPassToken {
         String ptxtSalt = ptxt + salt; // concatenate the password and salt
         String result = null; // initialize the generated password
         try {  //code is from https://www.mkyong.com/java/java-md5-hashing-example/, thinking of using a different hashing algorithm, like sha256
-          MessageDigest md = MessageDigest.getInstance("MD5"); 
-          md.update(ptxtSalt.getBytes());
-          byte[] bytes = md.digest();
-          StringBuilder sb = new StringBuilder();
-          for (int i = 0; i < bytes.length; i++) {
-            sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-          }
-          result = sb.toString();
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(ptxtSalt.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            result = sb.toString();
         } catch (NoSuchAlgorithmException e) {
-          e.printStackTrace();
+            e.printStackTrace();
         }
         return result;
     }
@@ -64,4 +59,18 @@ public class ResetPassToken {
         }
     }
 
+    public void setQuestion1(String question1, String answer1) {
+        this.question1 = question1;
+        this.answer1 = md5(answer1, this.question1);
+    }
+
+    public void setQuestion2(String question2, String answer2) {
+        this.question2 = question2;
+        this.answer2 = md5(answer2, this.question2);
+    }
+
+    public void setQuestion3(String question3, String answer3) {
+        this.question3 = question3;
+        this.answer3 = md5(answer3, this.question3);
+    }
 }

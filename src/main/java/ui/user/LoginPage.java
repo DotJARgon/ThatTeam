@@ -11,8 +11,8 @@ public class LoginPage extends UserField {
     private final Clickable loginAction = () -> {
         Account account = HotelManagement.getHotelManagement().logIn(username.getText(), password.getText());
 
-        if(account == null) {
-            Object[] options = { "OK", "CANCEL" };
+        if (account == null) {
+            Object[] options = {"OK", "CANCEL"};
             int option = JOptionPane.showOptionDialog(null,
                     "Incorrect log in information, would you like to register a new account?",
                     "Invalid credentials",
@@ -20,15 +20,13 @@ public class LoginPage extends UserField {
                     null, options, options[0]);
 
             //go to register page
-            if(option == 0) {
+            if (option == 0) {
                 UI.navTo(UI.Routes.REGISTER);
-            }
-            else {
+            } else {
                 UI.navTo(UI.Routes.LOGIN);
             }
-        }
-        else {
-            Object[] options = { "OK", "CANCEL" };
+        } else {
+            Object[] options = {"OK", "CANCEL"};
             int option = JOptionPane.showOptionDialog(null,
                     "Successfully logged in!",
                     "Log in success",
@@ -36,11 +34,10 @@ public class LoginPage extends UserField {
                     null, options, options[0]);
 
             //continue to ui to make reservations
-            if(option == 0) {
+            if (option == 0) {
                 UI.updateCurrentClient(account);
                 UI.navTo(UI.Routes.MAKE_RESERVATIONS);
-            }
-            else {
+            } else {
                 UI.navTo(UI.Routes.LOGIN);
             }
 
@@ -50,8 +47,9 @@ public class LoginPage extends UserField {
         //immediately go to register user
         UI.navTo(UI.Routes.REGISTER);
     };
+
     public LoginPage() {
-        super("Login", "Register new account?");
+        super("Login", "Register new account?", true);
         this.left.addClickAction(this.loginAction);
         this.right.addClickAction(this.registerAction);
     }
