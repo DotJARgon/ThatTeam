@@ -26,16 +26,6 @@ public class HotelManagementTest {
         //Should avoid assert
         Assert.assertEquals("They should not be equal", management, management1);
     }
-    // TC ID#: GetRooms [Undeclared]
-    // Scenario/Condition
-    // Test inputs
-    // Expected Result
-    // Actual Result (can be left blank if not tested yet)
-    // Assigned tester name(s): Christian
-    @Test
-    public void GetRooms() {
-
-    }
     // TC ID#: GenerateBilling
     // Scenario/Condition: Create billing for given reservation
     // Test inputs: hotel management and reservation
@@ -50,10 +40,10 @@ public class HotelManagementTest {
         Billing b = management.generateBilling(r);
         //Should not be null; output should be 0.0 since billing has yet to be fully implemented
         Assert.assertNotNull(b);
-        System.out.println("Cost : "+b.getCost());
-        System.out.println("Discount : "+b.getDiscount());
-        System.out.println("Tip : "+b.getTip());
-        System.out.println("Total Cost : "+b.calculateTotalCost(b.getCost()));
+        System.out.println("Cost: "+b.getCost());
+        System.out.println("Discount: "+b.getDiscount());
+        System.out.println("Tip: "+b.getTip());
+        System.out.println("Total Cost: "+b.calculateTotalCost(b.getCost()));
 
     }
     // TC ID#: AccountLogs
@@ -87,7 +77,6 @@ public class HotelManagementTest {
         d = management.logOut();
         //Should be null since logged out of Account = null
         Assert.assertNull(d);
-
     }
 
     // TC ID#: ReservingWithLimitations
@@ -99,15 +88,16 @@ public class HotelManagementTest {
     // Assigned tester name(s): Christian
     @Test
     public void ReservingWithLimitations() {
-        Reservation r = new Reservation(11, new Date(2023, Calendar.MAY, 25), new Date(2023, Calendar.JUNE, 23),
+        Reservation r = new Reservation(21, new Date(2023, Calendar.MAY, 25), new Date(2023, Calendar.JUNE, 13),
                 new Billing(), new int[40], false, false);
-        System.out.println(r.toString());
-        Account a = new Account("User", "Pass", "Mr", "Stake", 587412);
-        Account g = new Guest("Guest", "Type", "Miss", "Stake",
-                682103, "Mommy Ave", 31612905, new Date(2023, Calendar.MAY, 30));
-        Guest guest = new Guest("Guest", "Type", "Miss", "Stake",
-                682103, "Mommy Ave", 31612905, new Date(2023, Calendar.MAY, 30));
         management = HotelManagement.getHotelManagement();
+        System.out.println(r.toString());
+        Account a = new Account("User", "Password", "Mr", "Stake", 587412);
+        Account g = new Guest("Guest", "Typing", "Miss", "Stake",
+                682103, "Jimbo Ave", 14562933, new Date(2023, Calendar.JUNE, 30));
+        Guest guest = new Guest("Guest", "Typing", "Miss", "Stake",
+                682103, "Jimbo Ave", 40684319, new Date(2023, Calendar.JUNE, 30));
+
         //Cannot make reservation if end date is earlier than start date
         Boolean failed = true;
         if (r.getStart().getYear() <= r.getEnd().getYear()) {
@@ -136,7 +126,17 @@ public class HotelManagementTest {
         management.addReservation(r, guest, r.getRooms());
         management.addReservation(r, guest, r.getRooms());
         for (Integer i : r.getRooms()) {
-            //FIXME
+            //FIXME: identify duplicate reservation
         }
+    }
+    // TC ID#: GetRooms [Undeclared]
+    // Scenario/Condition
+    // Test inputs
+    // Expected Result
+    // Actual Result (can be left blank if not tested yet)
+    // Assigned tester name(s): Christian
+    @Test
+    public void GetRooms() {
+
     }
 }
