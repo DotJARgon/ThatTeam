@@ -1,9 +1,9 @@
 package hotel_management;
 
 import java.io.FileNotFoundException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -12,7 +12,13 @@ import billing_services.Billing;
 import billing_services.BillingCalculator;
 import file_utilities.XMLList;
 import file_utilities.XMLParser;
-import user_services.*;
+import hotel_management.Room.BedType;
+import hotel_management.Room.QualityType;
+import user_services.Account;
+import user_services.Admin;
+import user_services.Clerk;
+import user_services.Guest;
+import user_services.UserLoader;
 
 public class HotelManagement {
     private static final int NUMBER_OF_ROOMS = 40;
@@ -24,7 +30,7 @@ public class HotelManagement {
     //HashSets for better look up times
     private ConcurrentHashMap<String, Account> accounts;
     //there is a static number of rooms
-    private Vector<Room> rooms;
+    private ConcurrentHashMap<Integer, Room> rooms;
 
     public static HotelManagement getHotelManagement() {
         if(hotelManagement == null) hotelManagement = new HotelManagement();
@@ -35,7 +41,10 @@ public class HotelManagement {
         this.allReservations = ReservationLoader.loadReservations();
         this.paymentHistory = new Vector<>();
         this.accounts = UserLoader.loadUsers();
-        this.rooms = RoomLoader.loadRooms();
+        Vector<Room> roomsVctr = RoomLoader.loadRooms();
+        for(Room r: roomsVctr) {
+        	rooms.put(r.getID(), r);
+        }
     }
 
     public Billing generateBilling(Reservation reservation) {
@@ -46,9 +55,9 @@ public class HotelManagement {
     //Assumes end > start
     public Vector<Room> getAvailableRooms(Date start, Date end) {
         Vector<Room> availableRooms = new Vector<>();
-        for(Room r: rooms) {
+        for(Map.Entry<Integer,Room> r: rooms.entrySet()) {
             boolean roomAvailable = true;
-            for(Integer res: r.getReservations()) {
+            for(Integer res: r.getValue().getReservations()) {
                 if(end.after(start)) {
                     if(start.before(allReservations.get(res).getStart()))
                         if(end.after(allReservations.get(res).getStart()))
@@ -60,7 +69,7 @@ public class HotelManagement {
                     roomAvailable = false;
             }
             if(roomAvailable)
-                availableRooms.add(r);
+                availableRooms.add(r.getValue());
         }
         return availableRooms;
     }
@@ -71,9 +80,9 @@ public class HotelManagement {
         for(int j = 0; j < room.length; j++) {
         	//loop thru hotel's rooms to see which room object it is so that
         	//the reservation can be added to the correct one
-            for(Room r : rooms) {
-                if(r.getID() == room[j]) {
-                    r.addReservation(res.getID());
+            for(Map.Entry<Integer, Room> r : rooms.entrySet()) {
+                if(r.getValue().getID() == room[j]) {
+                    r.getValue().addReservation(res.getID());
                 }
             }
         }
@@ -81,7 +90,14 @@ public class HotelManagement {
         ReservationLoader.saveReservations(allReservations.values().stream().toList());
     }
     
-    public Vector<Room> getRooms(){
+    public void addModifyRoom(int id, int b, Room.BedType bt, boolean s, Room.QualityType qt){
+    	if(rooms.containsKey(id))
+    		rooms.get(id).updateRoom(b, bt, s, qt);
+    	else
+    		rooms.put(id, new Room(id, b, bt, s, qt));
+    }
+    
+    public ConcurrentHashMap<Integer, Room> getRooms(){
     	return rooms;
     }
 
