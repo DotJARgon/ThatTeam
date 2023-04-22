@@ -51,7 +51,7 @@ public class LoginPage extends UserField {
         UI.navTo(UI.Routes.REGISTER);
     };
     public LoginPage() {
-        super("Login", "Register new account?");
+        super("Login", "Register new account?", true);
         this.left.addClickAction(this.loginAction);
         this.right.addClickAction(this.registerAction);
     }
