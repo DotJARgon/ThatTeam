@@ -7,8 +7,13 @@ public class ResetPassToken {
     private String answer1;
     private String answer2;
     private String answer3;
+    private String username;
+    private String password;
+    private String newPassword;
     
-    public ResetPassToken(String question1, String question2, String question3, String answer1, String answer2, String answer3) {
+    public ResetPassToken(String username, String password, String question1, String question2, String question3, String answer1, String answer2, String answer3) {
+        this.username = username;
+        this.password = md5(password, username);
         this.question1 = question1;
         this.question2 = question2;
         this.question3 = question3;
@@ -59,19 +64,4 @@ public class ResetPassToken {
         }
     }
 
-    public void setQuestion1(String question1, String answer1) {
-        this.question1 = question1;
-        this.answer1 = md5(answer1, this.question1);
-    }
-
-    public void setQuestion2(String question2, String answer2) {
-        this.question2 = question2;
-        this.answer2 = md5(answer2, this.question2);
-    }
-
-    public void setQuestion3(String question3, String answer3) {
-        this.question3 = question3;
-        this.answer3 = md5(answer3, this.question3);
-    }
 }
-
