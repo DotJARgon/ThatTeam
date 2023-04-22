@@ -15,10 +15,10 @@ public class HotelManagementTest {
     private static HotelManagement management;
     // TC ID#: CreateHotelManagement
     // Scenario/Condition: make a new HotelManagement
-    // Test inputs: getHotelManagement
-    // Expected Result: pass
-    // Actual Result (can be left blank if not tested yet)
-    // Assigned tester name(s): none
+    // Test inputs: creates and compares two separate HotelManagement
+    // Expected Result: Equal to each other
+    // Actual Result: Equals to each other
+    // Assigned tester name(s): Christian
     @Test
     public void CreateHotelManagement() {
         management = HotelManagement.getHotelManagement();
@@ -26,22 +26,22 @@ public class HotelManagementTest {
         //Should avoid assert
         Assert.assertEquals("They should not be equal", management, management1);
     }
-    // TC ID#: Billing Test
+    // TC ID#: GetRooms [Undeclared]
     // Scenario/Condition
     // Test inputs
     // Expected Result
     // Actual Result (can be left blank if not tested yet)
-    // Assigned tester name(s)
+    // Assigned tester name(s): Christian
     @Test
     public void GetRooms() {
 
     }
-    // TC ID#: Billing Test
-    // Scenario/Condition
-    // Test inputs
-    // Expected Result
-    // Actual Result (can be left blank if not tested yet)
-    // Assigned tester name(s)
+    // TC ID#: GenerateBilling
+    // Scenario/Condition: Create billing for given reservation
+    // Test inputs: hotel management and reservation
+    // Expected Result: Billing is not null
+    // Actual Result: Billing is not null
+    // Assigned tester name(s): Christian
     @Test
     public void GenerateBilling() {
         Reservation r = new Reservation(11, new Date(2023, Calendar.MAY, 20), new Date(2023, Calendar.MAY, 21),
@@ -56,12 +56,12 @@ public class HotelManagementTest {
         System.out.println("Total Cost : "+b.calculateTotalCost(b.getCost()));
 
     }
-    // TC ID#: Billing Test
-    // Scenario/Condition
-    // Test inputs
-    // Expected Result
-    // Actual Result (can be left blank if not tested yet)
-    // Assigned tester name(s)
+    // TC ID#: AccountLogs
+    // Scenario/Condition: makes sure that Users cannot be registered twice; checks if log in and out work properly
+    // Test inputs: Separate accounts and a management exist
+    // Expected Result: Account = null if tried to register same account twice; Logged in Account equals given Account
+    // Actual Result: Account = null if tried to register same account twice; Logged in Account equals given Account
+    // Assigned tester name(s): Christian
     @Test
     public void AccountLogs() {
         //test for registerUser
@@ -90,12 +90,13 @@ public class HotelManagementTest {
 
     }
 
-    // TC ID#: Billing Test
-    // Scenario/Condition
-    // Test inputs
-    // Expected Result
-    // Actual Result (can be left blank if not tested yet)
-    // Assigned tester name(s)
+    // TC ID#: ReservingWithLimitations
+    // Scenario/Condition: Restricts how reservations should work by making the end date later than the start date or
+    // have the start date be on a date that has not passed.
+    // Test inputs: Reservations and accounts and dates
+    // Expected Result: Dates are organized the way it should be
+    // Actual Result: Dates are organized the way it should be
+    // Assigned tester name(s): Christian
     @Test
     public void ReservingWithLimitations() {
         Reservation r = new Reservation(11, new Date(2023, Calendar.MAY, 25), new Date(2023, Calendar.JUNE, 23),

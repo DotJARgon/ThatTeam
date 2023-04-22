@@ -2,7 +2,7 @@ package billing_services;
 
 
 import org.junit.Test;
-///ADJUST LATER
+//FIXME: ADJUST LATER
 public class BillingTest {
     private static Billing bill = new Billing();
 
