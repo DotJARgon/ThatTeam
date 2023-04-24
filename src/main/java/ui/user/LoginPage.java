@@ -49,7 +49,7 @@ public class LoginPage extends UserField {
     };
 
     public LoginPage() {
-        super("Login", "Register new account?", true);
+        super("Login", "Register new account?");
         this.left.addClickAction(this.loginAction);
         this.right.addClickAction(this.registerAction);
     }

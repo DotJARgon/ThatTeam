@@ -20,8 +20,8 @@ public class Guest extends Account {
     	creditCardNum = 0;
     	creditCardExpiration = new Date();
     }
-    public Guest(String u, String p, String fn, String ln, int i, String a, int n, Date exp){
-    	super(u, p,fn,ln,i);
+    public Guest(String u, String p, String fn, String ln, int i, String a, int n, Date exp, String qS, String qA){
+    	super(u, p,fn,ln,i, qS, qA);
     	reservations = new Vector<>();
     	address = a;
     	creditCardNum = n;

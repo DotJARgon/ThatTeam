@@ -49,7 +49,7 @@ public class Account {
         this.password = password;
     }
     public void setHashedPassword(String password) {
-        this.password = md5(password, "salt");
+        this.password = md5(password, username);
     }
     public String getFirstName() {
         return firstName;
