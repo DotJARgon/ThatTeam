@@ -12,8 +12,9 @@ public class Account {
     private String password = "";
     private String firstName = "";
     private String lastName = "";
+    private String securityQ = "";
+    private String securityA = "";
     private int id = 0;
-    
     public Account() {
         password = "";
         username = "";
@@ -21,16 +22,18 @@ public class Account {
         lastName = "";
         id = 0;
     }
-    public Account(String username, String password, String firstName, String lastName, int id) {
+    public Account(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
         this.username = username;
-        this.password = md5(password, "salt");
+        this.password = md5(password, username);
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
+        this.securityQ = securityQ;
+        this.securityA = md5(securityA, securityQ);
     }
     public Account(String username, String password) {
         this.username = username;
-        this.password = md5(password, "salt");
+        this.password = md5(password, username);
     }
     
     public String getUsername() {
@@ -68,9 +71,11 @@ public class Account {
     }
 
     public boolean matches(String password) {
-        return this.password.equals(md5(password, "salt"));
+        return this.password.equals(md5(password, username));
     }
-
+    public boolean resetPassword(String qA) {
+        return this.securityA.equals(md5(qA, securityQ));
+    }
     private String md5(String ptxt, String salt) { //salt is meant to be the username
         String ptxtSalt = ptxt + salt; // concatenate the password and salt
         String result = null; // initialize the generated password
