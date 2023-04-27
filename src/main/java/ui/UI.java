@@ -173,12 +173,7 @@ public class UI extends JFrame {
     public static void main(String[] args) {
         ArrayList<Room> roomsDebug = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
-            Room room = new Room();
-            room.setID(i);
-            room.setQualityType(Room.QualityType.COMFORT);
-            room.setNumBeds(2);
-            room.setBedType(Room.BedType.QUEEN);
-            room.setCanSmoke(false);
+            Room room = new Room(i,2,Room.BedType.QUEEN,false,Room.QualityType.COMFORT);
             roomsDebug.add(room);
         }
         RoomLoader.saveRooms(roomsDebug);
