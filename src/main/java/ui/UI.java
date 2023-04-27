@@ -157,7 +157,7 @@ public class UI extends JFrame {
         this.pack();
         this.setVisible(true);
 
-        JOptionPane.showMessageDialog(null, new DateBox());
+        //JOptionPane.showMessageDialog(null, new DateBox());
     }
     private void nav(String page) {
         cl.show(this.main, page);

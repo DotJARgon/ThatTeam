@@ -2,7 +2,10 @@ package ui.rooms;
 
 import java.awt.event.ActionListener;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -17,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
+import ui.custom.DateBox;
 import ui.custom.NavUpdate;
 import ui.UI;
 import user_services.Account;
@@ -27,7 +31,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
     private final JPanel tablePanel, datePanel;
     private final JButton reserveRooms;
 
-    private final DateSelector startDate, endDate;
+    private final DateBox startDate, endDate;
 
     private final ActionListener reserveListener = e -> {
         reserveRooms();
@@ -44,8 +48,8 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         this.tablePanel.setLayout(new BoxLayout(this.tablePanel, BoxLayout.Y_AXIS));
         this.datePanel.setLayout(new BoxLayout(this.datePanel, BoxLayout.X_AXIS));
 
-        this.startDate = new DateSelector("Start date");
-        this.endDate = new DateSelector("End date");
+        this.startDate = new DateBox();
+        this.endDate = new DateBox();
         this.datePanel.add(startDate);
         this.datePanel.add(endDate);
 
@@ -64,6 +68,11 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
     }
 
     public void reserveRooms() {
+        if(startDate.getDate().after(endDate.getDate())) {
+            JOptionPane.showMessageDialog(this, "Dates are wrong",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Object[] options = { "OK", "CANCEL" };
         int option = JOptionPane.showOptionDialog(null,
                 "Are you sure you want to reserve these rooms?",
@@ -79,17 +88,14 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
                 roomIds[i] = Integer.parseInt((String) this.roomsTable.getValueAt(rows[i], 0));
             }
 
-            try {
-                Date start = startDate.getDate();
-                Date end = endDate.getDate();
-                Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
+            Date start = startDate.getDate();
+            Date end = endDate.getDate();
 
-                //TODO: Implement it so that a clerk can register an account for a guest
-                if(UI.getCurrentClient() instanceof Guest)
-                	HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient(),roomIds);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
+
+            //TODO: Implement it so that a clerk can register an account for a guest
+            if(UI.getCurrentClient() instanceof Guest)
+                HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient(),roomIds);
 
             this.navUpdate();
         }
@@ -101,11 +107,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         Account account = UI.getCurrentClient();
         if(account != null) {
         	Vector<Room> rooms;
-        	try {
-				rooms= HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
-			} catch (ParseException e) {
-				rooms = new Vector<>();
-			}
+            rooms= HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
 
 
             //populate all rooms

@@ -4,8 +4,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class DateBox extends JPanel {
     private static final String[] MONTHS = new String[]{
@@ -195,5 +199,16 @@ public class DateBox extends JPanel {
     private void updateDate() {
         String date = (this.month + 1) + "/" + (this.day) + "/" + (this.year);
         this.dateLabel.setText(date);
+    }
+
+    public Date getDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/DD/YYYY", Locale.ENGLISH);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(sdf.parse(this.dateLabel.getText()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return cal.getTime();
     }
 }
