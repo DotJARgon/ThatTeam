@@ -73,7 +73,11 @@ public class HotelManagement {
         }
         return availableRooms;
     }
-    
+
+    public ConcurrentHashMap<String, Account> getAccounts() {
+        return accounts;
+    }
+
     public void addReservation(Reservation res, Guest g, int[] room) {
         allReservations.put(res.getID(), res);
         //loop thru reservation's rooms. Will typically be 1 room
