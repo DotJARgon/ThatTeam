@@ -15,7 +15,6 @@ public class RoomLoader {
         try {
             List<Room> res = XMLParser.load(ROOM_FILE, XMLList.class, Room.class);
             rooms = new Vector<>(res);
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
