@@ -36,7 +36,7 @@ public class LoginPage extends UserField {
             //continue to ui to make reservations
             if (option == 0) {
                 UI.updateCurrentClient(account);
-                UI.navTo(UI.Routes.MAKE_RESERVATIONS);
+                UI.navTo(UI.Routes.MAIN_PAGE);
             } else {
                 UI.navTo(UI.Routes.LOGIN);
             }

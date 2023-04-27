@@ -26,7 +26,7 @@ public class RegisterPage extends UserField {
             Account account = HotelManagement.getHotelManagement().registerUser(username.getText(), password.getText());
             if(account != null) {
                 UI.updateCurrentClient(account);
-                UI.navTo(UI.Routes.MAKE_RESERVATIONS);
+                UI.navTo(UI.Routes.MAIN_PAGE);
             }
             else {
                 UI.navTo(UI.Routes.REGISTER);

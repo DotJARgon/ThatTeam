@@ -6,7 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -202,13 +204,28 @@ public class DateBox extends JPanel {
     }
 
     public Date getDate() {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+        try {
+            Date date = formatter.parse(this.dateLabel.getText());
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+        /*
         SimpleDateFormat sdf = new SimpleDateFormat("MM/DD/YYYY", Locale.ENGLISH);
         Calendar cal = Calendar.getInstance();
         try {
+            System.out.println(this.dateLabel.getText());
             cal.setTime(sdf.parse(this.dateLabel.getText()));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return cal.getTime();
+        System.out.println("TIME: " + cal.getTime().toString());
+        return cal.getTime();*/
     }
 }

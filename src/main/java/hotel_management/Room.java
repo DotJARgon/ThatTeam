@@ -60,6 +60,7 @@ public class Room {
     public void addReservation(int r) {
         reservations.add(r);
     }
+    public void setID(int id) {this.id = id;}
     public int getID() {
         return id;
     }

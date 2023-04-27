@@ -29,12 +29,15 @@ import user_services.Guest;
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     private final JTable roomsTable;
     private final JPanel tablePanel, datePanel;
-    private final JButton reserveRooms;
+    private final JButton reserveRooms, refresh;
 
     private final DateBox startDate, endDate;
 
     private final ActionListener reserveListener = e -> {
         reserveRooms();
+    };
+    private final ActionListener refreshListener = e -> {
+        this.navUpdate();
     };
 
     public ReserveRoomsPage() {
@@ -59,10 +62,13 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
         this.reserveRooms = new JButton("Reserve");
         this.reserveRooms.addActionListener(reserveListener);
+        this.refresh = new JButton("Refresh");
+        this.refresh.addActionListener(refreshListener);
 
         this.add(datePanel);
         this.add(tablePanel);
         this.add(reserveRooms);
+        this.add(refresh);
 
         this.tablePanel.setVisible(false);
     }
@@ -107,8 +113,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         Account account = UI.getCurrentClient();
         if(account != null) {
         	Vector<Room> rooms;
-            rooms= HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
-
+            rooms = HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
 
             //populate all rooms
             String[] columns = new String[] {

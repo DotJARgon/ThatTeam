@@ -19,13 +19,14 @@ import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
 import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
+import ui.user.MainPage;
 import ui.user.RegisterPage;
 import user_services.*;
 
 public class UI extends JFrame {
     public enum Routes {
         LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"),
-        MODIFY_ROOMS("MODIFY_ROOMS");
+        MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE");
 
         public final String route;
         Routes(String route) {
@@ -49,6 +50,7 @@ public class UI extends JFrame {
         return currentClient;
     }
     private final CardLayout cl;
+    private final MainPage mainPage;
     private final LoginPage loginPage;
     private final RegisterPage registerPage;
     private final ReserveRoomsPage reserveRoomsPage;
@@ -86,6 +88,7 @@ public class UI extends JFrame {
         //initialization
         this.nav = new JPanel();
         this.cl = new CardLayout();
+        this.mainPage = new MainPage();
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
@@ -122,12 +125,14 @@ public class UI extends JFrame {
         this.main.add(this.registerPage);
         this.main.add(this.reserveRoomsPage);
         this.main.add(this.modifyRoomsPage);
+        this.main.add(this.mainPage);
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
         cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
+        cl.addLayoutComponent(this.mainPage, Routes.MAIN_PAGE.route);
 
         this.nav.add(this.main, mainC);
         this.add(this.nav);
@@ -138,6 +143,7 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
+        this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();
