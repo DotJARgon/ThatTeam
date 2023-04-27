@@ -44,6 +44,14 @@ public class UI extends JFrame {
     }
     public static void updateCurrentClient(Account account) {
         currentClient = account;
+        if(currentClient == null) {
+            getUI().mainButton.setFocusable(false);
+            getUI().mainButton.setVisible(false);
+        }
+        else {
+            getUI().mainButton.setFocusable(true);
+            getUI().mainButton.setVisible(true);
+        }
     }
     public static Account getCurrentClient() {
         if(currentClient == null) UI.navTo(Routes.LOGIN);
@@ -56,6 +64,7 @@ public class UI extends JFrame {
     private final ReserveRoomsPage reserveRoomsPage;
     private final AddModifyRoomsPage modifyRoomsPage;
     private final JPanel main, nav;
+    private final JButton mainButton;
 
     enum Theme {
         LIGHT("light mode"), DARK("dark mode");
@@ -94,6 +103,11 @@ public class UI extends JFrame {
         this.reserveRoomsPage = new ReserveRoomsPage();
         this.modifyRoomsPage = new AddModifyRoomsPage();
 
+        this.mainButton = new JButton("main menu");
+        this.mainButton.addActionListener(e -> navTo(Routes.MAIN_PAGE));
+        this.mainButton.setFocusable(false);
+        this.mainButton.setVisible(false);
+
         this.nav.setLayout(new GridBagLayout());
         GridBagConstraints themeC = new GridBagConstraints();
         GridBagConstraints mainC = new GridBagConstraints();
@@ -118,6 +132,17 @@ public class UI extends JFrame {
         themeC.gridheight = 1;
 
         this.nav.add(this.theme, themeC);
+
+        themeC.anchor = GridBagConstraints.NORTH;
+        themeC.fill = GridBagConstraints.NONE;
+        themeC.weightx = 0.25;
+        themeC.weighty = 0.10;
+        themeC.gridx = 0;
+        themeC.gridy = 0;
+        themeC.gridwidth = 1;
+        themeC.gridheight = 1;
+
+        this.nav.add(this.mainButton, themeC);
 
         //set up main page
         this.main = new JPanel(cl);

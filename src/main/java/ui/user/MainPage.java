@@ -9,22 +9,22 @@ import user_services.Guest;
 import javax.swing.*;
 
 public class MainPage extends JPanel implements NavUpdate {
-    private final JButton login, register, reserveroom, modifyroom;
+    private final JButton logout, reserveroom, modifyroom;
     public MainPage() {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        this.login = new JButton("Login");
-        this.register = new JButton("Register New Account");
+        this.logout = new JButton("Logout");
         this.reserveroom = new JButton("Make Reservation");
         this.modifyroom = new JButton("Modify Room Info");
 
-        this.login.addActionListener(e -> UI.navTo(UI.Routes.LOGIN));
-        this.register.addActionListener(e -> UI.navTo(UI.Routes.REGISTER));
+        this.logout.addActionListener(e -> {
+            UI.updateCurrentClient(null);
+            UI.navTo(UI.Routes.LOGIN);
+        });
         this.reserveroom.addActionListener(e -> UI.navTo(UI.Routes.MAKE_RESERVATIONS));
         this.modifyroom.addActionListener(e -> UI.navTo(UI.Routes.MODIFY_ROOMS));
 
-        this.add(this.login);
-        this.add(this.register);
+        this.add(this.logout);
         this.add(this.reserveroom);
         this.add(this.modifyroom);
         //this.add(this.login);
