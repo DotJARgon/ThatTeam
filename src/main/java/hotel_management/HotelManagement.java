@@ -41,10 +41,7 @@ public class HotelManagement {
         this.allReservations = ReservationLoader.loadReservations();
         this.paymentHistory = new Vector<>();
         this.accounts = UserLoader.loadUsers();
-        Vector<Room> roomsVctr = RoomLoader.loadRooms();
-        for(Room r: roomsVctr) {
-        	rooms.put(r.getID(), r);
-        }
+        this.rooms = RoomLoader.loadRooms();
     }
 
     public Billing generateBilling(Reservation reservation) {

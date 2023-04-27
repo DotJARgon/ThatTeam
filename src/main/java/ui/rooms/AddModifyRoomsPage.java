@@ -1,5 +1,7 @@
 package ui.rooms;
 
+import ui.custom.NavUpdate;
+
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 
-public class AddModifyRoomsPage extends JPanel {
+public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 	private final JLabel enterInfo, numLbl, bedsLbl, smokeLbl, typeLbl, qualLbl;
-	AddModifyRoomsPage(Component bedTypeLbl){
+	public AddModifyRoomsPage(){
 		super();
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
@@ -93,5 +95,12 @@ public class AddModifyRoomsPage extends JPanel {
 		qualTypePnl.add(comfort);
 		qualTypePnl.add(economy);
 		this.add(qualTypePnl);
+
+		this.setVisible(true);
+	}
+
+	@Override
+	public void navUpdate() {
+
 	}
 }
