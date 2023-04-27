@@ -92,11 +92,11 @@ public class HotelManagementTest {
                 new Billing(), new int[40], false, false);
         management = HotelManagement.getHotelManagement();
         System.out.println(r.toString());
-        Account a = new Account("User", "Password", "Mr", "Stake", 587412, "Dog?", "yes");
+        Account a = new Account("User", "Password", "Mr", "Stake", 587412);
         Account g = new Guest("Guest", "Typing", "Miss", "Stake",
-                682103,  "Jimbo Ave", 14562933, new Date(2023, Calendar.JUNE, 30), "Cat?", "yes");
+                682103, "Jimbo Ave", 14562933, new Date(2023, Calendar.JUNE, 30));
         Guest guest = new Guest("Guest", "Typing", "Miss", "Stake",
-                682103, "Jimbo Ave", 40684319, new Date(2023, Calendar.JUNE, 30), "hamster?", "no");
+                682103, "Jimbo Ave", 40684319, new Date(2023, Calendar.JUNE, 30));
 
         //Cannot make reservation if end date is earlier than start date
         Boolean failed = true;
@@ -139,4 +139,6 @@ public class HotelManagementTest {
     public void GetRooms() {
 
     }
+
+
 }

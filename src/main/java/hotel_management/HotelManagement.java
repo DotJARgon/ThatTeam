@@ -70,7 +70,11 @@ public class HotelManagement {
         }
         return availableRooms;
     }
-    
+
+    public ConcurrentHashMap<String, Account> getAccounts() {
+        return accounts;
+    }
+
     public void addReservation(Reservation res, Guest g, int[] room) {
         allReservations.put(res.getID(), res);
         //loop thru reservation's rooms. Will typically be 1 room
@@ -85,6 +89,9 @@ public class HotelManagement {
         }
         g.addReservation(res.getID());
         ReservationLoader.saveReservations(allReservations.values().stream().toList());
+    }
+    public Room getRoomByID(int i){
+        return this.rooms.get(i);
     }
     
     public void addModifyRoom(int id, int b, Room.BedType bt, boolean s, Room.QualityType qt){
