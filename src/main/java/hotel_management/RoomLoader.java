@@ -5,17 +5,18 @@ import file_utilities.XMLParser;
 
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RoomLoader {
     public static final String ROOM_FILE = "rooms.that.xml";
 
-    public static Vector<Room> loadRooms() {
-        Vector<Room> rooms = new Vector<>();
+    public static ConcurrentHashMap<Integer, Room> loadRooms() {
+        ConcurrentHashMap<Integer, Room> rooms = new ConcurrentHashMap<>();
         try {
-            List<Room> res = XMLParser.load(ROOM_FILE, XMLList.class, Room.class);
-            rooms = new Vector<>(res);
-
+            List<Room> r = XMLParser.load(ROOM_FILE, XMLList.class, Room.class);
+            for(Room room : r) {
+                rooms.put(room.getID(), room);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
