@@ -23,20 +23,54 @@ public class ResetPage extends UserField {
     };
 
     private final Clickable resetAction = () -> {
-        Object[] options = { "OK", "CANCEL" };
-        int option = JOptionPane.showOptionDialog(null, //FIX ME
-                "Would you like to reset your password?",
-                "Register",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, options, options[0]);
+        System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
+        if (!(secA.getText().equals("") || newPass.equals(""))) {
+            System.out.println(secA.getText());
+            Object[] options = {"OK", "CANCEL"};
+            int option = JOptionPane.showOptionDialog(null, //FIX ME
+                    "Would you like to reset your password?",
+                    "RESET",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
 
-        //continue to ui to make reservations
-        if(option == 0) {
-            Account account = HotelManagement.getHotelManagement().getAcc(username.getText());
-            account.setHashedPassword(newPass.getText());
+            //continue to ui to make reservations
+            if (option == 0) {
+                if (accountValidation.resetPassword(secA.getText())) {
+                    accountValidation.setHashedPassword(newPass.getText());
+                    Object[] options2 = {"OK", "CANCEL"};
+                    int option2 = JOptionPane.showOptionDialog(null, //FIX ME
+                            "Password Sucessfully Changed! Return to the log in page to login with your new password!",
+                            "RESET",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                            null, options2, options2[0]);
+                    UI.navTo(UI.Routes.LOGIN);
+                } else {
+                    Object[] options2 = {"REGISTER", "CANCEL"};
+                    int option3 = JOptionPane.showOptionDialog(null, //FIX ME
+                            "That wasn't the correct answer! Would you like to register a new user?",
+                            "RESET",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                            null, options2, options2[0]);
+                    if (option3 == 0) {
+                        UI.navTo(UI.Routes.REGISTER);
+                    } else {
+                        UI.navTo(UI.Routes.LOGIN);
+                    }
+                }
+            } else {
+                UI.navTo(UI.Routes.LOGIN);
+            }
         }
         else {
-            UI.navTo(UI.Routes.LOGIN);
+            Object[] options4 = {"OK", "CANCEL"};
+            int option3 = JOptionPane.showOptionDialog(null, //FIX ME
+                    "Please Input an Answer and a Password!",
+                    "RESET",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options4, options4[0]);
+            if (option3 > -1) {
+                UI.navTo(UI.Routes.LOGIN);
+            }
         }
     };
 

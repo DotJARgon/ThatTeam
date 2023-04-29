@@ -70,7 +70,7 @@ public class UI extends JFrame {
     }
 
     private final JComboBox<String> theme;
-    private final ClickableText reset;
+    private ClickableText reset;
     private final String[] themes = new String[] {
             Theme.LIGHT.mode,
             Theme.DARK.mode
@@ -210,8 +210,10 @@ public class UI extends JFrame {
             this.main.add(this.resetPasswordPage);
             UI.navTo(Routes.RESET_PASSWORD);
         }
+        //reset.setVisible(false);
     };
     private void nav(String page) {
+        //reset.isVisible();
         cl.show(this.main, page);
     }
     public static void navTo(Routes page) {
