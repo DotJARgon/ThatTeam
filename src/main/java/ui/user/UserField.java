@@ -7,7 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UserField extends JPanel implements NavUpdate {
-    protected final JTextField username = new JTextField(), password = new JTextField();
+    protected final JTextField username = new JTextField();
+    JPasswordField password = new JPasswordField();
     private final JLabel enterUsername, enterPassword;
     protected final ClickableText left, right;
     //protected final String resetUsername = "";
@@ -49,6 +50,7 @@ public class UserField extends JPanel implements NavUpdate {
             this.add(username, userC);
             this.add(enterPassword, enterPassC);
             this.add(password, passC);
+            password.setEchoChar('*');
         }
         GridBagConstraints loginC = new GridBagConstraints();
         GridBagConstraints registerC = new GridBagConstraints();
