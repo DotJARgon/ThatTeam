@@ -3,6 +3,11 @@ package ui.rooms;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import ui.custom.NavUpdate;
+
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -118,7 +123,6 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 	}
 	@Override
 	public void navUpdate() {
-		// TODO Auto-generated method stub
-		
+		this.setVisible(true);
 	}
 }
