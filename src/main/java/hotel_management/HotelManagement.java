@@ -178,13 +178,13 @@ public class HotelManagement {
     public Account logIn(String username, String password) {
         //query data base, will be added soon,
         //likely will need to change the logIn with a token
-        for (int i = 0; i < accounts.size(); i++) {
             Account account = accounts.get(username);
+            //System.out.println(accounts.get(username));
             if (account != null) {
                 if (account.matches(password)) {
+                    System.out.println("bruh.");
                     return account;
                 }
-            }
         }
         //if no username or password matches with the ones of an already existing account
         return null;
@@ -201,6 +201,7 @@ public class HotelManagement {
     }
 
     public Account getAccountByUsername(String username) {
+        System.out.println(this.accounts.get(username));
         return this.accounts.get(username);
     }
 
