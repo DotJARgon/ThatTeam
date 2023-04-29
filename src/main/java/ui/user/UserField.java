@@ -24,7 +24,7 @@ public class UserField extends JPanel implements NavUpdate {
             this.password.setToolTipText("enter password");
 
             GridBagConstraints enterUserC = new GridBagConstraints();
-            enterUserC.fill = GridBagConstraints.NONE;
+            enterUserC.fill = GridBagConstraints.HORIZONTAL;
             enterUserC.gridx = 0;
             enterUserC.gridy = 0;
 
@@ -35,7 +35,7 @@ public class UserField extends JPanel implements NavUpdate {
             userC.gridwidth = 3;
 
             GridBagConstraints enterPassC = new GridBagConstraints();
-            enterPassC.fill = GridBagConstraints.NONE;
+            enterPassC.fill = GridBagConstraints.HORIZONTAL;
             enterPassC.gridx = 0;
             enterPassC.gridy = 2;
 

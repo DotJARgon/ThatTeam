@@ -12,33 +12,32 @@ import java.util.jar.JarEntry;
 
 public class ResetPage extends UserField {
     protected final JTextField username = new JTextField(), secA = new JTextField(), newPass = new JTextField();
-    private final JLabel Q = new JLabel(), A, Pass;
+    private final JLabel Q = new JLabel(), A, Pass, reqUser;
     private Account accountValidation;
-    private final Clickable registerAction = () -> {
-        //should do nothing
+    private final ClickableText verifyUser;
+    private final Clickable updateUser = () -> {
+        //System.out.println(HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()).getSecurityA() + " " + HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()).getSecurityQ());
+        this.accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()); //change to getUser()
+        //System.out.println(accountValidation.getSecurityA() + " " + accountValidation.getSecurityQ());
+        this.Q.setText("<html>" + accountValidation.getSecurityQ() + "</html>");
+        //this.Q.setMaximumSize(new Dimension(100, 10));
     };
-
     private final Clickable loginPageAction = () -> {
         UI.navTo(UI.Routes.LOGIN);
     };
-
     private final Clickable resetAction = () -> {
-
-        this.accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText());
-        this.Q.setText(accountValidation.getSecurityQ());
-
-        System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
+        //System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
         if (!(secA.getText().equals("") || newPass.equals(""))) {
-            System.out.println(secA.getText());
+            //System.out.println(secA.getText());
             Object[] options = {"OK", "CANCEL"};
             int option = JOptionPane.showOptionDialog(null, //FIX ME
                     "Would you like to reset your password?",
                     "RESET",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                     null, options, options[0]);
-
             //continue to ui to make reservations
             if (option == 0) {
+                //System.out.println(accountValidation.getSecurityA() + " " + accountValidation.getSecurityQ());
                 if (accountValidation.resetPassword(secA.getText())) {
                     accountValidation.setHashedPassword(newPass.getText());
                     Object[] options2 = {"OK", "CANCEL"};
@@ -78,34 +77,29 @@ public class ResetPage extends UserField {
         }
     };
 
-    /*private final Clickable verifyUserName = ()-> {
-        String username = JOptionPane.showInputDialog("Enter a username");
-        //continue to ui to make reservations
-        accountValidation = HotelManagement.getHotelManagement().getAcc(username);
-        if (accountValidation == null) {
-            Object[] options2 = {"REGISTER", "CANCEL"};
-            int option = JOptionPane.showOptionDialog(null,
-                    "Not a valid username! Want to register a new user?",
-                    "Invalid Username",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options2, options2[0]);
-            if (option == 0) {
-                UI.navTo(UI.Routes.REGISTER);
-            } else {
-                UI.navTo(UI.Routes.LOGIN);
-            }
-        }
-    };*/
     public ResetPage() {
         super("Reset Password", "Return to login",2);
+        this.verifyUser = new ClickableText("Click to see security question!");
         this.Pass = new JLabel("Enter New Password:");
         this.A = new JLabel("Enter Answer:");
         this.secA.setToolTipText("enter answer");
+        this.reqUser = new JLabel("Enter Username:");
+
+        GridBagConstraints RUGrid = new GridBagConstraints();
+        RUGrid.fill = GridBagConstraints.HORIZONTAL;
+        RUGrid.gridx = 0;
+        RUGrid.gridy = 0;
 
         GridBagConstraints UGrid = new GridBagConstraints();
-        UGrid.fill = GridBagConstraints.NONE;
+        UGrid.fill = GridBagConstraints.HORIZONTAL;
         UGrid.gridx = 0;
-        UGrid.gridy = 3;
+        UGrid.gridy = 1;
+        UGrid.gridwidth = 3;
+
+        GridBagConstraints SGrid = new GridBagConstraints();
+        SGrid.fill = GridBagConstraints.NONE;
+        SGrid.gridx = 0;
+        SGrid.gridy = 2;
 
         GridBagConstraints QGrid = new GridBagConstraints();
         QGrid.fill = GridBagConstraints.NONE;
@@ -113,7 +107,7 @@ public class ResetPage extends UserField {
         QGrid.gridy = 4;
 
         GridBagConstraints enterAGrid = new GridBagConstraints();
-        enterAGrid.fill = GridBagConstraints.NONE;
+        enterAGrid.fill = GridBagConstraints.HORIZONTAL;
         enterAGrid.gridx = 0;
         enterAGrid.gridy = 5;
 
@@ -134,7 +128,9 @@ public class ResetPage extends UserField {
         NPGrid.gridy = 8;
         NPGrid.gridwidth = 3;
 
+        this.add(reqUser, RUGrid);
         this.add(username, UGrid);
+        this.add(verifyUser, SGrid);
         this.add(Q, QGrid);
         this.add(Pass, PGrid);
         this.add(newPass, NPGrid);
@@ -142,6 +138,14 @@ public class ResetPage extends UserField {
         this.add(secA, AGrid);
         this.left.addClickAction(this.resetAction);
         this.right.addClickAction(this.loginPageAction);
+        this.verifyUser.addClickAction(this.updateUser);
     }
-
+    @Override
+    public void navUpdate() {
+        this.username.setText("");
+        this.password.setText("");
+        this.newPass.setText("");
+        this.secA.setText("");
+        this.Q.setText("");
+    }
 }

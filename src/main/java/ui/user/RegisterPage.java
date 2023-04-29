@@ -69,7 +69,7 @@ public class RegisterPage extends UserField {
         QGrid.gridwidth = 3;
 
         GridBagConstraints enterAGrid = new GridBagConstraints();
-        enterAGrid.fill = GridBagConstraints.NONE;
+        enterAGrid.fill = GridBagConstraints.HORIZONTAL;
         enterAGrid.gridx = 0;
         enterAGrid.gridy = 7;
 

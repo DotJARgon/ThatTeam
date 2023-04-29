@@ -105,6 +105,13 @@ public class Account {
         this.id = id;
     }
     public String getSecurityQ() {return this.securityQ;}
+    public String getSecurityA() {return this.securityA;}
+    public void setSecurityQ(String securityQ) {this.securityQ = securityQ  ;}
+    public void setHashedSecurityA(String securityA) {this.securityA = md5(securityA, securityQ);}
+    public void setSecurityA(String securityA) {this.securityA = securityA;}
+
+
+
 
     /**
      * Matches checks if two passwords that have been md5 encrypted are the same
@@ -122,7 +129,8 @@ public class Account {
      * was answered properly
      */
     public boolean resetPassword(String qA) {
-        return this.securityA.equals(md5(qA, securityQ));
+        //System.out.println(md5(qA, this.securityQ) + " = " + this.securityA);
+        return this.securityA.equals(md5(qA, this.securityQ));
     }
 
     /**
