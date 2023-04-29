@@ -11,7 +11,13 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -24,6 +30,7 @@ import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
 import ui.rooms.ReserveRoomsPage;
 import ui.rooms.ViewRoomsPage;
+import ui.user.AddClerkPage;
 import ui.user.HelpGuestPage;
 import ui.user.LoginPage;
 import ui.user.MainPage;
@@ -37,7 +44,7 @@ public class UI extends JFrame {
     public enum Routes {
         LOGIN("LOGIN"), REGISTER("REGISTER"), VIEW_ROOMS("VIEW_ROOMS"),
         MAKE_RESERVATIONS("MAKE_RESERVATIONS"), MODIFY_ROOMS("MODIFY_ROOMS"),
-        ADD_GUEST("ADD_GUEST"), MAIN_PAGE("MAIN_PAGE");
+        ADD_GUEST("ADD_GUEST"), MAIN_PAGE("MAIN_PAGE"), ADD_CLERK("ADD_CLERK");
 
         public final String route;
         Routes(String route) {
@@ -76,6 +83,7 @@ public class UI extends JFrame {
     private final ReserveRoomsPage reserveRoomsPage;
     private final AddModifyRoomsPage modifyRoomsPage;
     private final HelpGuestPage helpGuestPage;
+    private final AddClerkPage addClerkPage;
     private final JPanel main, nav;
     private final JButton mainButton;
 
@@ -117,6 +125,7 @@ public class UI extends JFrame {
         this.reserveRoomsPage = new ReserveRoomsPage();
         this.modifyRoomsPage = new AddModifyRoomsPage();
         this.helpGuestPage = new HelpGuestPage();
+        this.addClerkPage = new AddClerkPage();
 
         this.mainButton = new JButton("main menu");
         this.mainButton.addActionListener(e -> navTo(Routes.MAIN_PAGE));
@@ -168,6 +177,7 @@ public class UI extends JFrame {
         this.main.add(this.modifyRoomsPage);
         this.main.add(this.mainPage);
         this.main.add(this.helpGuestPage);
+        this.main.add(this.addClerkPage);
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
@@ -177,6 +187,7 @@ public class UI extends JFrame {
         cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
         cl.addLayoutComponent(this.mainPage, Routes.MAIN_PAGE.route);
         cl.addLayoutComponent(this.helpGuestPage, Routes.ADD_GUEST.route);
+        cl.addLayoutComponent(this.addClerkPage, Routes.ADD_CLERK.route);
 
         this.nav.add(this.main, mainC);
         this.add(this.nav);
@@ -190,6 +201,7 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
         this.pageUpdates.put(Routes.ADD_GUEST.route, this.helpGuestPage);
+        this.pageUpdates.put(Routes.ADD_CLERK.route, this.addClerkPage);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();

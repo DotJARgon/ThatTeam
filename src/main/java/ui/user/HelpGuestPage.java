@@ -29,7 +29,7 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 		backBut.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UI.navTo(UI.Routes.LOGIN); //TODO: MainPage after merge with master
+				UI.navTo(UI.Routes.MAIN_PAGE);
 			}
 		});
 		this.add(backBut);
@@ -42,7 +42,7 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 					JOptionPane.showMessageDialog(null,"User does not exist");
 				else if(a instanceof Guest) {
 					((Clerk)UI.getCurrentClient()).setGuest((Guest)a);
-					UI.navTo(UI.Routes.MAKE_RESERVATIONS); //TODO: Set to MAIN_PAGE
+					UI.navTo(UI.Routes.MAIN_PAGE);
 				}
 				else
 					JOptionPane.showMessageDialog(null,"User is not a guest");
