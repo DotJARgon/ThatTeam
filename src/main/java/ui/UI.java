@@ -14,6 +14,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import file_utilities.XMLList;
 import file_utilities.XMLParser;
 import hotel_management.*;
+import ui.custom.Clickable;
+import ui.custom.ClickableText;
 import ui.custom.DateBox;
 import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
@@ -21,12 +23,13 @@ import ui.rooms.ReserveRoomsPage;
 import ui.user.LoginPage;
 import ui.user.MainPage;
 import ui.user.RegisterPage;
+import ui.user.ResetPage;
 import user_services.*;
 
 public class UI extends JFrame {
     public enum Routes {
         LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"),
-        MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE");
+        MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE"), RESET_PASSWORD("RESET_PASSWORD");
 
         public final String route;
         Routes(String route) {
@@ -65,6 +68,7 @@ public class UI extends JFrame {
     private final AddModifyRoomsPage modifyRoomsPage;
     private final JPanel main, nav;
     private final JButton mainButton;
+    private ResetPage resetPasswordPage;
 
     enum Theme {
         LIGHT("light mode"), DARK("dark mode");
@@ -76,6 +80,7 @@ public class UI extends JFrame {
     }
 
     private final JComboBox<String> theme;
+    private ClickableText reset;
     private final String[] themes = new String[] {
             Theme.LIGHT.mode,
             Theme.DARK.mode
@@ -93,7 +98,7 @@ public class UI extends JFrame {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.theme = new JComboBox<>(themes);
-
+        this.reset = new ClickableText("Reset Password");
         //initialization
         this.nav = new JPanel();
         this.cl = new CardLayout();
@@ -101,6 +106,7 @@ public class UI extends JFrame {
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
+        this.resetPasswordPage = new ResetPage();
         this.modifyRoomsPage = new AddModifyRoomsPage();
 
         this.mainButton = new JButton("main menu");
@@ -111,6 +117,7 @@ public class UI extends JFrame {
         this.nav.setLayout(new GridBagLayout());
         GridBagConstraints themeC = new GridBagConstraints();
         GridBagConstraints mainC = new GridBagConstraints();
+        GridBagConstraints resetC = new GridBagConstraints();
 
         mainC.fill = GridBagConstraints.BOTH;
         mainC.anchor = GridBagConstraints.CENTER;
@@ -144,20 +151,36 @@ public class UI extends JFrame {
 
         this.nav.add(this.mainButton, themeC);
 
+        resetC.fill = GridBagConstraints.BOTH;
+        resetC.anchor = GridBagConstraints.CENTER;
+        resetC.weightx = 0.80;
+        resetC.weighty = 0.80;
+        resetC.gridx = 1;
+        resetC.gridy = 4;
+        resetC.gridwidth = 3;
+        resetC.gridheight = 0;
+        resetC.insets = new Insets(0, 30, 0, 30);
+
+        this.nav.add(this.reset, resetC);
+
         //set up main page
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
         this.main.add(this.registerPage);
         this.main.add(this.reserveRoomsPage);
         this.main.add(this.modifyRoomsPage);
+        this.main.add(this.resetPasswordPage);
         this.main.add(this.mainPage);
+
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
         cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
+        cl.addLayoutComponent(this.resetPasswordPage, Routes.RESET_PASSWORD.route);
         cl.addLayoutComponent(this.mainPage, Routes.MAIN_PAGE.route);
+
 
         this.nav.add(this.main, mainC);
         this.add(this.nav);
@@ -169,6 +192,9 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
+        this.pageUpdates.put(Routes.RESET_PASSWORD.route, this.resetPasswordPage);
+
+        this.reset.addClickAction(verifyUserName);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();
@@ -197,7 +223,30 @@ public class UI extends JFrame {
 
         //JOptionPane.showMessageDialog(null, new DateBox());
     }
+    private final Clickable verifyUserName = ()-> {
+        String username = JOptionPane.showInputDialog("Enter a username");
+        //continue to ui to make reservations
+        Account accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(username);
+        if (accountValidation == null) {
+            Object[] options2 = {"REGISTER", "CANCEL"};
+            int option = JOptionPane.showOptionDialog(null,
+                    "Not a valid username! Want to register a new user?",
+                    "Invalid Username",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options2, options2[0]);
+            if (option == 0) {
+                UI.navTo(Routes.REGISTER);
+            } else {
+                UI.navTo(UI.Routes.LOGIN);
+            }
+        }
+        else {
+            UI.navTo(Routes.RESET_PASSWORD);
+        }
+        //reset.setVisible(false);
+    };
     private void nav(String page) {
+        //reset.isVisible();
         cl.show(this.main, page);
     }
     public static void navTo(Routes page) {

@@ -146,14 +146,18 @@ public class HotelManagement {
         return null;
     }
 
-    public Account registerUser(String username, String password) {
+    public Account registerUser(String username, String password, String securityA, String securityB) {
         if(!accounts.containsKey(username)) {
-            Account acc = new Account(username, password);
+            Account acc = new Account(username, password, securityA, securityB);
             accounts.put(username, acc);
             UserLoader.saveUsers(accounts.values().stream().toList());
             return acc;
         }
         return null;
+    }
+
+    public Account getAccountByUsername(String username) {
+        return this.accounts.get(username);
     }
 
     private void loadUsers() {
