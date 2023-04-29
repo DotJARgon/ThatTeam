@@ -79,6 +79,7 @@ public class UserField extends JPanel implements NavUpdate {
 
     @Override
     public void navUpdate() {
-        //do nothing for this one
+        this.username.setText("");
+        this.password.setText("");
     }
 }

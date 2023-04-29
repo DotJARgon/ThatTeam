@@ -1,11 +1,7 @@
 package ui.rooms;
 
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -20,21 +16,25 @@ import javax.swing.table.DefaultTableModel;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
+import ui.UI;
 import ui.custom.DateBox;
 import ui.custom.NavUpdate;
-import ui.UI;
 import user_services.Account;
+import user_services.Clerk;
 import user_services.Guest;
 
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     private final JTable roomsTable;
     private final JPanel tablePanel, datePanel;
-    private final JButton reserveRooms;
+    private final JButton reserveRooms, refresh;
 
     private final DateBox startDate, endDate;
 
     private final ActionListener reserveListener = e -> {
         reserveRooms();
+    };
+    private final ActionListener refreshListener = e -> {
+        this.navUpdate();
     };
 
     public ReserveRoomsPage() {
@@ -59,10 +59,13 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
         this.reserveRooms = new JButton("Reserve");
         this.reserveRooms.addActionListener(reserveListener);
+        this.refresh = new JButton("Refresh");
+        this.refresh.addActionListener(refreshListener);
 
         this.add(datePanel);
         this.add(tablePanel);
         this.add(reserveRooms);
+        this.add(refresh);
 
         this.tablePanel.setVisible(false);
     }
@@ -93,9 +96,14 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
             Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
 
-            //TODO: Implement it so that a clerk can register an account for a guest
             if(UI.getCurrentClient() instanceof Guest)
-                HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient(),roomIds);
+                HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient());
+            else if(UI.getCurrentClient() instanceof Clerk) {
+            	if(((Clerk)UI.getCurrentClient()).getGuest() != null)
+            		HotelManagement.getHotelManagement().addReservation(res, ((Clerk)UI.getCurrentClient()).getGuest());
+            	else
+            		JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
+            }
 
             this.navUpdate();
         }
@@ -107,8 +115,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         Account account = UI.getCurrentClient();
         if(account != null) {
         	Vector<Room> rooms;
-            rooms= HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
-
+            rooms = HotelManagement.getHotelManagement().getAvailableRooms(startDate.getDate(),endDate.getDate());
 
             //populate all rooms
             String[] columns = new String[] {

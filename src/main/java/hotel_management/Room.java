@@ -39,7 +39,9 @@ public class Room {
     private boolean canSmoke;
     private QualityType qualityLevel;
     private Vector<Integer> reservations = new Vector<>();
+    
     public Room() {}
+    
     public Room(int i, int b, BedType bt, boolean s, QualityType qt) {
     	id = i;
     	numBeds = b;
@@ -59,6 +61,9 @@ public class Room {
     }
     public void addReservation(int r) {
         reservations.add(r);
+    }
+    public void setID(int id) {
+    	this.id = id;
     }
     public int getID() {
         return id;
@@ -87,4 +92,8 @@ public class Room {
     public void setQualityType(QualityType qualityLevel) {
         this.qualityLevel = qualityLevel;
     }
+
+    public void cancelReservation(Integer resID) {
+		reservations.remove(resID);
+	}
 }

@@ -11,8 +11,8 @@ import java.awt.*;
 import java.util.jar.JarEntry;
 
 public class ResetPage extends UserField {
-    protected final JTextField secA = new JTextField(), newPass = new JTextField();
-    private final JLabel Q, A, Pass;
+    protected final JTextField username = new JTextField(), secA = new JTextField(), newPass = new JTextField();
+    private final JLabel Q = new JLabel(), A, Pass;
     private Account accountValidation;
     private final Clickable registerAction = () -> {
         //should do nothing
@@ -23,6 +23,10 @@ public class ResetPage extends UserField {
     };
 
     private final Clickable resetAction = () -> {
+
+        this.accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText());
+        this.Q.setText(accountValidation.getSecurityQ());
+
         System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
         if (!(secA.getText().equals("") || newPass.equals(""))) {
             System.out.println(secA.getText());
@@ -92,66 +96,45 @@ public class ResetPage extends UserField {
             }
         }
     };*/
-    public ResetPage(String verifiedUsername) {
+    public ResetPage() {
         super("Reset Password", "Return to login",2);
-        //this.userName = new JLabel("Enter Username, then click submit button");
-        //ClickableText submit = new ClickableText("Submit!");
-        //this.left.addClickAction(this.verifyUserName);
-        //this.secA.setToolTipText("enter username");
         this.Pass = new JLabel("Enter New Password:");
         this.A = new JLabel("Enter Answer:");
         this.secA.setToolTipText("enter answer");
-        this.accountValidation = HotelManagement.getHotelManagement().getAcc(verifiedUsername);
-        this.Q = new JLabel(accountValidation.getSecurityQ());
-        /*GridBagConstraints UGrid = new GridBagConstraints();
+
+        GridBagConstraints UGrid = new GridBagConstraints();
         UGrid.fill = GridBagConstraints.NONE;
         UGrid.gridx = 0;
-        UGrid.gridy = 0;
-
-        GridBagConstraints UAGrid = new GridBagConstraints();
-        UAGrid.fill = GridBagConstraints.HORIZONTAL;
-        UAGrid.gridx = 0;
-        UAGrid.gridy = 1;
-        UAGrid.gridwidth = 3;
-
-        GridBagConstraints UBGrid = new GridBagConstraints();
-        UBGrid.fill = GridBagConstraints.NONE;
-        UBGrid.gridx = 0;
-        UBGrid.gridy = 2;*/
+        UGrid.gridy = 3;
 
         GridBagConstraints QGrid = new GridBagConstraints();
         QGrid.fill = GridBagConstraints.NONE;
         QGrid.gridx = 0;
-        QGrid.gridy = 3;
+        QGrid.gridy = 4;
 
         GridBagConstraints enterAGrid = new GridBagConstraints();
         enterAGrid.fill = GridBagConstraints.NONE;
         enterAGrid.gridx = 0;
-        enterAGrid.gridy = 4;
+        enterAGrid.gridy = 5;
 
         GridBagConstraints AGrid = new GridBagConstraints();
         AGrid.fill = GridBagConstraints.HORIZONTAL;
         AGrid.gridx = 0;
-        AGrid.gridy = 5;
+        AGrid.gridy = 6;
         AGrid.gridwidth = 3;
 
         GridBagConstraints PGrid = new GridBagConstraints();
         PGrid.fill = GridBagConstraints.NONE;
         PGrid.gridx = 0;
-        PGrid.gridy = 6;
+        PGrid.gridy = 7;
 
         GridBagConstraints NPGrid = new GridBagConstraints();
         NPGrid.fill = GridBagConstraints.HORIZONTAL;
         NPGrid.gridx = 0;
-        NPGrid.gridy = 7;
+        NPGrid.gridy = 8;
         NPGrid.gridwidth = 3;
 
-/*
-        this.add(userName, UGrid);
-        this.add(user, UAGrid);
-        this.add(submit, UBGrid);
-
- */
+        this.add(username, UGrid);
         this.add(Q, QGrid);
         this.add(Pass, PGrid);
         this.add(newPass, NPGrid);
@@ -160,4 +143,5 @@ public class ResetPage extends UserField {
         this.left.addClickAction(this.resetAction);
         this.right.addClickAction(this.loginPageAction);
     }
+
 }
