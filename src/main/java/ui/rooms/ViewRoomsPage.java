@@ -89,14 +89,12 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
 		this.add(tablePanel, c);
 		
         this.tablePanel.setVisible(false);
-		this.setVisible(false);
 	}
 
 	@Override
 	public void navUpdate() {
         this.tablePanel.setVisible(true);
-		this.setVisible(true);
-        Account account = UI.getCurrentClient();
+		Account account = UI.getCurrentClient();
         if(account != null) {
         	ConcurrentHashMap<Integer, Room> rooms = HotelManagement.getHotelManagement().getRooms();
 

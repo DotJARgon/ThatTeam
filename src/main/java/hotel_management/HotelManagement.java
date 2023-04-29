@@ -115,6 +115,10 @@ public class HotelManagement {
     		rooms.get(id).updateRoom(b, bt, s, qt);
     	else
     		rooms.put(id, new Room(id, b, bt, s, qt));
+    	RoomLoader.saveRooms(this.rooms.values().stream().toList());
+    	
+    	for(Room r : this.rooms.values())System.out.print(r.getID()+" ");
+    	System.out.println();
     }
     
     public ConcurrentHashMap<Integer, Room> getRooms(){
@@ -125,6 +129,7 @@ public class HotelManagement {
     }
     public void removeRoom(int id) {
     	rooms.remove(id);
+    	RoomLoader.saveRooms(this.rooms.values().stream().toList());
     }
 
 

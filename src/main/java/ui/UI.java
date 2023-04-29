@@ -29,6 +29,7 @@ import ui.user.LoginPage;
 import ui.user.MainPage;
 import ui.user.RegisterPage;
 import user_services.Account;
+import user_services.Clerk;
 import user_services.Guest;
 import user_services.UserLoader;
 
@@ -257,6 +258,11 @@ public class UI extends JFrame {
             g.setReservations(rv);
             accountsDebug.add(g);
         }
+        
+        Clerk c = new Clerk();
+        c.setUsername("sheila1");
+        c.setHashedPassword(Integer.toString(1));
+        accountsDebug.add(c);
         /*AccountList accountList = new AccountList();
         accountList.setAccountsList(accountsDebug);
         UserLoader.saveUsers(accountList);*/

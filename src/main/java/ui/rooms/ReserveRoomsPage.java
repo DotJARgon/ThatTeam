@@ -98,8 +98,12 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
             if(UI.getCurrentClient() instanceof Guest)
                 HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient());
-            else if(UI.getCurrentClient() instanceof Clerk)
-            	HotelManagement.getHotelManagement().addReservation(res, ((Clerk)UI.getCurrentClient()).getGuest());
+            else if(UI.getCurrentClient() instanceof Clerk) {
+            	if(((Clerk)UI.getCurrentClient()).getGuest() != null)
+            		HotelManagement.getHotelManagement().addReservation(res, ((Clerk)UI.getCurrentClient()).getGuest());
+            	else
+            		JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
+            }
 
             this.navUpdate();
         }
