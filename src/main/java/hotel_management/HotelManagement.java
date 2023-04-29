@@ -73,6 +73,10 @@ public class HotelManagement {
         }
         return availableRooms;
     }
+    public ConcurrentHashMap<Integer, Reservation> getAllReservations() {
+        return allReservations;
+    }
+
     public ConcurrentHashMap<String, Account> getAccounts() {
         return accounts;
     }
@@ -119,6 +123,19 @@ public class HotelManagement {
     	
     	for(Room r : this.rooms.values())System.out.print(r.getID()+" ");
     	System.out.println();
+    }
+    public void promoteAccountToClerk(String promotedAcc) {
+        Clerk promoted = new Clerk();
+        if(HotelManagement.getHotelManagement().getAccounts().contains(promotedAcc)){
+            Account acc = HotelManagement.getHotelManagement().getAccounts().get(promotedAcc);
+            promoted.setUsername(acc.getUsername());
+            promoted.setFirstName(acc.getFirstName());
+            promoted.setLastName(acc.getLastName());
+            promoted.setId(acc.getId());
+            promoted.setPassword(acc.getPassword());
+            HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
+            HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
+        }
     }
     
     public ConcurrentHashMap<Integer, Room> getRooms(){
@@ -173,14 +190,18 @@ public class HotelManagement {
         return null;
     }
 
-    public Account registerUser(String username, String password) {
+    public Account registerUser(String username, String password, String securityA, String securityB) {
         if(!accounts.containsKey(username)) {
-            Account acc = new Account(username, password);
+            Account acc = new Account(username, password, securityA, securityB);
             accounts.put(username, acc);
             UserLoader.saveUsers(accounts.values().stream().toList());
             return acc;
         }
         return null;
+    }
+
+    public Account getAccountByUsername(String username) {
+        return this.accounts.get(username);
     }
 
     private void loadUsers() {

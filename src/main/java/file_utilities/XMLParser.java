@@ -10,9 +10,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
-
+/**
+ * The XMLParser class is responsible for saving and loading the desired
+ * classes into and out of xml format in order to store variables properly
+ * @author  Marcelo Carpenter
+ * @version  1.6
+ * @since 4/18/23
+ */
 public class XMLParser {
-
+    /**
+     * This function saves the desired class types and values into a xml file
+     * based on the proper xml format
+     * @param items The list of items being entered
+     * @param location The file being used as a xml file
+     * @param classes The class types being converted into a xml file
+     */
     public static <T> void save(List<T> items, String location, Class<?>... classes) {
         XMLList<T> xmlItems = new XMLList<>(items);
         try {
@@ -32,6 +44,14 @@ public class XMLParser {
         }
     }
 
+    /**
+     *
+     * @param location The file being read as a xml file
+     * @param classes The class types being converted into objects from the
+     *                xml file
+     * @return List of desired objects from the read xml file
+     * @throws FileNotFoundException if the file does not exist, throw exception
+     */
     public static <T> List<T> load(String location, Class<?>... classes) throws FileNotFoundException {
         XMLList<T> xml;
         try {

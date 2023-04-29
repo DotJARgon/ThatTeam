@@ -12,17 +12,16 @@ public class LoginPage extends UserField {
         Account account = HotelManagement.getHotelManagement().logIn(username.getText(), password.getText());
 
         if (account == null) {
-            Object[] options = {"OK", "CANCEL"};
+            Object[] options2 = {"REGISTER", "CANCEL"};
             int option = JOptionPane.showOptionDialog(null,
-                    "Incorrect log in information, would you like to register a new account?",
-                    "Invalid credentials",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
-                    null, options, options[0]);
-
-            //go to register page
+                    "Not a valid username! Want to register a new user?",
+                    "Invalid Username",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options2, options2[0]);
             if (option == 0) {
                 UI.navTo(UI.Routes.REGISTER);
-            } else {
+            }
+            else {
                 UI.navTo(UI.Routes.LOGIN);
             }
         } else {
@@ -48,8 +47,15 @@ public class LoginPage extends UserField {
         UI.navTo(UI.Routes.REGISTER);
     };
 
+    private final Clickable resetAction = () -> {
+        //immediately go to register user
+        UI.navTo(UI.Routes.RESET_PASSWORD);
+    };
+
+    //remember to add a route!
+
     public LoginPage() {
-        super("Login", "Register new account?");
+        super("Login", "Register new account?", 0);
         this.left.addClickAction(this.loginAction);
         this.right.addClickAction(this.registerAction);
     }

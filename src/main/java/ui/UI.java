@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -22,10 +23,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
+import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.ReservationLoader;
 import hotel_management.Room;
 import hotel_management.RoomLoader;
+import ui.custom.Clickable;
+import ui.custom.ClickableText;
 import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
 import ui.rooms.ReserveRoomsPage;
@@ -35,6 +39,7 @@ import ui.user.HelpGuestPage;
 import ui.user.LoginPage;
 import ui.user.MainPage;
 import ui.user.RegisterPage;
+import ui.user.ResetPage;
 import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
@@ -42,9 +47,9 @@ import user_services.UserLoader;
 
 public class UI extends JFrame {
     public enum Routes {
-        LOGIN("LOGIN"), REGISTER("REGISTER"), VIEW_ROOMS("VIEW_ROOMS"),
-        MAKE_RESERVATIONS("MAKE_RESERVATIONS"), MODIFY_ROOMS("MODIFY_ROOMS"),
-        ADD_GUEST("ADD_GUEST"), MAIN_PAGE("MAIN_PAGE"), ADD_CLERK("ADD_CLERK");
+        LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"), ADD_GUEST("ADD_GUEST"),
+        VIEW_ROOMS("VIEW_ROOMS"), MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE"), ADD_CLERK("ADD_CLERK"),
+        RESET_PASSWORD("RESET_PASSWORD");
 
         public final String route;
         Routes(String route) {
@@ -86,6 +91,7 @@ public class UI extends JFrame {
     private final AddClerkPage addClerkPage;
     private final JPanel main, nav;
     private final JButton mainButton;
+    private ResetPage resetPasswordPage;
 
     enum Theme {
         LIGHT("light mode"), DARK("dark mode");
@@ -97,6 +103,7 @@ public class UI extends JFrame {
     }
 
     private final JComboBox<String> theme;
+    private ClickableText reset;
     private final String[] themes = new String[] {
             Theme.LIGHT.mode,
             Theme.DARK.mode
@@ -114,7 +121,7 @@ public class UI extends JFrame {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.theme = new JComboBox<>(themes);
-
+        this.reset = new ClickableText("Reset Password");
         //initialization
         this.nav = new JPanel();
         this.cl = new CardLayout();
@@ -123,6 +130,7 @@ public class UI extends JFrame {
         this.registerPage = new RegisterPage();
         this.viewRoomsPage = new ViewRoomsPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
+        this.resetPasswordPage = new ResetPage();
         this.modifyRoomsPage = new AddModifyRoomsPage();
         this.helpGuestPage = new HelpGuestPage();
         this.addClerkPage = new AddClerkPage();
@@ -135,6 +143,7 @@ public class UI extends JFrame {
         this.nav.setLayout(new GridBagLayout());
         GridBagConstraints themeC = new GridBagConstraints();
         GridBagConstraints mainC = new GridBagConstraints();
+        GridBagConstraints resetC = new GridBagConstraints();
 
         mainC.fill = GridBagConstraints.BOTH;
         mainC.anchor = GridBagConstraints.CENTER;
@@ -168,6 +177,18 @@ public class UI extends JFrame {
 
         this.nav.add(this.mainButton, themeC);
 
+        resetC.fill = GridBagConstraints.BOTH;
+        resetC.anchor = GridBagConstraints.CENTER;
+        resetC.weightx = 0.80;
+        resetC.weighty = 0.80;
+        resetC.gridx = 1;
+        resetC.gridy = 4;
+        resetC.gridwidth = 3;
+        resetC.gridheight = 0;
+        resetC.insets = new Insets(0, 30, 0, 30);
+
+        this.nav.add(this.reset, resetC);
+
         //set up main page
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
@@ -175,9 +196,11 @@ public class UI extends JFrame {
         this.main.add(this.viewRoomsPage);
         this.main.add(this.reserveRoomsPage);
         this.main.add(this.modifyRoomsPage);
+        this.main.add(this.resetPasswordPage);
         this.main.add(this.mainPage);
         this.main.add(this.helpGuestPage);
         this.main.add(this.addClerkPage);
+
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
@@ -185,9 +208,11 @@ public class UI extends JFrame {
         cl.addLayoutComponent(this.viewRoomsPage, Routes.VIEW_ROOMS.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
         cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
+        cl.addLayoutComponent(this.resetPasswordPage, Routes.RESET_PASSWORD.route);
         cl.addLayoutComponent(this.mainPage, Routes.MAIN_PAGE.route);
         cl.addLayoutComponent(this.helpGuestPage, Routes.ADD_GUEST.route);
         cl.addLayoutComponent(this.addClerkPage, Routes.ADD_CLERK.route);
+
 
         this.nav.add(this.main, mainC);
         this.add(this.nav);
@@ -200,6 +225,8 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
+        this.pageUpdates.put(Routes.RESET_PASSWORD.route, this.resetPasswordPage);
+        this.reset.addClickAction(verifyUserName);
         this.pageUpdates.put(Routes.ADD_GUEST.route, this.helpGuestPage);
         this.pageUpdates.put(Routes.ADD_CLERK.route, this.addClerkPage);
 
@@ -230,7 +257,30 @@ public class UI extends JFrame {
 
         //JOptionPane.showMessageDialog(null, new DateBox());
     }
+    private final Clickable verifyUserName = ()-> {
+        String username = JOptionPane.showInputDialog("Enter a username");
+        //continue to ui to make reservations
+        Account accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(username);
+        if (accountValidation == null) {
+            Object[] options2 = {"REGISTER", "CANCEL"};
+            int option = JOptionPane.showOptionDialog(null,
+                    "Not a valid username! Want to register a new user?",
+                    "Invalid Username",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options2, options2[0]);
+            if (option == 0) {
+                UI.navTo(Routes.REGISTER);
+            } else {
+                UI.navTo(UI.Routes.LOGIN);
+            }
+        }
+        else {
+            UI.navTo(Routes.RESET_PASSWORD);
+        }
+        //reset.setVisible(false);
+    };
     private void nav(String page) {
+        //reset.isVisible();
         cl.show(this.main, page);
     }
     public static void navTo(Routes page) {

@@ -61,7 +61,7 @@ public class AddClerkPage extends JPanel implements NavUpdate{
 				else if(HotelManagement.getHotelManagement().getUser(nameText.getText()) != null)
 					JOptionPane.showMessageDialog(null, "Account already exists");
 				else
-					HotelManagement.getHotelManagement().registerUser(nameText.getText(), passText.getText());
+					HotelManagement.getHotelManagement().registerUser(nameText.getText(), passText.getText(), "", "");
 			}
 		});
 		this.add(submitBut);
