@@ -9,13 +9,14 @@ import user_services.Guest;
 import javax.swing.*;
 
 public class MainPage extends JPanel implements NavUpdate {
-    private final JButton logout, reserveroom, modifyroom;
+    private final JButton logout, reserveroom, modifyroom, helpguest;
     public MainPage() {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.logout = new JButton("Logout");
         this.reserveroom = new JButton("Make Reservation");
         this.modifyroom = new JButton("Modify Room Info");
+        this.helpguest = new JButton("Help Guest");
 
         this.logout.addActionListener(e -> {
             UI.updateCurrentClient(null);
@@ -23,11 +24,12 @@ public class MainPage extends JPanel implements NavUpdate {
         });
         this.reserveroom.addActionListener(e -> UI.navTo(UI.Routes.MAKE_RESERVATIONS));
         this.modifyroom.addActionListener(e -> UI.navTo(UI.Routes.MODIFY_ROOMS));
+        this.helpguest.addActionListener(e -> UI.navTo(UI.Routes.ADD_GUEST));
 
         this.add(this.logout);
         this.add(this.reserveroom);
         this.add(this.modifyroom);
-        //this.add(this.login);
+        this.add(this.helpguest);
 
     }
 

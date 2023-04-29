@@ -56,4 +56,7 @@ public class Guest extends Account {
 	public void setCardExpiration(Date creditCardExpiration) {
 		this.creditCardExpiration = creditCardExpiration;
 	}
+	public void cancelReservation(Integer resID) {
+		reservations.remove(resID);
+	}
 }

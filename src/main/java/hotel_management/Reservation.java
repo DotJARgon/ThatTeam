@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "reservation")
 public class Reservation {
 	private int id;
-	private Date start, end;
+	private Date start, end, reserved;
     private Billing billing;
     private int[] rooms;
 	private boolean checkedIn;
@@ -21,6 +21,7 @@ public class Reservation {
     //is instantiating the object
     public Reservation(int i, Date s, Date e, Billing b, int[] r, boolean chI, boolean chO) {
     	this.id = i;
+    	this.reserved = new Date(); //automatically to the current date
 		this.start = s;
 		this.end = e;
 		this.billing = b;
@@ -93,6 +94,10 @@ public class Reservation {
 
 	public void setCheckedOut(boolean checkedOut) {
 		this.checkedOut = checkedOut;
+	}
+
+	public Date getReserved() {
+		return reserved;
 	}
 
 	@Override
