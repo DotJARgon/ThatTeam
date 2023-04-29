@@ -6,9 +6,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "admin")
 public class Admin extends Account{
 	public void addClerk(String promotedAcc) {
-		Account promoted = new Clerk();
+		Clerk promoted = new Clerk();
 		if(HotelManagement.getHotelManagement().getAccounts().contains(promotedAcc)){
-			promoted = HotelManagement.getHotelManagement().getAccounts().get(promotedAcc);
+			Account acc = HotelManagement.getHotelManagement().getAccounts().get(promotedAcc);
+			promoted.setUsername(acc.getUsername());
+			promoted.setFirstName(acc.getFirstName());
+			promoted.setLastName(acc.getLastName());
+			promoted.setId(acc.getId());
+			promoted.setPassword(acc.getPassword());
 			HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
 			HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
 		}

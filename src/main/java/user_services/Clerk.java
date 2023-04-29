@@ -1,5 +1,7 @@
 package user_services;
 
+import billing_services.Billing;
+import billing_services.BillingCalculator;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
@@ -23,5 +25,15 @@ public class Clerk extends Account{
 		changeRoom.setQualityType(newQuality);
 		HotelManagement.getHotelManagement().getRooms().remove(roomID);
 		HotelManagement.getHotelManagement().getRooms().put(roomID, changeRoom);
+	}
+	//TEST TO MAKE SURE THIS WORKS
+	public void cancelReservation(Reservation res, Guest g){
+		int resID = HotelManagement.getHotelManagement().getAllReservations().get(res.getID()).getID();
+		for(int i : g.getReservations()){
+			if(i == resID){
+				Reservation r = HotelManagement.getHotelManagement().getAllReservations().get(resID);
+				BillingCalculator.calculateCancelledCost(r);
+			}
+		}
 	}
 }
