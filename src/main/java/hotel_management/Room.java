@@ -92,4 +92,8 @@ public class Room {
     public void setQualityType(QualityType qualityLevel) {
         this.qualityLevel = qualityLevel;
     }
+
+    public void cancelReservation(Integer resID) {
+		reservations.remove(resID);
+	}
 }

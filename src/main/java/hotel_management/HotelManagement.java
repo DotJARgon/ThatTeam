@@ -1,7 +1,9 @@
 package hotel_management;
 
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -12,8 +14,6 @@ import billing_services.Billing;
 import billing_services.BillingCalculator;
 import file_utilities.XMLList;
 import file_utilities.XMLParser;
-import hotel_management.Room.BedType;
-import hotel_management.Room.QualityType;
 import user_services.Account;
 import user_services.Admin;
 import user_services.Clerk;
@@ -74,20 +74,34 @@ public class HotelManagement {
         return availableRooms;
     }
     
-    public void addReservation(Reservation res, Guest g, int[] room) {
+    public void addReservation(Reservation res, Guest g) {
         allReservations.put(res.getID(), res);
         //loop thru reservation's rooms. Will typically be 1 room
-        for(int j = 0; j < room.length; j++) {
-        	//loop thru hotel's rooms to see which room object it is so that
-        	//the reservation can be added to the correct one
-            for(Map.Entry<Integer, Room> r : rooms.entrySet()) {
-                if(r.getValue().getID() == room[j]) {
-                    r.getValue().addReservation(res.getID());
-                }
-            }
+        for(int r : res.getRooms()) {
+        	rooms.get(r).addReservation(res.getID());
         }
         g.addReservation(res.getID());
         ReservationLoader.saveReservations(allReservations.values().stream().toList());
+    }
+    
+    //Assumes it's not a leap year
+    public void cancelReservation(int resID, Guest g) {
+    	Reservation res = allReservations.get(resID);
+    	//Determine whether to charge the guest
+    	GregorianCalendar resDate = new GregorianCalendar();
+    	resDate.setTime(res.getReserved());
+    	GregorianCalendar currDate = new GregorianCalendar();
+    	currDate.setTime(new Date()); //prolly not necessary, but for security
+    	if(currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2 ||
+    	   currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363) {
+    		//TODO: Display message with the correct cost. The infrastructure isn't settled as of me writing this
+    	}
+    	//remove associations
+    	g.cancelReservation(resID);
+    	for(int r: res.getRooms()) {
+    		rooms.get(r).cancelReservation(resID);
+    	}
+    	allReservations.remove(resID);
     }
     
     public void addModifyRoom(int id, int b, Room.BedType bt, boolean s, Room.QualityType qt){
@@ -173,5 +187,9 @@ public class HotelManagement {
     private void saveUsers() {
         List<Account> a = this.accounts.values().stream().collect(Collectors.toList());
         XMLParser.save(a, "users.xml", XMLList.class, Account.class, Guest.class, Clerk.class, Admin.class);
+    }
+    
+    public Account getUser(String s) {
+    	return accounts.get(s);
     }
 }

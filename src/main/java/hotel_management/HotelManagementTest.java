@@ -43,7 +43,7 @@ public class HotelManagementTest {
         System.out.println("Cost: "+b.getCost());
         System.out.println("Discount: "+b.getDiscount());
         System.out.println("Tip: "+b.getTip());
-        System.out.println("Total Cost: "+b.calculateTotalCost(b.getCost()));
+        System.out.println("Total Cost: "+b.calculateTotalCost());
 
     }
     // TC ID#: AccountLogs
@@ -122,9 +122,9 @@ public class HotelManagementTest {
 
 
         //Cannot request the same reservation
-        management.addReservation(r, guest, r.getRooms());
-        management.addReservation(r, guest, r.getRooms());
-        management.addReservation(r, guest, r.getRooms());
+        management.addReservation(r, guest);
+        management.addReservation(r, guest);
+        management.addReservation(r, guest);
         for (Integer i : r.getRooms()) {
             //FIXME: identify duplicate reservation
         }

@@ -53,7 +53,7 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
     	modify.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UI.navTo(UI.Routes.MODIFY_ROOMS); //TODO:
+				UI.navTo(UI.Routes.MODIFY_ROOMS);
 			}
     	});
     	this.add(modify, c);
@@ -89,11 +89,13 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
 		this.add(tablePanel, c);
 		
         this.tablePanel.setVisible(false);
+		this.setVisible(false);
 	}
 
 	@Override
 	public void navUpdate() {
         this.tablePanel.setVisible(true);
+		this.setVisible(true);
         Account account = UI.getCurrentClient();
         if(account != null) {
         	ConcurrentHashMap<Integer, Room> rooms = HotelManagement.getHotelManagement().getRooms();

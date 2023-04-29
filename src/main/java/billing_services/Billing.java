@@ -34,7 +34,7 @@ public class Billing {
         return discount;
     }
 
-    public Double calculateTotalCost(double cost) {
+    public Double calculateTotalCost() {
         return (cost * (1 - discount)) + tip;
     }
 }

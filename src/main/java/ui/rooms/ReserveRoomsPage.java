@@ -1,11 +1,7 @@
 package ui.rooms;
 
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -20,10 +16,11 @@ import javax.swing.table.DefaultTableModel;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
+import ui.UI;
 import ui.custom.DateBox;
 import ui.custom.NavUpdate;
-import ui.UI;
 import user_services.Account;
+import user_services.Clerk;
 import user_services.Guest;
 
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
@@ -93,9 +90,10 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
             Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
 
-            //TODO: Implement it so that a clerk can register an account for a guest
             if(UI.getCurrentClient() instanceof Guest)
-                HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient(),roomIds);
+                HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient());
+            else if(UI.getCurrentClient() instanceof Clerk)
+            	HotelManagement.getHotelManagement().addReservation(res, ((Clerk)UI.getCurrentClient()).getGuest());
 
             this.navUpdate();
         }
