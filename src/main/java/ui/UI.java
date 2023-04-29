@@ -29,7 +29,31 @@ import hotel_management.ReservationLoader;
 import hotel_management.Room;
 import hotel_management.RoomLoader;
 
+
+/**
+ * The UI class is responsible for managing all front end related tasks, it holds
+ * every page that the user class can access, from logging in to making reservations.
+ * It holds its own reference to the currently logged in user, once that user has
+ * been logged in or has registered, which login is the first page that can
+ * be reached. UI itself is a singleton, with its own constructor being private,
+ * the only way to access it is to call UI.getUI() from outside of this class.
+ * The UI frontend is dependent on little code from the backend, only the functions
+ * from HotelManagement and Billing are necessary. The UI can be navigated through
+ * using the enum Routes, and calling UI.navTo(Routes route), which will show the
+ * corresponding page, and perform the NavUpdate callback, which is meant for pages
+ * that need an update to get updated
+ *
+ * @author  Alexzander DeVries, Lizzie Nix, Bryant Huang,
+ *          Marcelo Carpenter, Christian Ocana
+ * @version  2.7
+ * @since 3/15/23
+ */
 public class UI extends JFrame {
+
+    /**
+     * The Routes enum has different enums for each page that can be visited and a corresponding
+     * unique string to mark it, this is used to navigate between UI pages
+     * */
     public enum Routes {
         LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"), ADD_GUEST("ADD_GUEST"),
         VIEW_ROOMS("VIEW_ROOMS"), MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE"),
@@ -43,12 +67,20 @@ public class UI extends JFrame {
     private static UI ui = null;
     private static Account currentClient = null;
 
-    //basically convert UI into a singleton, since there
-    //will only be one
+    /**
+     * getUI returns a singleton of the UI class
+     * @return returns the UI singleton object
+     */
     public static UI getUI() {
         if(ui == null) ui = new UI();
         return ui;
     }
+
+    /**
+     * updateCurrentClient this sets the current client of
+     * the UI frontend, or can set it to null
+     * @param account the account to set the current client to
+     */
     public static void updateCurrentClient(Account account) {
         currentClient = account;
         if(currentClient == null) {
@@ -60,6 +92,13 @@ public class UI extends JFrame {
             getUI().mainButton.setVisible(true);
         }
     }
+
+    /**
+     * getCurrentClient returns the current client
+     * @return returns the current client, if the client is
+     * null, thus not logged in, the user is rerouted to the login
+     * page
+     */
     public static Account getCurrentClient() {
         if(currentClient == null) UI.navTo(Routes.LOGIN);
         return currentClient;
@@ -74,6 +113,10 @@ public class UI extends JFrame {
     private final JButton mainButton;
     private ResetPage resetPasswordPage;
 
+    /**
+     * The Theme enum is meant to mark between two or more themes that can
+     * be used to give our users a more pleasant visual experience
+     * */
     enum Theme {
         LIGHT("light mode"), DARK("dark mode");
 
@@ -84,7 +127,7 @@ public class UI extends JFrame {
     }
 
     private final JComboBox<String> theme;
-    private ClickableText reset;
+
     private final String[] themes = new String[] {
             Theme.LIGHT.mode,
             Theme.DARK.mode
@@ -92,6 +135,11 @@ public class UI extends JFrame {
 
     private final HashMap<String, NavUpdate> pageUpdates;
 
+    /**
+     * The UI constructor initializes all pages, sets them up with the
+     * card layout with login being the first page as well. This constructor
+     * is private as there is only one UI object
+     * */
     private UI() {
         super("Hotel Reservations brought to you by That Team");
         try {
@@ -102,7 +150,6 @@ public class UI extends JFrame {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.theme = new JComboBox<>(themes);
-        this.reset = new ClickableText("Reset Password");
         //initialization
         this.nav = new JPanel();
         this.cl = new CardLayout();
@@ -155,18 +202,6 @@ public class UI extends JFrame {
 
         this.nav.add(this.mainButton, themeC);
 
-        resetC.fill = GridBagConstraints.BOTH;
-        resetC.anchor = GridBagConstraints.CENTER;
-        resetC.weightx = 0.80;
-        resetC.weighty = 0.80;
-        resetC.gridx = 1;
-        resetC.gridy = 4;
-        resetC.gridwidth = 3;
-        resetC.gridheight = 0;
-        resetC.insets = new Insets(0, 30, 0, 30);
-
-        this.nav.add(this.reset, resetC);
-
         //set up main page
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
@@ -198,8 +233,6 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
         this.pageUpdates.put(Routes.RESET_PASSWORD.route, this.resetPasswordPage);
 
-        this.reset.addClickAction(verifyUserName);
-
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();
             if(selected.equals(Theme.LIGHT.mode)) {
@@ -227,32 +260,22 @@ public class UI extends JFrame {
 
         //JOptionPane.showMessageDialog(null, new DateBox());
     }
-    private final Clickable verifyUserName = ()-> {
-        String username = JOptionPane.showInputDialog("Enter a username");
-        //continue to ui to make reservations
-        Account accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(username);
-        if (accountValidation == null) {
-            Object[] options2 = {"REGISTER", "CANCEL"};
-            int option = JOptionPane.showOptionDialog(null,
-                    "Not a valid username! Want to register a new user?",
-                    "Invalid Username",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                    null, options2, options2[0]);
-            if (option == 0) {
-                UI.navTo(Routes.REGISTER);
-            } else {
-                UI.navTo(UI.Routes.LOGIN);
-            }
-        }
-        else {
-            UI.navTo(Routes.RESET_PASSWORD);
-        }
-        //reset.setVisible(false);
-    };
+
+    /**
+     * nav this function makes a call to show a given page, it is assumed
+     * that the parameter passed is a valid page
+     * @param page the page to be shown
+     * */
     private void nav(String page) {
         //reset.isVisible();
         cl.show(this.main, page);
     }
+
+    /**
+     * navTo This function gets the page associated with this page,
+     * calls the navUpdate on it, and navigates to that page, showing it
+     * @param page the page to be shown
+     * */
     public static void navTo(Routes page) {
         NavUpdate navUpdate = UI.getUI().pageUpdates.get(page.route);
         if(navUpdate != null) {
