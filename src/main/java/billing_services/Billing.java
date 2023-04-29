@@ -19,6 +19,7 @@ public class Billing {
     protected Double discount = 0.0;
     protected Double cancelledCost = 0.0;
     protected Boolean isCancelled = false;
+    protected Boolean isPaid = false;
 
     /**
      * Default constructor for the Billing class
@@ -64,6 +65,14 @@ public class Billing {
 
     public void setCancelled(Boolean cancelled) {
         isCancelled = cancelled;
+    }
+
+    public Boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
     }
 
     /**
