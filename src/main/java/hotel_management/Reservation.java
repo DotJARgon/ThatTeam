@@ -6,6 +6,17 @@ import billing_services.Billing;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The Reservation class is responsible for holding all information
+ * relating to a reservation which includes its unique id, the start and end
+ * dates, the date that the reservation was made, the unique ids of all
+ * rooms reserved,the corresponding billing object with its total cost,
+ * discount amount, tip amount and cancelled cost amount,
+ * as well as whether the reservation has been checked in or checked out
+ * @author  Alexzander DeVries, Christian Ocana, Marcelo Carpenter
+ * @version  1.6
+ * @since 3/25/23
+ */
 @XmlRootElement(name = "reservation")
 public class Reservation {
 	private int id;
@@ -15,10 +26,21 @@ public class Reservation {
 	private boolean checkedIn;
 	private boolean checkedOut;
 
+	/**
+	 * The default constructor for the reservation object
+	 */
 	public Reservation() {}
 
-	//Custom constructor for object, where each object is determined by whoever
-    //is instantiating the object
+	/**
+	 * A constructor for the reservation object
+	 * @param i the unique id for the reservation
+	 * @param s the start date for the reservation
+	 * @param e the end date for the reservation
+	 * @param b the billing information of the reservation
+	 * @param r the room ids of the reservation
+	 * @param chI the checked in status of the reservation
+	 * @param chO the checked out status of the reservation
+	 */
     public Reservation(int i, Date s, Date e, Billing b, int[] r, boolean chI, boolean chO) {
     	this.id = i;
     	this.reserved = new Date(); //automatically to the current date
