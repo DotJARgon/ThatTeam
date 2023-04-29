@@ -33,12 +33,14 @@ public class Room {
             return QualityType.valueOf(QualityType.class, qualityType);
         }
     }
-    private final int id;
+    private int id;
     private int numBeds;
     private BedType bedType;
     private boolean canSmoke;
     private QualityType qualityLevel;
     private Vector<Integer> reservations = new Vector<>();
+    
+    public Room() {}
     
     public Room(int i, int b, BedType bt, boolean s, QualityType qt) {
     	id = i;
@@ -59,6 +61,9 @@ public class Room {
     }
     public void addReservation(int r) {
         reservations.add(r);
+    }
+    public void setID(int id) {
+    	this.id = id;
     }
     public int getID() {
         return id;

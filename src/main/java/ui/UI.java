@@ -1,29 +1,44 @@
 package ui;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.List;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.swing.*;
-import javax.xml.bind.annotation.XmlList;
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import file_utilities.XMLList;
-import file_utilities.XMLParser;
-import hotel_management.*;
-import ui.custom.DateBox;
+
+import hotel_management.Reservation;
+import hotel_management.ReservationLoader;
+import hotel_management.Room;
+import hotel_management.RoomLoader;
 import ui.custom.NavUpdate;
+import ui.rooms.AddModifyRoomsPage;
 import ui.rooms.ReserveRoomsPage;
+import ui.rooms.ViewRoomsPage;
 import ui.user.LoginPage;
 import ui.user.RegisterPage;
-import user_services.*;
+import user_services.Account;
+import user_services.Guest;
+import user_services.UserLoader;
 
 public class UI extends JFrame {
     public enum Routes {
-        LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS");
+        LOGIN("LOGIN"), REGISTER("REGISTER"), VIEW_ROOMS("VIEW_ROOMS"), 
+    	MAKE_RESERVATIONS("MAKE_RESERVATIONS"), MODIFY_ROOMS("MODIFY_ROOMS");
 
         public final String route;
         Routes(String route) {
@@ -49,7 +64,9 @@ public class UI extends JFrame {
     private final CardLayout cl;
     private final LoginPage loginPage;
     private final RegisterPage registerPage;
+    private final ViewRoomsPage viewRoomsPage;
     private final ReserveRoomsPage reserveRoomsPage;
+    private final AddModifyRoomsPage modifyRoomsPage;
     private final JPanel main, nav;
 
     enum Theme {
@@ -85,7 +102,9 @@ public class UI extends JFrame {
         this.cl = new CardLayout();
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
+        this.viewRoomsPage = new ViewRoomsPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
+        this.modifyRoomsPage = new AddModifyRoomsPage();
 
         this.nav.setLayout(new GridBagLayout());
         GridBagConstraints themeC = new GridBagConstraints();
@@ -116,12 +135,16 @@ public class UI extends JFrame {
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
         this.main.add(this.registerPage);
+        this.main.add(this.viewRoomsPage);
         this.main.add(this.reserveRoomsPage);
+        this.main.add(this.modifyRoomsPage);
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
+        cl.addLayoutComponent(this.viewRoomsPage, Routes.VIEW_ROOMS.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
+        cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
 
         this.nav.add(this.main, mainC);
         this.add(this.nav);
@@ -130,7 +153,9 @@ public class UI extends JFrame {
 
         this.pageUpdates.put(Routes.LOGIN.route, this.loginPage);
         this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
+        this.pageUpdates.put(Routes.VIEW_ROOMS.route, this.viewRoomsPage);
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
+        this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();

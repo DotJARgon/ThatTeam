@@ -41,10 +41,7 @@ public class HotelManagement {
         this.allReservations = ReservationLoader.loadReservations();
         this.paymentHistory = new Vector<>();
         this.accounts = UserLoader.loadUsers();
-        Vector<Room> roomsVctr = RoomLoader.loadRooms();
-        for(Room r: roomsVctr) {
-        	rooms.put(r.getID(), r);
-        }
+        this.rooms = RoomLoader.loadRooms();
     }
 
     public Billing generateBilling(Reservation reservation) {
@@ -52,20 +49,23 @@ public class HotelManagement {
         reservation.setBilling(billing);
         return reservation.getBilling();
     }
-    //Assumes end > start
+    //Assumes end != start
     public Vector<Room> getAvailableRooms(Date start, Date end) {
         Vector<Room> availableRooms = new Vector<>();
+    	if(end.before(start) || end.equals(start))
+    		return availableRooms;
         for(Map.Entry<Integer,Room> r: rooms.entrySet()) {
             boolean roomAvailable = true;
-            for(Integer res: r.getValue().getReservations()) {
-                if(end.after(start)) {
-                    if(start.before(allReservations.get(res).getStart()))
-                        if(end.after(allReservations.get(res).getStart()))
-                            roomAvailable = false;
-                    else if(start.before(allReservations.get(res).getEnd()))
+            for(Integer resNum: r.getValue().getReservations()) {
+            	Reservation res = allReservations.get(resNum);
+            	if(start.equals(res.getStart()) || start.equals(res.getEnd()) ||
+            	   end.equals(res.getStart()) || end.equals(res.getEnd()))
+            		roomAvailable = false;
+            	else if(start.before(res.getStart())) {
+                    if(end.after(res.getStart()))
                         roomAvailable = false;
                 }
-                else 
+                else if(start.before(res.getEnd()))
                     roomAvailable = false;
             }
             if(roomAvailable)
@@ -99,6 +99,12 @@ public class HotelManagement {
     
     public ConcurrentHashMap<Integer, Room> getRooms(){
     	return rooms;
+    }
+    public Room getRoom(int k) {
+    	return rooms.get(k);
+    }
+    public void removeRoom(int id) {
+    	rooms.remove(id);
     }
 
 
