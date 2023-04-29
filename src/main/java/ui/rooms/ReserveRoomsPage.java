@@ -17,6 +17,7 @@ import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
 import ui.UI;
+import ui.billing.ReservationBilling;
 import ui.custom.DateBox;
 import ui.custom.NavUpdate;
 import user_services.Account;
@@ -96,11 +97,15 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
             Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
 
-            if(UI.getCurrentClient() instanceof Guest)
-                HotelManagement.getHotelManagement().addReservation(res, (Guest)UI.getCurrentClient());
+            if(UI.getCurrentClient() instanceof Guest) {
+                HotelManagement.getHotelManagement().addReservation(res, (Guest) UI.getCurrentClient());
+                JOptionPane.showMessageDialog(null, new ReservationBilling(res));
+            }
             else if(UI.getCurrentClient() instanceof Clerk) {
-            	if(((Clerk)UI.getCurrentClient()).getGuest() != null)
-            		HotelManagement.getHotelManagement().addReservation(res, ((Clerk)UI.getCurrentClient()).getGuest());
+            	if(((Clerk)UI.getCurrentClient()).getGuest() != null) {
+                    HotelManagement.getHotelManagement().addReservation(res, ((Clerk) UI.getCurrentClient()).getGuest());
+                    JOptionPane.showMessageDialog(null, new ReservationBilling(res));
+                }
             	else
             		JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
             }
