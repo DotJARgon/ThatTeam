@@ -19,7 +19,7 @@ import user_services.Guest;
 
 public class HelpGuestPage extends JPanel implements NavUpdate{
 	public HelpGuestPage(){
-		this.setLayout(new GridLayout(2,2));
+		this.setLayout(new GridLayout(2,2,15,15));
 		JLabel nameLabel = new JLabel("Enter Guest's username:");
 		this.add(nameLabel);
 		JTextField text = new JTextField();
