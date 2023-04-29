@@ -4,9 +4,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.security.*;
 
-/*
-this.resetPasswordPage = new ResetPage();
-        this.main.add(this.resetPasswordPage);
+/**
+ * The Account class is responsible for the basic activity of an account on
+ * the site, which includes storing the account's username, password, first and
+ * last name, its own unique user id, and security questions related to it.
+ * @author  Bryant Huang
+ * @version  1.6
+ * @since 3/25/23
  */
 @XmlRootElement(name = "account")
 //@XmlType(propOrder = { "username", "password", "firstName", "lastName", "id" })
@@ -18,6 +22,10 @@ public class Account {
     private String securityQ = "";
     private String securityA = "";
     private int id = 0;
+
+    /**
+     * The default constructor for an account object
+     */
     public Account() {
         password = "";
         username = "";
@@ -25,6 +33,18 @@ public class Account {
         lastName = "";
         id = 0;
     }
+
+    /**
+     * A constructor of the account object, which hashes the password using the md5
+     * encryption method
+     * @param username the username of the account
+     * @param password the password of the account
+     * @param firstName the first name of the user
+     * @param lastName the last name of the user
+     * @param id the unique user id
+     * @param securityQ the security question of the account
+     * @param securityA the security answer of the question in the account
+     */
     public Account(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
         this.username = username;
         this.password = md5(password, username);
@@ -34,6 +54,15 @@ public class Account {
         this.securityQ = securityQ;
         this.securityA = md5(securityA, securityQ);
     }
+
+    /**
+     * A constructor of the account object, which hashes the password using the md5
+     * encryption method
+     * @param username the username of the account
+     * @param password the password of the account
+     * @param securityQ the security question of the account
+     * @param securityA the security answer of the question in the account
+     */
     public Account(String username, String password, String securityA, String securityQ) {
         this.username = username;
         this.password = md5(password, username);
@@ -77,13 +106,31 @@ public class Account {
     }
     public String getSecurityQ() {return this.securityQ;}
 
+    /**
+     * Matches checks if two passwords that have been md5 encrypted are the same
+     * @param password the password being compared
+     * @return returns true or false based on whether the two passwords are the same
+     */
     public boolean matches(String password) {
         return this.password.equals(md5(password, username));
     }
+
+    /**
+     * resetPassword resets the md5 encrypted password for the account
+     * @param qA the security answer to resalt the password
+     * @return returns true or false based on whether the security question
+     * was answered properly
+     */
     public boolean resetPassword(String qA) {
         return this.securityA.equals(md5(qA, securityQ));
     }
 
+    /**
+     * md5 salts the password of the account using the md5 encrpytion method
+     * @param ptxt the password in unsalted form
+     * @param salt the username which is then used to salt the password
+     * @return returns the salted password after md5 encrypting it
+     */
     private String md5(String ptxt, String salt) { //salt is meant to be the username
         String ptxtSalt = ptxt + salt; // concatenate the password and salt
         String result = null; // initialize the generated password
