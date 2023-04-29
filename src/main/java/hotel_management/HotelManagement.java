@@ -1,6 +1,9 @@
 package hotel_management;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -226,20 +229,29 @@ public class HotelManagement {
     }
 
     /**
-     * generateSummary will return a vector of reservation objects created
-     * on that day given to the fuction as a parameter.
-     * @param day The day that the summary is generated from
+     * generateSummary will write a local file of all of the reservations and
+     * their billings
      * @return Returns a vector of all reservations made on that day
      */
-    public Vector<Reservation> generateSummary(Date day) {
-        Vector<Reservation> summary = new Vector<>();
-        for(Reservation r : allReservations.values()){
-            if(r.getStart() == day){
-                summary.add(r);
+    public void generateSummary() {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("summary.txt"));
+            for(Reservation r : this.allReservations.values()) {
+                Billing billing = r.getBilling();
+                if(billing != null) {
+                    bw.write("Reservation id: " + r.getID() + "===================================\n");
+                    bw.write("Cancelled Cost: " + billing.getCost() + "\n");
+                    if(billing.getCancelled()) bw.write("Cancelled Cost: " + billing.getCost() + "\n");
+                    else bw.write("Cost:           " + billing.getCost() + "\n");
+                    bw.write("Discount:       " + billing.getDiscount() + "\n");
+                    bw.write("Tip:            " + billing.getTip() + "\n");
+                    bw.write("Paid:           " + billing.getPaid() + "\n");
+                }
             }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        //a summary of the billings for a day
-        return summary;
     }
     
     public Account logOut() {
