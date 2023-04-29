@@ -106,12 +106,34 @@ public class HotelManagement {
     	   currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363) {
     		//TODO: Display message with the correct cost. The infrastructure isn't settled as of me writing this
     	}
-    	//remove associations
-    	g.cancelReservation(resID);
-    	for(int r: res.getRooms()) {
-    		rooms.get(r).cancelReservation(resID);
+    	if(g == null) {
+    		for(Map.Entry<String, Account> acc : this.accounts.entrySet()) {
+    			if(acc.getValue() instanceof Guest) {
+    				Guest currG = (Guest)acc.getValue();
+    				if(currG.getReservations().contains(resID));{
+    					g = currG;
+    					break;
+    				}
+    			}
+    		}
     	}
-    	allReservations.remove(resID);
+    	//remove associations
+    	if(g != null) {
+    		g.cancelReservation(resID);
+	    	for(int r: res.getRooms()) {
+	    		rooms.get(r).cancelReservation(resID);
+	    	}
+	    	allReservations.remove(resID);
+    	}
+    }
+    
+    //Assumes the reservation exists
+    public void modifyReservation(int resID, Date s, Date e, int[] rooms) {
+    	allReservations.get(resID).modify(s, e, rooms);
+    }
+    
+    public Reservation getRes(int resID) {
+    	return allReservations.get(resID);
     }
     
     public void addModifyRoom(int id, int b, Room.BedType bt, boolean s, Room.QualityType qt){
@@ -124,18 +146,19 @@ public class HotelManagement {
     	for(Room r : this.rooms.values())System.out.print(r.getID()+" ");
     	System.out.println();
     }
+    
+    //Assumes that promotedAcc is a guest, verify before calling
     public void promoteAccountToClerk(String promotedAcc) {
         Clerk promoted = new Clerk();
-        if(HotelManagement.getHotelManagement().getAccounts().contains(promotedAcc)){
-            Account acc = HotelManagement.getHotelManagement().getAccounts().get(promotedAcc);
-            promoted.setUsername(acc.getUsername());
-            promoted.setFirstName(acc.getFirstName());
-            promoted.setLastName(acc.getLastName());
-            promoted.setId(acc.getId());
-            promoted.setPassword(acc.getPassword());
-            HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
-            HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
-        }
+        Guest acc = (Guest) accounts.get(promotedAcc);
+        promoted.setUsername(acc.getUsername());
+        promoted.setFirstName(acc.getFirstName());
+        promoted.setLastName(acc.getLastName());
+        promoted.setId(acc.getId());
+        promoted.setPassword(acc.getPassword());
+        HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
+        HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
+        UserLoader.saveUsers(accounts.values().stream().toList());
     }
     
     public ConcurrentHashMap<Integer, Room> getRooms(){
@@ -190,18 +213,14 @@ public class HotelManagement {
         return null;
     }
 
-    public Account registerUser(String username, String password, String securityA, String securityB) {
+    public Guest registerUser(String username, String password, String securityA, String securityB) {
         if(!accounts.containsKey(username)) {
-            Account acc = new Account(username, password, securityA, securityB);
+            Guest acc = new Guest(username, password, securityA, securityB);
             accounts.put(username, acc);
             UserLoader.saveUsers(accounts.values().stream().toList());
             return acc;
         }
         return null;
-    }
-
-    public Account getAccountByUsername(String username) {
-        return this.accounts.get(username);
     }
 
     private void loadUsers() {

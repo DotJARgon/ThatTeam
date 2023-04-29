@@ -24,7 +24,7 @@ public class ResetPage extends UserField {
 
     private final Clickable resetAction = () -> {
 
-        this.accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText());
+        this.accountValidation = HotelManagement.getHotelManagement().getUser(this.username.getText());
         this.Q.setText(accountValidation.getSecurityQ());
 
         System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());

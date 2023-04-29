@@ -12,7 +12,7 @@ import user_services.Clerk;
 import user_services.Guest;
 
 public class MainPage extends JPanel implements NavUpdate {
-    private final JButton logout, reserveroom, viewroom, helpguest, stophelp, addclerk;
+    private final JButton logout, reserveroom, viewroom, helpguest, stophelp, addclerk, viewreses, addcorp, paycorp;
     public MainPage() {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -22,6 +22,10 @@ public class MainPage extends JPanel implements NavUpdate {
         this.helpguest = new JButton("Help Guest");
         this.stophelp = new JButton("Stop Helping");
         this.addclerk = new JButton("Add Clerk");
+        this.viewreses = new JButton("View Reservations");
+        this.addcorp = new JButton("Add a Corporation");
+        this.paycorp = new JButton("Pay Corporate Bill");
+        
         
         this.logout.addActionListener(e -> {
             UI.updateCurrentClient(null);
@@ -37,6 +41,10 @@ public class MainPage extends JPanel implements NavUpdate {
     		helpguest.setVisible(true);
     	});
     	this.addclerk.addActionListener(e -> UI.navTo(UI.Routes.ADD_CLERK));
+    	this.viewreses.addActionListener(e -> UI.navTo(UI.Routes.VIEW_RESERVATIONS));
+    	this.addcorp.addActionListener(e -> UI.navTo(UI.Routes.ADD_CORP));
+    	this.paycorp.addActionListener(e -> UI.navTo(UI.Routes.ADD_CORP)); //TODO
+    	
 
         this.add(this.logout);
         this.add(this.reserveroom);
@@ -44,6 +52,9 @@ public class MainPage extends JPanel implements NavUpdate {
     	this.add(this.helpguest);
     	this.add(this.stophelp);
     	this.add(this.addclerk);
+    	this.add(this.viewreses);
+    	this.add(this.addcorp);
+    	this.add(this.paycorp);
     }
 
     @Override
@@ -56,6 +67,15 @@ public class MainPage extends JPanel implements NavUpdate {
         		this.stophelp.setVisible(false);
         		this.viewroom.setVisible(false);
         		this.addclerk.setVisible(false);
+        		this.viewreses.setVisible(true);
+        		if(((Guest)UI.getCurrentClient()).getCorporation().equals("")) {
+        			this.paycorp.setVisible(false);
+        			this.addcorp.setVisible(true);
+        		}
+        		else {
+        			this.paycorp.setVisible(true);
+        			this.addcorp.setVisible(false);
+        		}
             }
             else if(curr instanceof Clerk c) {
             	if(c.getGuest() == null) {
@@ -69,6 +89,9 @@ public class MainPage extends JPanel implements NavUpdate {
             	this.reserveroom.setVisible(true);
         		this.viewroom.setVisible(true);
         		this.addclerk.setVisible(false);
+        		this.viewreses.setVisible(true);
+    			this.paycorp.setVisible(false);
+    			this.addcorp.setVisible(false);
             }
             else {
             	this.reserveroom.setVisible(false);
@@ -76,6 +99,9 @@ public class MainPage extends JPanel implements NavUpdate {
         		this.stophelp.setVisible(false);
         		this.viewroom.setVisible(false);
         		this.addclerk.setVisible(true);
+        		this.viewreses.setVisible(false);
+    			this.paycorp.setVisible(false);
+    			this.addcorp.setVisible(false);
             }
         }
     }

@@ -18,13 +18,18 @@ import user_services.Clerk;
 import user_services.Guest;
 
 public class HelpGuestPage extends JPanel implements NavUpdate{
+	private JTextField text;
+	
 	public HelpGuestPage(){
 		super();
 		this.setLayout(new GridLayout(2,2,15,15));
+		//Enter username
 		JLabel nameLabel = new JLabel("Enter Guest's username:");
 		this.add(nameLabel);
-		JTextField text = new JTextField();
+		text = new JTextField();
 		this.add(text);
+		
+		//Back button
 		JButton backBut = new JButton("Back");
 		backBut.addActionListener(new ActionListener(){
 			@Override
@@ -33,6 +38,8 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 			}
 		});
 		this.add(backBut);
+		
+		//Submit button
 		JButton submitBut = new JButton("Submit");
 		submitBut.addActionListener(new ActionListener(){
 			@Override
