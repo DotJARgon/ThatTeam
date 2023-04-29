@@ -1,35 +1,37 @@
 package ui;
 
-import java.awt.*;
-import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.List;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.*;
-import javax.xml.bind.annotation.XmlList;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import file_utilities.XMLList;
-import file_utilities.XMLParser;
+
 import hotel_management.*;
-import ui.custom.Clickable;
-import ui.custom.ClickableText;
-import ui.custom.DateBox;
-import ui.custom.NavUpdate;
-import ui.rooms.AddModifyRoomsPage;
-import ui.rooms.ReserveRoomsPage;
-import ui.user.LoginPage;
-import ui.user.MainPage;
-import ui.user.RegisterPage;
-import ui.user.ResetPage;
+import ui.custom.*;
+import ui.rooms.*;
+import ui.user.*;
 import user_services.*;
+
+import hotel_management.Reservation;
+import hotel_management.ReservationLoader;
+import hotel_management.Room;
+import hotel_management.RoomLoader;
 
 public class UI extends JFrame {
     public enum Routes {
-        LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"),
-        MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE"), RESET_PASSWORD("RESET_PASSWORD");
+        LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"), ADD_GUEST("ADD_GUEST"),
+        VIEW_ROOMS("VIEW_ROOMS"), MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE"),
+        RESET_PASSWORD("RESET_PASSWORD");
 
         public final String route;
         Routes(String route) {
@@ -64,8 +66,10 @@ public class UI extends JFrame {
     private final MainPage mainPage;
     private final LoginPage loginPage;
     private final RegisterPage registerPage;
+    private final ViewRoomsPage viewRoomsPage;
     private final ReserveRoomsPage reserveRoomsPage;
     private final AddModifyRoomsPage modifyRoomsPage;
+    private final HelpGuestPage helpGuestPage;
     private final JPanel main, nav;
     private final JButton mainButton;
     private ResetPage resetPasswordPage;
@@ -105,9 +109,11 @@ public class UI extends JFrame {
         this.mainPage = new MainPage();
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
+        this.viewRoomsPage = new ViewRoomsPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
         this.resetPasswordPage = new ResetPage();
         this.modifyRoomsPage = new AddModifyRoomsPage();
+        this.helpGuestPage = new HelpGuestPage();
 
         this.mainButton = new JButton("main menu");
         this.mainButton.addActionListener(e -> navTo(Routes.MAIN_PAGE));
@@ -167,19 +173,23 @@ public class UI extends JFrame {
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
         this.main.add(this.registerPage);
+        this.main.add(this.viewRoomsPage);
         this.main.add(this.reserveRoomsPage);
         this.main.add(this.modifyRoomsPage);
         this.main.add(this.resetPasswordPage);
         this.main.add(this.mainPage);
+        this.main.add(this.helpGuestPage);
 
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
+        cl.addLayoutComponent(this.viewRoomsPage, Routes.VIEW_ROOMS.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
         cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
         cl.addLayoutComponent(this.resetPasswordPage, Routes.RESET_PASSWORD.route);
         cl.addLayoutComponent(this.mainPage, Routes.MAIN_PAGE.route);
+        cl.addLayoutComponent(this.helpGuestPage, Routes.ADD_GUEST.route);
 
 
         this.nav.add(this.main, mainC);
@@ -189,12 +199,13 @@ public class UI extends JFrame {
 
         this.pageUpdates.put(Routes.LOGIN.route, this.loginPage);
         this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
+        this.pageUpdates.put(Routes.VIEW_ROOMS.route, this.viewRoomsPage);
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
         this.pageUpdates.put(Routes.RESET_PASSWORD.route, this.resetPasswordPage);
-
         this.reset.addClickAction(verifyUserName);
+        this.pageUpdates.put(Routes.ADD_GUEST.route, this.helpGuestPage);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();
@@ -286,6 +297,11 @@ public class UI extends JFrame {
             g.setReservations(rv);
             accountsDebug.add(g);
         }
+        
+        Clerk c = new Clerk();
+        c.setUsername("sheila1");
+        c.setHashedPassword(Integer.toString(1));
+        accountsDebug.add(c);
         /*AccountList accountList = new AccountList();
         accountList.setAccountsList(accountsDebug);
         UserLoader.saveUsers(accountList);*/

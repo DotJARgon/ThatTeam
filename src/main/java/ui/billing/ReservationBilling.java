@@ -20,6 +20,6 @@ public class ReservationBilling extends JPanel {
 
         JLabel idLabel = new JLabel("Reservation ID");
         this.add(idLabel, g);
-        
+
     }
 }

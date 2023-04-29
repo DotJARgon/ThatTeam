@@ -52,10 +52,9 @@ public class Billing {
 
     /**
      * This function is used to calculate the total cost of a billing object
-     * @param cost The total cost of the reservations made
      * @return Returns the calculated total cost based on the discount and tip amount
      */
-    public Double calculateTotalCost(double cost) {
+    public Double calculateTotalCost() {
         return (cost * (1 - discount)) + tip;
     }
 }
