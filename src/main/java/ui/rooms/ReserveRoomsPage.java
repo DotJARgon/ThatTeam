@@ -18,6 +18,7 @@ import hotel_management.Reservation;
 import hotel_management.Room;
 import ui.UI;
 import ui.billing.ReservationBilling;
+import ui.billing.UICreditCardInfo;
 import ui.custom.DateBox;
 import ui.custom.NavUpdate;
 import user_services.Account;
@@ -77,6 +78,11 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (this.roomsTable.getSelectedRows().length == 0) {
+            JOptionPane.showMessageDialog(this, "Select a room",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         Object[] options = { "OK", "CANCEL" };
         int option = JOptionPane.showOptionDialog(null,
                 "Are you sure you want to reserve these rooms?",
@@ -97,13 +103,29 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
             Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
 
-            if(UI.getCurrentClient() instanceof Guest) {
-                HotelManagement.getHotelManagement().addReservation(res, (Guest) UI.getCurrentClient());
-                JOptionPane.showMessageDialog(null, new ReservationBilling(res));
+            if(UI.getCurrentClient() instanceof Guest guest) {
+                UICreditCardInfo creditCardInfo = new UICreditCardInfo();
+                JOptionPane.showMessageDialog(null, creditCardInfo);
+
+
+                if (creditCardInfo.IsCreditCardValid()) {
+                    JOptionPane.showMessageDialog(null, new ReservationBilling(res));
+                    int a = JOptionPane.showConfirmDialog(null,
+                            "Cost: " + res.getBilling().getCost(), "Purchase?", JOptionPane.YES_NO_OPTION);
+                    if (a == 0) {
+                        HotelManagement.getHotelManagement().addReservation(res, guest);
+                        JOptionPane.showMessageDialog(null, "Successfully purchased");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,"Credit card never got passed.",
+                            "Oops", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
-            else if(UI.getCurrentClient() instanceof Clerk) {
+            else if(UI.getCurrentClient() instanceof Clerk clerk) {
             	if(((Clerk)UI.getCurrentClient()).getGuest() != null) {
-                    HotelManagement.getHotelManagement().addReservation(res, ((Clerk) UI.getCurrentClient()).getGuest());
+                    HotelManagement.getHotelManagement().addReservation(res, clerk.getGuest());
                     JOptionPane.showMessageDialog(null, new ReservationBilling(res));
                 }
             	else

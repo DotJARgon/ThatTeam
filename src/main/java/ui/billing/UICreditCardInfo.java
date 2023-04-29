@@ -2,6 +2,7 @@ package ui.billing;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.sun.xml.bind.v2.model.impl.DummyPropertyInfo;
+import user_services.Guest;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +14,19 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class UICreditCardInfo extends JPanel {
+    private final Guest guest;
+    private Boolean isCreditCardValid;
+    public Boolean IsCreditCardValid() {
+        return isCreditCardValid;
+    }
+    public Guest getGuest() {
+        return guest;
+    }
+
     public UICreditCardInfo() {
         super();
-
+        isCreditCardValid = false;
+        guest = new Guest();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(16, 16, 16, 16));
 
@@ -136,7 +147,7 @@ public class UICreditCardInfo extends JPanel {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.X_AXIS));
 
-        JButton buttonSubmit = new JButton("Submit");
+        JButton buttonSubmit = new JButton("Update");
         buttonSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
@@ -152,32 +163,74 @@ public class UICreditCardInfo extends JPanel {
                 *     payment was successful and updates the user's reservation list
                 */
 
-                //1-2.
-                JOptionPane.showMessageDialog(null, "Some of the information is incorrect. Please update it.",
-                        "Oops", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        JButton buttonCancel = new JButton("Cancel");
-        buttonCancel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonCancel.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int answer = JOptionPane.showConfirmDialog(null,
-                    "Are you sure you want to go back? Changes made will not be saved.",
-                    "Warning", JOptionPane.YES_NO_OPTION);
-                if (answer == 0) {
-                    //FIXME: Return back to the previous window
-                    JOptionPane.showMessageDialog(null, "That part of the code has not been implemented yet, dum dum.",
+                boolean no = false;
+                isCreditCardValid = false;
+                if (aTextField.getText().isEmpty()) {
+                    no = true;
+                }
+                else if (cTextField.getText().isEmpty()) {
+                    no = true;
+                }
+                else if (fTextField.getText().isEmpty()) {
+                    no = true;
+                }
+                else if (lTextField.getText().isEmpty()) {
+                    no = true;
+                }
+                else if (dTextField1.getText().isEmpty()) {
+                    no = true;
+                }
+                else if (dTextField2.getText().isEmpty()) {
+                    no = true;
+                }
+                else if (dTextField3.getText().isEmpty()) {
+                    no = true;
+                }
+                if (no) {
+                    JOptionPane.showMessageDialog(null, "Not all information is entered. Please update it.",
                             "Oops", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    boolean fake = false;
+                    if (!fTextField.getText().equals(guest.getFirstName())) {
+                        fake = true;
+                    }
+                    if (!lTextField.getText().equals(guest.getLastName())) {
+                        fake = true;
+                    }
+                    if (!aTextField.getText().equals(guest.getAddress())) {
+                        fake = true;
+                    }
+                    if (!cTextField.getText().equals(String.valueOf(guest.getCardNum()))) {
+                        fake = true;
+                    }
+                    if (!dTextField1.getText().equals(String.valueOf(1+guest.getCardExpiration().getMonth()))) {
+                        if (!dTextField3.getText().equals("0"+String.valueOf(1+guest.getCardExpiration().getMonth()))) {
+                            fake = true;
+                        }
+                    }
+                    if (!dTextField2.getText().equals(String.valueOf(guest.getCardExpiration().getDate()))) {
+                        fake = true;
+                    }
+                    if (!dTextField3.getText().equals(String.valueOf(guest.getCardExpiration().getYear()))) {
+                        fake = true;
+                    }
+                    if (fake) {
+                        JOptionPane.showMessageDialog(null, "Some of the information inputted is incorrect. Please update it.",
+                                "Oops", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "Credit Card info successfully updated",
+                                "Yay", JOptionPane.DEFAULT_OPTION);
+                        isCreditCardValid = true;
+                    }
                 }
             }
         });
 
+
         buttonPane.add(blank3);
         buttonPane.add(buttonSubmit);
-        buttonPane.add(new JLabel("            "));
-        buttonPane.add(buttonCancel);
 
 
         add(aPane);
