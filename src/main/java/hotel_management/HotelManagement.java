@@ -71,6 +71,10 @@ public class HotelManagement {
         return availableRooms;
     }
 
+    public ConcurrentHashMap<Integer, Reservation> getAllReservations() {
+        return allReservations;
+    }
+
     public ConcurrentHashMap<String, Account> getAccounts() {
         return accounts;
     }
