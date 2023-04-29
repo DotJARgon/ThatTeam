@@ -13,10 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.*;
 
+import billing_services.BillingCalculator;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import hotel_management.*;
+import ui.billing.ReservationBilling;
 import ui.custom.*;
 import ui.rooms.*;
 import ui.user.*;
@@ -280,6 +282,7 @@ public class UI extends JFrame {
         Calendar cal = Calendar.getInstance();
         for(int i = 0; i < 10; i++) {
             Reservation reservation = new Reservation(i, cal.getTime(), cal.getTime(), null, new int[] {1, 2, 3}, false, false);
+            reservation.setBilling(BillingCalculator.generate(reservation));
             reservationsDebug.add(reservation);
         }
         ReservationLoader.saveReservations(reservationsDebug);
@@ -309,6 +312,10 @@ public class UI extends JFrame {
         UserLoader.saveUsers(accountsDebug);
         ConcurrentHashMap<String, Account> accounts = UserLoader.loadUsers();
         for(Account a : accounts.values()) System.out.println(a.getUsername());
+
+        JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));
+        BillingCalculator.calculateCancelledCost(reservationsDebug.get(0));
+        JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));
 
         UI ui = getUI();
     }

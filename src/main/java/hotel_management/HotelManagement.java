@@ -82,6 +82,7 @@ public class HotelManagement {
     }
 
     public void addReservation(Reservation res, Guest g) {
+        res.setBilling(BillingCalculator.generate(res));
         allReservations.put(res.getID(), res);
         //loop thru reservation's rooms. Will typically be 1 room
         for(int r : res.getRooms()) {

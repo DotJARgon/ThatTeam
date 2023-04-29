@@ -50,6 +50,22 @@ public class Billing {
         return discount;
     }
 
+    public Double getCancelledCost() {
+        return cancelledCost;
+    }
+
+    public void setCancelledCost(Double cancelledCost) {
+        this.cancelledCost = cancelledCost;
+    }
+
+    public Boolean getCancelled() {
+        return isCancelled;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
     /**
      * This function is used to calculate the total cost of a billing object
      * @return Returns the calculated total cost based on the discount and tip amount
