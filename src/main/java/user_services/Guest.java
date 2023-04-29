@@ -5,7 +5,15 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.Vector;
 
-
+/**
+ * The Guest class is responsible for having the behavior of a guest
+ * account, extending from the account class in order to have all
+ * the basic functionality an account requires as well as its own
+ * unique functionality
+ * @author  Alexzander DeVries
+ * @version  1.6
+ * @since 3/25/23
+ */
 @XmlRootElement(name = "guest")
 public class Guest extends Account {
 	private Vector<Integer> reservations;
@@ -13,6 +21,9 @@ public class Guest extends Account {
 	private int creditCardNum;
 	private Date creditCardExpiration;
 
+	/**
+	 * The default constructor of the Guest object
+	 */
 	public Guest() {
 		super();
 		reservations = new Vector<>();
@@ -21,6 +32,20 @@ public class Guest extends Account {
 		creditCardExpiration = new Date();
 	}
 
+	/**
+	 * A constructor for the Guest object
+	 * @param u the username of the guest
+	 * @param p the password of the guest, properly salted
+	 * @param fn the firstname of the guest
+	 * @param ln the last name of the guest
+	 * @param i the unique user id of the guest
+	 * @param a the address of the guest for billing
+	 * @param n the credit card number of the guest account
+	 * @param exp the credit card expiration date of the guest
+	 *            account
+	 * @param qS the security question of the guest
+	 * @param qA the security question answer of the guest
+	 */
 	public Guest(String u, String p, String fn, String ln, int i, String a, int n, Date exp, String qS, String qA) {
 		super(u, p, fn, ln, i, qS, qA);
 		reservations = new Vector<>();
@@ -65,6 +90,11 @@ public class Guest extends Account {
 		this.creditCardExpiration = creditCardExpiration;
 	}
 
+	/**
+	 * cancelReservation will remove the room from the vector of room ids
+	 * in the Guest object
+	 * @param resID the room id of the room being removed
+	 */
 	public void cancelReservation(Integer resID) {
 		reservations.remove(resID);
 	}
