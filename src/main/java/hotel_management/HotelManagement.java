@@ -124,6 +124,19 @@ public class HotelManagement {
     	for(Room r : this.rooms.values())System.out.print(r.getID()+" ");
     	System.out.println();
     }
+    public void promoteAccountToClerk(String promotedAcc) {
+        Clerk promoted = new Clerk();
+        if(HotelManagement.getHotelManagement().getAccounts().contains(promotedAcc)){
+            Account acc = HotelManagement.getHotelManagement().getAccounts().get(promotedAcc);
+            promoted.setUsername(acc.getUsername());
+            promoted.setFirstName(acc.getFirstName());
+            promoted.setLastName(acc.getLastName());
+            promoted.setId(acc.getId());
+            promoted.setPassword(acc.getPassword());
+            HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
+            HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
+        }
+    }
     
     public ConcurrentHashMap<Integer, Room> getRooms(){
     	return rooms;
