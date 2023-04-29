@@ -66,10 +66,8 @@ public class UI extends JFrame {
     private final MainPage mainPage;
     private final LoginPage loginPage;
     private final RegisterPage registerPage;
-    private final ViewRoomsPage viewRoomsPage;
     private final ReserveRoomsPage reserveRoomsPage;
     private final AddModifyRoomsPage modifyRoomsPage;
-    private final HelpGuestPage helpGuestPage;
     private final JPanel main, nav;
     private final JButton mainButton;
     private ResetPage resetPasswordPage;
@@ -109,11 +107,9 @@ public class UI extends JFrame {
         this.mainPage = new MainPage();
         this.loginPage = new LoginPage();
         this.registerPage = new RegisterPage();
-        this.viewRoomsPage = new ViewRoomsPage();
         this.reserveRoomsPage = new ReserveRoomsPage();
         this.resetPasswordPage = new ResetPage();
         this.modifyRoomsPage = new AddModifyRoomsPage();
-        this.helpGuestPage = new HelpGuestPage();
 
         this.mainButton = new JButton("main menu");
         this.mainButton.addActionListener(e -> navTo(Routes.MAIN_PAGE));
@@ -173,23 +169,19 @@ public class UI extends JFrame {
         this.main = new JPanel(cl);
         this.main.add(this.loginPage);
         this.main.add(this.registerPage);
-        this.main.add(this.viewRoomsPage);
         this.main.add(this.reserveRoomsPage);
         this.main.add(this.modifyRoomsPage);
         this.main.add(this.resetPasswordPage);
         this.main.add(this.mainPage);
-        this.main.add(this.helpGuestPage);
 
 
         //add to card layout
         cl.addLayoutComponent(this.loginPage, Routes.LOGIN.route);
         cl.addLayoutComponent(this.registerPage, Routes.REGISTER.route);
-        cl.addLayoutComponent(this.viewRoomsPage, Routes.VIEW_ROOMS.route);
         cl.addLayoutComponent(this.reserveRoomsPage, Routes.MAKE_RESERVATIONS.route);
         cl.addLayoutComponent(this.modifyRoomsPage, Routes.MODIFY_ROOMS.route);
         cl.addLayoutComponent(this.resetPasswordPage, Routes.RESET_PASSWORD.route);
         cl.addLayoutComponent(this.mainPage, Routes.MAIN_PAGE.route);
-        cl.addLayoutComponent(this.helpGuestPage, Routes.ADD_GUEST.route);
 
 
         this.nav.add(this.main, mainC);
@@ -199,13 +191,12 @@ public class UI extends JFrame {
 
         this.pageUpdates.put(Routes.LOGIN.route, this.loginPage);
         this.pageUpdates.put(Routes.REGISTER.route, this.registerPage);
-        this.pageUpdates.put(Routes.VIEW_ROOMS.route, this.viewRoomsPage);
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
         this.pageUpdates.put(Routes.RESET_PASSWORD.route, this.resetPasswordPage);
+
         this.reset.addClickAction(verifyUserName);
-        this.pageUpdates.put(Routes.ADD_GUEST.route, this.helpGuestPage);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();
@@ -288,19 +279,23 @@ public class UI extends JFrame {
         for(int i = 0; i < 10; i++) {
             Guest g = new Guest();
             g.setUsername("bob" + i);
+            g.setSecurityQ("Your mother was a hamster and your father was smelt of elderberries");
+            g.setHashedSecurityA("No you!");
             g.setHashedPassword(Integer.toString(i));
+            System.out.println(g.getSecurityA());
             Vector<Integer> rv = new Vector<>();
             rv.add(1);
             rv.add(2);
             rv.add(3);
-
             g.setReservations(rv);
             accountsDebug.add(g);
         }
-        
+
         Clerk c = new Clerk();
         c.setUsername("sheila1");
         c.setHashedPassword(Integer.toString(1));
+        c.setSecurityQ("What is the best christmas movie of all time?");
+        c.setHashedSecurityA("Die Hard");
         accountsDebug.add(c);
         /*AccountList accountList = new AccountList();
         accountList.setAccountsList(accountsDebug);

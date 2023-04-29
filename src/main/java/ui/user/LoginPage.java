@@ -3,11 +3,14 @@ package ui.user;
 import hotel_management.HotelManagement;
 import ui.custom.Clickable;
 import ui.UI;
+import ui.custom.ClickableText;
 import user_services.Account;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LoginPage extends UserField {
+    private final ClickableText reset = new ClickableText("Reset Password");
     private final Clickable loginAction = () -> {
         Account account = HotelManagement.getHotelManagement().logIn(username.getText(), password.getText());
 
@@ -56,6 +59,13 @@ public class LoginPage extends UserField {
 
     public LoginPage() {
         super("Login", "Register new account?", 0);
+        GridBagConstraints resetC = new GridBagConstraints();
+        resetC.fill = GridBagConstraints.NONE;
+        resetC.gridx = 0;
+        resetC.gridy = 5;
+
+        this.add(this.reset, resetC);
+        this.reset.addClickAction(this.resetAction);
         this.left.addClickAction(this.loginAction);
         this.right.addClickAction(this.registerAction);
     }
