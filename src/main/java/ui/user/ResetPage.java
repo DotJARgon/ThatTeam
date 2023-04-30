@@ -17,7 +17,7 @@ public class ResetPage extends UserField {
     private final ClickableText verifyUser;
     private final Clickable updateUser = () -> {
         //System.out.println(HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()).getSecurityA() + " " + HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()).getSecurityQ());
-        this.accountValidation = HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()); //change to getUser()
+        this.accountValidation = HotelManagement.getHotelManagement().getUser(this.username.getText()); //change to getUser()
         //System.out.println(accountValidation.getSecurityA() + " " + accountValidation.getSecurityQ());
         this.Q.setText("<html>" + accountValidation.getSecurityQ() + "</html>");
         //this.Q.setMaximumSize(new Dimension(100, 10));
@@ -26,7 +26,11 @@ public class ResetPage extends UserField {
         UI.navTo(UI.Routes.LOGIN);
     };
     private final Clickable resetAction = () -> {
-        //System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
+
+        this.accountValidation = HotelManagement.getHotelManagement().getUser(this.username.getText());
+        this.Q.setText(accountValidation.getSecurityQ());
+
+        System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
         if (!(secA.getText().equals("") || newPass.equals(""))) {
             //System.out.println(secA.getText());
             Object[] options = {"OK", "CANCEL"};

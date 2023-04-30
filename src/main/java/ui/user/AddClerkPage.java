@@ -17,11 +17,9 @@ import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
 
-public class HelpGuestPage extends JPanel implements NavUpdate{
-	private JTextField text;
-	
-	public HelpGuestPage(){
-		super();
+public class AddClerkPage extends JPanel implements NavUpdate{
+	private final JTextField text;
+	public AddClerkPage(){
 		this.setLayout(new GridLayout(2,2,15,15));
 		//Enter username
 		JLabel nameLabel = new JLabel("Enter Guest's username:");
@@ -40,7 +38,7 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 		this.add(backBut);
 		
 		//Submit button
-		JButton submitBut = new JButton("Submit");
+		JButton submitBut = new JButton("Add Clerk");
 		submitBut.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -48,7 +46,7 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 				if(a == null)
 					JOptionPane.showMessageDialog(null,"User does not exist");
 				else if(a instanceof Guest) {
-					((Clerk)UI.getCurrentClient()).setGuest((Guest)a);
+					HotelManagement.getHotelManagement().promoteAccountToClerk(a.getUsername());;
 					UI.navTo(UI.Routes.MAIN_PAGE);
 				}
 				else
@@ -60,7 +58,8 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 	
 	@Override
 	public void navUpdate() {
-
+		// TODO Auto-generated method stub
+		
 	}
 
 }

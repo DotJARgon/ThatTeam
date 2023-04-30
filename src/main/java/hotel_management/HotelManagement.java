@@ -164,12 +164,34 @@ public class HotelManagement {
     		//TODO: Display message with the correct cost. The infrastructure isn't settled as of me writing this
             BillingCalculator.calculateCancelledCost(res);
     	}
-    	//remove associations
-    	g.cancelReservation(resID);
-    	for(int r: res.getRooms()) {
-    		rooms.get(r).cancelReservation(resID);
+    	if(g == null) {
+    		for(Map.Entry<String, Account> acc : this.accounts.entrySet()) {
+    			if(acc.getValue() instanceof Guest) {
+    				Guest currG = (Guest)acc.getValue();
+    				if(currG.getReservations().contains(resID));{
+    					g = currG;
+    					break;
+    				}
+    			}
+    		}
     	}
-    	allReservations.remove(resID);
+    	//remove associations
+    	if(g != null) {
+    		g.cancelReservation(resID);
+	    	for(int r: res.getRooms()) {
+	    		rooms.get(r).cancelReservation(resID);
+	    	}
+	    	allReservations.remove(resID);
+    	}
+    }
+    
+    //Assumes the reservation exists
+    public void modifyReservation(int resID, Date s, Date e, int[] rooms) {
+    	allReservations.get(resID).modify(s, e, rooms);
+    }
+    
+    public Reservation getRes(int resID) {
+    	return allReservations.get(resID);
     }
 
     /**
@@ -197,18 +219,18 @@ public class HotelManagement {
      * into an instance of a clerk in the HotelManagement system.
      * @param promotedAcc The username of the account being promoted
      */
+    //Assumes that promotedAcc is a guest, verify before calling
     public void promoteAccountToClerk(String promotedAcc) {
         Clerk promoted = new Clerk();
-        if(HotelManagement.getHotelManagement().getAccounts().contains(promotedAcc)){
-            Account acc = HotelManagement.getHotelManagement().getAccounts().get(promotedAcc);
-            promoted.setUsername(acc.getUsername());
-            promoted.setFirstName(acc.getFirstName());
-            promoted.setLastName(acc.getLastName());
-            promoted.setId(acc.getId());
-            promoted.setPassword(acc.getPassword());
-            HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
-            HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
-        }
+        Guest acc = (Guest) accounts.get(promotedAcc);
+        promoted.setUsername(acc.getUsername());
+        promoted.setFirstName(acc.getFirstName());
+        promoted.setLastName(acc.getLastName());
+        promoted.setId(acc.getId());
+        promoted.setPassword(acc.getPassword());
+        HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
+        HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
+        UserLoader.saveUsers(accounts.values().stream().toList());
     }
     
     public ConcurrentHashMap<Integer, Room> getRooms(){
@@ -298,9 +320,9 @@ public class HotelManagement {
      * @param securityB the security question answer of the account
      * @return
      */
-    public Account registerUser(String username, String password, String securityA, String securityB) {
+    public Guest registerUser(String username, String password, String securityA, String securityB) {
         if(!accounts.containsKey(username)) {
-            Account acc = new Account(username, password, securityA, securityB);
+            Guest acc = new Guest(username, password, securityA, securityB);
             accounts.put(username, acc);
             UserLoader.saveUsers(accounts.values().stream().toList());
             return acc;
@@ -308,9 +330,21 @@ public class HotelManagement {
         return null;
     }
 
-    public Account getAccountByUsername(String username) {
-        System.out.println(this.accounts.get(username));
-        return this.accounts.get(username);
+    private void loadUsers() {
+        try {
+            List<Account> users = XMLParser.load("users.xml", XMLList.class, Account.class, Guest.class, Clerk.class, Admin.class);
+            this.accounts = new ConcurrentHashMap<>();
+            for(Account account : users) {
+                this.accounts.put(account.getUsername(), account);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveUsers() {
+        List<Account> a = this.accounts.values().stream().collect(Collectors.toList());
+        XMLParser.save(a, "users.xml", XMLList.class, Account.class, Guest.class, Clerk.class, Admin.class);
     }
     
     public Account getUser(String s) {

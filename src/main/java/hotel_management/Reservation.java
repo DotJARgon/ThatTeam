@@ -118,6 +118,9 @@ public class Reservation {
 		this.checkedOut = checkedOut;
 	}
 
+	public void setReserved(Date r){
+		this.reserved = r;
+	}
 	public Date getReserved() {
 		return reserved;
 	}
@@ -126,5 +129,11 @@ public class Reservation {
 	public String toString() {
 		return "ID: "+this.id+"\nStart Date: "+this.start+"\nEnd Date: "+this.end+"\nBilling: "+this.billing+
 				"\n# of Rooms: "+this.rooms.length+"\nChecked In: "+this.checkedIn+"\nChecked Out: "+this.checkedOut;
+	}
+
+	public void modify(Date s, Date e, int[] r) {
+		start = s;
+		end = e;
+		rooms = r;
 	}
 }

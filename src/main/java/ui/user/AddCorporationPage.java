@@ -17,14 +17,14 @@ import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
 
-public class HelpGuestPage extends JPanel implements NavUpdate{
+public class AddCorporationPage extends JPanel implements NavUpdate{
 	private JTextField text;
 	
-	public HelpGuestPage(){
+	public AddCorporationPage(){
 		super();
 		this.setLayout(new GridLayout(2,2,15,15));
 		//Enter username
-		JLabel nameLabel = new JLabel("Enter Guest's username:");
+		JLabel nameLabel = new JLabel("Enter corporation's username:");
 		this.add(nameLabel);
 		text = new JTextField();
 		this.add(text);
@@ -44,15 +44,13 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 		submitBut.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Account a = HotelManagement.getHotelManagement().getUser(text.getText());
-				if(a == null)
-					JOptionPane.showMessageDialog(null,"User does not exist");
-				else if(a instanceof Guest) {
-					((Clerk)UI.getCurrentClient()).setGuest((Guest)a);
+				if(text.getText().equals(""))
+					JOptionPane.showMessageDialog(null,"Please enter a corporation name");
+				else {
+					((Guest)UI.getCurrentClient()).setCorporation(text.getText());
+					JOptionPane.showMessageDialog(null,"Successfully set to " + ((Guest)UI.getCurrentClient()).getCorporation());
 					UI.navTo(UI.Routes.MAIN_PAGE);
 				}
-				else
-					JOptionPane.showMessageDialog(null,"User is not a guest");
 			}
 		});
 		this.add(submitBut);

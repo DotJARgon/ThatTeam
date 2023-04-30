@@ -43,7 +43,7 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
     	back.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				UI.navTo(UI.Routes.LOGIN); //TODO: MainPage after merge with master
+				UI.navTo(UI.Routes.MAIN_PAGE);
 			}
     	});
     	this.add(back, c);
@@ -65,11 +65,14 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
 			public void actionPerformed(ActionEvent e) {
 				int row = roomsTable.getSelectedRow();
 				int roomID = Integer.parseInt((String) roomsTable.getValueAt(row, 0));
-				if(HotelManagement.getHotelManagement().getRoom(roomID).getReservations().size() == 0) {
+				if(row != -1 && HotelManagement.getHotelManagement().getRoom(roomID).getReservations().size() == 0) {
 					HotelManagement.getHotelManagement().removeRoom(roomID);
 					int modelRow = roomsTable.convertRowIndexToModel(row);
 					DefaultTableModel model = (DefaultTableModel)roomsTable.getModel();
 					model.removeRow(modelRow);
+				}
+				else if (row == -1) {
+					JOptionPane.showMessageDialog(null,"No room has been selected");
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Room cannot be removed because it has at least one reservation");

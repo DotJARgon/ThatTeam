@@ -17,7 +17,7 @@ import java.util.Vector;
 @XmlRootElement(name = "guest")
 public class Guest extends Account {
 	private Vector<Integer> reservations;
-	private String address;
+	private String address, corporation;
 	private int creditCardNum;
 	private Date creditCardExpiration;
 
@@ -30,6 +30,7 @@ public class Guest extends Account {
 		address = "";
 		creditCardNum = 0;
 		creditCardExpiration = new Date();
+		corporation = new String("");
 	}
 
 	/**
@@ -52,6 +53,12 @@ public class Guest extends Account {
 		address = a;
 		creditCardNum = n;
 		creditCardExpiration = exp;
+		corporation = new String("");
+	}
+
+	public Guest(String username, String password, String securityA, String securityB) {
+		super(username,password,securityA,securityB);
+		corporation = new String("");
 	}
 
 	public void addReservation(int r) {
@@ -97,5 +104,13 @@ public class Guest extends Account {
 	 */
 	public void cancelReservation(Integer resID) {
 		reservations.remove(resID);
+	}
+
+	public String getCorporation() {
+		return corporation;
+	}
+
+	public void setCorporation(String corporation) {
+		this.corporation = corporation;
 	}
 }
