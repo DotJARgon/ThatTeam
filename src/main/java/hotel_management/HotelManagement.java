@@ -17,11 +17,15 @@ import billing_services.Billing;
 import billing_services.BillingCalculator;
 import file_utilities.XMLList;
 import file_utilities.XMLParser;
+import ui.UI;
 import user_services.Account;
 import user_services.Admin;
 import user_services.Clerk;
 import user_services.Guest;
 import user_services.UserLoader;
+
+import javax.swing.*;
+
 /**
  * The HotelManagement class is responsible for performing all
  * the desired behavior of the hotel management system.  It contains
@@ -283,12 +287,41 @@ public class HotelManagement {
         return null;
     }
 
+    /**
+     * checkIn will take a reservation ID and check in the reservation object related to it
+     * @param reserveID The reservation ID of the reservation being checked in
+     */
     public void checkIn(int reserveID){
-        this.allReservations.get(reserveID).setCheckedIn(true);
+        GregorianCalendar resStart = new GregorianCalendar();
+        resStart.setTime(allReservations.get(reserveID).getStart());
+        GregorianCalendar currTime = new GregorianCalendar();
+        resStart.setTime(new Date());
+        if(resStart.get(Calendar.YEAR) == currTime.get(Calendar.YEAR) &&
+                resStart.get(Calendar.MONTH) == currTime.get(Calendar.MONTH) && resStart.get(Calendar.DATE) == currTime.get(Calendar.DATE)){
+            this.allReservations.get(reserveID).setCheckedIn(true);
+        }
     }
+
+    /**
+     * checkOut will take a reservation ID and check out that reservation
+     * @param reserveID The reservation ID of the reservation being checked out
+     */
     public void checkOut(int reserveID){
-        /*this.inactiveReservations.put(reserveID, this.allReservations.get(reserveID));
-        this.allReservations.remove(reserveID);*/
+        if(allReservations.get(reserveID).getCheckedIn()){
+            this.allReservations.get(reserveID).setCheckedIn(false);
+            this.allReservations.get(reserveID).setCheckedOut(true);
+        }
+        Billing newBilling = BillingCalculator.generate(allReservations.get(reserveID));
+        allReservations.get(reserveID).setBilling(newBilling);
+        Guest g = null;
+        if(UI.getCurrentClient() instanceof Guest)
+            g = (Guest) UI.getCurrentClient();
+        else {
+            g = ((Clerk) UI.getCurrentClient()).getGuest();
+        }
+        if(g.getCorporation().equals("")){
+            allReservations.get(reserveID).getBilling().setPaid(true);
+        }
     }
 
     /**
