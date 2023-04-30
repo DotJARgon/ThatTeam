@@ -1,5 +1,7 @@
 package ui.user;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,18 +16,23 @@ import hotel_management.HotelManagement;
 import ui.UI;
 import ui.custom.NavUpdate;
 import user_services.Account;
-import user_services.Clerk;
 import user_services.Guest;
 
 public class AddClerkPage extends JPanel implements NavUpdate{
 	private final JTextField text;
+	private JPanel container;
 	public AddClerkPage(){
-		this.setLayout(new GridLayout(2,2,15,15));
+		this.setLayout(new GridBagLayout());
+		container = new JPanel();
+		int contW = 100;
+		int contH = 30;
+		container.setBounds(0, 0, contW, contH);
+		container.setLayout(new GridLayout(2,2,15,15));
 		//Enter username
 		JLabel nameLabel = new JLabel("Enter Guest's username:");
-		this.add(nameLabel);
+		container.add(nameLabel);
 		text = new JTextField();
-		this.add(text);
+		container.add(text);
 		
 		//Back button
 		JButton backBut = new JButton("Back");
@@ -35,7 +42,7 @@ public class AddClerkPage extends JPanel implements NavUpdate{
 				UI.navTo(UI.Routes.MAIN_PAGE);
 			}
 		});
-		this.add(backBut);
+		container.add(backBut);
 		
 		//Submit button
 		JButton submitBut = new JButton("Add Clerk");
@@ -53,7 +60,8 @@ public class AddClerkPage extends JPanel implements NavUpdate{
 					JOptionPane.showMessageDialog(null,"User is not a guest");
 			}
 		});
-		this.add(submitBut);
+		container.add(submitBut);
+		this.add(container, new GridBagConstraints());
 	}
 	
 	@Override

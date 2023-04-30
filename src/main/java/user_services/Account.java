@@ -68,6 +68,8 @@ public class Account {
         this.password = md5(password, username);
         this.securityQ = securityQ;
         this.securityA = md5(securityA, securityQ);
+        this.firstName = username.substring(0, username.length()-2);
+        this.lastName = "Smith";
         System.out.println("user: " + this.username + " pass: " + this.password + " securityQ: " + this.securityQ + " securityA " + this.securityA);
     }
     

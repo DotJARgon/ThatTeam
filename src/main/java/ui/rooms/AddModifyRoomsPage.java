@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -108,10 +109,14 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		JButton submitButton = new JButton("Submit");
 		submitButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		HotelManagement.getHotelManagement().addModifyRoom((int)inputNum.getValue(),(int)inputBeds.getValue(),
-        				Room.BedType.fromString(bedTypeGroup.getSelection().getActionCommand()),
-        				smoking.isSelected(),Room.QualityType.fromString(qualityGroup.getSelection().getActionCommand()));
-        		UI.navTo(UI.Routes.VIEW_ROOMS);
+        		if((int)inputBeds.getValue() < 0 || bedTypeGroup.getSelection() == null || qualityGroup.getSelection() == null)
+        			JOptionPane.showMessageDialog(null, "Please enter valid inputs for all fields");
+	        	else {
+	        		HotelManagement.getHotelManagement().addModifyRoom((int)inputNum.getValue(),(int)inputBeds.getValue(),
+	        				Room.BedType.fromString(bedTypeGroup.getSelection().getActionCommand()),
+	        				smoking.isSelected(),Room.QualityType.fromString(qualityGroup.getSelection().getActionCommand()));
+	        		UI.navTo(UI.Routes.VIEW_ROOMS);
+	        	}
         	}
         });
 		this.add(submitButton);

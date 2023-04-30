@@ -19,22 +19,35 @@ import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
 
-public class HelpGuestPage extends JPanel implements NavUpdate{
-	private JTextField text;
+public class ModifyProfilePage extends JPanel implements NavUpdate{
+	private JTextField nameTxt, firstTxt, lastTxt;
 	private final JPanel container;
 	
-	public HelpGuestPage(){
+	public ModifyProfilePage(){
 		this.setLayout(new GridBagLayout());
 		container = new JPanel();
 		int contW = 100;
 		int contH = 30;
 		container.setBounds(0, 0, contW, contH);
-		container.setLayout(new GridLayout(2,2,15,15));
+		container.setLayout(new GridLayout(4,2,15,15));
+		
 		//Enter username
-		JLabel nameLabel = new JLabel("Enter Guest's username:");
+		JLabel nameLabel = new JLabel("Enter new username:");
 		container.add(nameLabel);
-		text = new JTextField();
-		container.add(text);
+		nameTxt = new JTextField();
+		container.add(nameTxt);
+		
+		//Enter first name
+		JLabel firstLabel = new JLabel("Enter your first name:");
+		container.add(firstLabel);
+		firstTxt = new JTextField();
+		container.add(firstTxt);
+		
+		//Enter last name
+		JLabel lastLabel = new JLabel("Enter your last name:");
+		container.add(lastLabel);
+		lastTxt = new JTextField();
+		container.add(lastTxt);
 		
 		//Back button
 		JButton backBut = new JButton("Back");
@@ -51,15 +64,11 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 		submitBut.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Account a = HotelManagement.getHotelManagement().getUser(text.getText());
-				if(a == null)
-					JOptionPane.showMessageDialog(null,"User does not exist");
-				else if(a instanceof Guest) {
-					((Clerk)UI.getCurrentClient()).setGuest((Guest)a);
-					UI.navTo(UI.Routes.MAIN_PAGE);
-				}
-				else
-					JOptionPane.showMessageDialog(null,"User is not a guest");
+				Account c = UI.getCurrentClient();
+				c.setUsername(nameTxt.getText());
+				c.setFirstName(firstTxt.getText());
+				c.setLastName(lastTxt.getText());
+				UI.navTo(UI.Routes.MAIN_PAGE);
 			}
 		});
 		container.add(submitBut);
@@ -68,7 +77,9 @@ public class HelpGuestPage extends JPanel implements NavUpdate{
 	
 	@Override
 	public void navUpdate() {
-
+		nameTxt.setText(UI.getCurrentClient().getUsername());
+		firstTxt.setText(UI.getCurrentClient().getFirstName());
+		lastTxt.setText(UI.getCurrentClient().getLastName());
 	}
 
 }

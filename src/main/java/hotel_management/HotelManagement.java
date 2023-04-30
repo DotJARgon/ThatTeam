@@ -165,9 +165,10 @@ public class HotelManagement {
     	currDate.setTime(new Date()); //prolly not necessary, but for security
     	if(currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2 ||
     	   currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363) {
-    		//TODO: Display message with the correct cost. The infrastructure isn't settled as of me writing this
-            BillingCalculator.calculateCancelledCost(res);
+    		BillingCalculator.calculateCancelledCost(res);
     	}
+    	else
+	    	allReservations.remove(resID);
     	if(g == null) {
     		for(Map.Entry<String, Account> acc : this.accounts.entrySet()) {
     			if(acc.getValue() instanceof Guest) {
@@ -185,7 +186,6 @@ public class HotelManagement {
 	    	for(int r: res.getRooms()) {
 	    		rooms.get(r).cancelReservation(resID);
 	    	}
-	    	allReservations.remove(resID);
     	}
     }
     
@@ -292,14 +292,7 @@ public class HotelManagement {
      * @param reserveID The reservation ID of the reservation being checked in
      */
     public void checkIn(int reserveID){
-        GregorianCalendar resStart = new GregorianCalendar();
-        resStart.setTime(allReservations.get(reserveID).getStart());
-        GregorianCalendar currTime = new GregorianCalendar();
-        resStart.setTime(new Date());
-        if(resStart.get(Calendar.YEAR) == currTime.get(Calendar.YEAR) &&
-                resStart.get(Calendar.MONTH) == currTime.get(Calendar.MONTH) && resStart.get(Calendar.DATE) == currTime.get(Calendar.DATE)){
-            this.allReservations.get(reserveID).setCheckedIn(true);
-        }
+        this.allReservations.get(reserveID).setCheckedIn(true);
     }
 
     /**
@@ -311,14 +304,13 @@ public class HotelManagement {
         this.allReservations.get(reserveID).setCheckedOut(true);
         Billing newBilling = BillingCalculator.generate(allReservations.get(reserveID));
         allReservations.get(reserveID).setBilling(newBilling);
-        Guest g = null;
+        Guest g;
         if(UI.getCurrentClient() instanceof Guest)
             g = (Guest) UI.getCurrentClient();
         else 
             g = ((Clerk) UI.getCurrentClient()).getGuest();
-        if(g.getCorporation().equals("")){
+        if(g.getCorporation().equals(""))
             allReservations.get(reserveID).getBilling().setPaid(true);
-        }
     }
 
     /**

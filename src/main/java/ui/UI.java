@@ -34,11 +34,13 @@ import ui.custom.Clickable;
 import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
 import ui.rooms.ReserveRoomsPage;
+import ui.rooms.ViewRoomsPage;
 import ui.user.AddClerkPage;
 import ui.user.AddCorporationPage;
 import ui.user.HelpGuestPage;
 import ui.user.LoginPage;
 import ui.user.MainPage;
+import ui.user.ModifyProfilePage;
 import ui.user.ModifyReservationPage;
 import ui.user.RegisterPage;
 import ui.user.ResetPage;
@@ -78,7 +80,7 @@ public class UI extends JFrame {
         LOGIN("LOGIN"), REGISTER("REGISTER"), MAKE_RESERVATIONS("MAKE_RESERVATIONS"), ADD_GUEST("ADD_GUEST"),
         VIEW_ROOMS("VIEW_ROOMS"), MODIFY_ROOMS("MODIFY_ROOMS"), MAIN_PAGE("MAIN_PAGE"), ADD_CLERK("ADD_CLERK"),
         RESET_PASSWORD("RESET_PASSWORD"), MODIFY_RESERVATION("MODIFY_RESERVATION"), 
-        VIEW_RESERVATIONS("VIEW_RESERVATIONS"), ADD_CORP("ADD_CORP");
+        VIEW_RESERVATIONS("VIEW_RESERVATIONS"), ADD_CORP("ADD_CORP"), MODIFY_PROFILE("MODIFY_PROFILE");
 
         public final String route;
         Routes(String route) {
@@ -129,12 +131,14 @@ public class UI extends JFrame {
     private final LoginPage loginPage;
     private final RegisterPage registerPage;
     private final ReserveRoomsPage reserveRoomsPage;
+    private final ViewRoomsPage viewRoomsPage;
     private final AddModifyRoomsPage modifyRoomsPage;
     private final HelpGuestPage helpGuestPage;
     private final AddClerkPage addClerkPage;
     private final ModifyReservationPage modifyResPage;
     private final ViewReservations viewResesPage;
     private final AddCorporationPage addCorpPage;
+    private final ModifyProfilePage modProfilePage;
     private final JPanel main, nav;
     private final JButton mainButton;
     private ResetPage resetPasswordPage;
@@ -190,6 +194,8 @@ public class UI extends JFrame {
         this.modifyResPage = new ModifyReservationPage();
         this.viewResesPage = new ViewReservations();
         this.addCorpPage = new AddCorporationPage();
+        this.viewRoomsPage = new ViewRoomsPage();
+        this.modProfilePage = new ModifyProfilePage();
 
         this.mainButton = new JButton("main menu");
         this.mainButton.addActionListener(e -> navTo(Routes.MAIN_PAGE));
@@ -246,6 +252,8 @@ public class UI extends JFrame {
         this.main.add(this.modifyResPage);
         this.main.add(this.viewResesPage);
         this.main.add(this.addCorpPage);
+        this.main.add(this.viewRoomsPage);
+        this.main.add(this.modProfilePage);
 
 
         //add to card layout
@@ -260,6 +268,8 @@ public class UI extends JFrame {
         cl.addLayoutComponent(this.modifyResPage, Routes.MODIFY_RESERVATION.route);
         cl.addLayoutComponent(this.viewResesPage, Routes.VIEW_RESERVATIONS.route);
         cl.addLayoutComponent(this.addCorpPage, Routes.ADD_CORP.route);
+        cl.addLayoutComponent(this.viewRoomsPage, Routes.VIEW_ROOMS.route);
+        cl.addLayoutComponent(this.modProfilePage, Routes.MODIFY_PROFILE.route);
 
 
         this.nav.add(this.main, mainC);
@@ -272,12 +282,14 @@ public class UI extends JFrame {
         this.pageUpdates.put(Routes.MAKE_RESERVATIONS.route, this.reserveRoomsPage);
         this.pageUpdates.put(Routes.MODIFY_ROOMS.route, this.modifyRoomsPage);
         this.pageUpdates.put(Routes.MAIN_PAGE.route, this.mainPage);
+        this.pageUpdates.put(Routes.VIEW_ROOMS.route, this.viewRoomsPage);
         this.pageUpdates.put(Routes.RESET_PASSWORD.route, this.resetPasswordPage);
         this.pageUpdates.put(Routes.ADD_GUEST.route, this.helpGuestPage);
         this.pageUpdates.put(Routes.ADD_CLERK.route, this.addClerkPage);
         this.pageUpdates.put(Routes.MODIFY_RESERVATION.route, this.modifyResPage);
         this.pageUpdates.put(Routes.VIEW_RESERVATIONS.route, this.viewResesPage);
         this.pageUpdates.put(Routes.ADD_CORP.route, this.addCorpPage);
+        this.pageUpdates.put(Routes.MODIFY_PROFILE.route, this.modProfilePage);
 
         this.theme.addActionListener(event -> {
             String selected = this.theme.getSelectedItem().toString();
@@ -373,6 +385,8 @@ public class UI extends JFrame {
         for(int i = 0; i < 10; i++) {
             Guest g = new Guest();
             g.setUsername("bob" + i);
+            g.setFirstName("Bob");
+            g.setLastName("Harvey");
             g.setSecurityQ("Your mother was a hamster and your father was smelt of elderberries");
             g.setHashedSecurityA("No you!");
             g.setHashedPassword(Integer.toString(i));
@@ -387,13 +401,17 @@ public class UI extends JFrame {
 
         Clerk c = new Clerk();
         c.setUsername("sheila1");
+        c.setFirstName("Sheila");
+        c.setLastName("Smith");
         c.setHashedPassword(Integer.toString(1));
-        c.setSecurityQ("What is the best christmas movie of all time?");
+        c.setSecurityQ("What is the best Christmas movie of all time?");
         c.setHashedSecurityA("Die Hard");
         accountsDebug.add(c);
         
         Admin a = new Admin();
         a.setUsername("Jimbo3");
+        a.setFirstName("Jim");
+        a.setLastName("Bob");
         a.setHashedPassword(Integer.toString(3));
         accountsDebug.add(a);
         

@@ -29,7 +29,6 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
     private final JTable roomsTable;
     private final JPanel tablePanel, datePanel;
     private final JButton reserveRooms, refresh;
-
     private final DateBox startDate, endDate;
 
     private final ActionListener reserveListener = e -> {

@@ -1,5 +1,7 @@
 package ui.user;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,24 +12,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import hotel_management.HotelManagement;
 import ui.UI;
 import ui.custom.NavUpdate;
-import user_services.Account;
-import user_services.Clerk;
 import user_services.Guest;
 
 public class AddCorporationPage extends JPanel implements NavUpdate{
 	private JTextField text;
+	private JPanel container;
 	
 	public AddCorporationPage(){
-		super();
-		this.setLayout(new GridLayout(2,2,15,15));
+		this.setLayout(new GridBagLayout());
+		container = new JPanel();
+		int contW = 100;
+		int contH = 30;
+		container.setBounds(0, 0, contW, contH);
+		container.setLayout(new GridLayout(2,2,15,15));
 		//Enter username
-		JLabel nameLabel = new JLabel("Enter corporation's username:");
-		this.add(nameLabel);
+		JLabel nameLabel = new JLabel("Enter Corporation's name:");
+		container.add(nameLabel);
 		text = new JTextField();
-		this.add(text);
+		container.add(text);
 		
 		//Back button
 		JButton backBut = new JButton("Back");
@@ -37,7 +41,7 @@ public class AddCorporationPage extends JPanel implements NavUpdate{
 				UI.navTo(UI.Routes.MAIN_PAGE);
 			}
 		});
-		this.add(backBut);
+		container.add(backBut);
 		
 		//Submit button
 		JButton submitBut = new JButton("Submit");
@@ -53,7 +57,8 @@ public class AddCorporationPage extends JPanel implements NavUpdate{
 				}
 			}
 		});
-		this.add(submitBut);
+		container.add(submitBut);
+		this.add(container, new GridBagConstraints());
 	}
 	
 	@Override
