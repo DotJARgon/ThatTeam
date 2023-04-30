@@ -112,23 +112,27 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
                 creditCardInfo.getGuest().setCardNum(1);
                 creditCardInfo.getGuest().setCardExpiration(guest.getCardExpiration());
 
+                HotelManagement.getHotelManagement().addReservation(res, guest);
+                JOptionPane.showMessageDialog(null, new ReservationBilling(res));
+
                 JOptionPane.showMessageDialog(null, creditCardInfo);
 
                 if (creditCardInfo.IsCreditCardValid()) {
-                    HotelManagement.getHotelManagement().addReservation(res, guest);
-                    JOptionPane.showMessageDialog(null, new ReservationBilling(res));
                     int a = JOptionPane.showConfirmDialog(null,
                             "Cost: " + String.valueOf(res.getBilling().getCost()), "Purchase?", JOptionPane.YES_NO_OPTION);
                     if (a == 0) {
                         JOptionPane.showMessageDialog(null, "Successfully purchased");
                     }
                     else {
+                        JOptionPane.showMessageDialog(null,"Purchase has been cancelled.",
+                                "Oops", JOptionPane.ERROR_MESSAGE);
                         HotelManagement.getHotelManagement().cancelReservation(res.getID(), guest);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Credit card never got passed.",
+                    JOptionPane.showMessageDialog(null,"Purchase has been cancelled.",
                             "Oops", JOptionPane.ERROR_MESSAGE);
+                    HotelManagement.getHotelManagement().cancelReservation(res.getID(), guest);
                 }
 
             }

@@ -1,5 +1,9 @@
 package user_services;
 
+import hotel_management.HotelManagement;
+import hotel_management.Reservation;
+import hotel_management.Room;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,8 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "clerk")
 public class Clerk extends Account{
 	Guest helpingGuest;
-	
-<<<<<<< HEAD
+
 	public void checkIn(Reservation res, Guest g) {
 
 	}
@@ -32,8 +35,6 @@ public class Clerk extends Account{
 		HotelManagement.getHotelManagement().getRooms().remove(roomID);
 		HotelManagement.getHotelManagement().getRooms().put(roomID, changeRoom);
 	}
-=======
->>>>>>> debug_guest
 	public void setGuest(Guest g) {
 		helpingGuest = g;
 	}

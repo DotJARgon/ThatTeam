@@ -37,7 +37,6 @@ public class UICreditCardInfo extends JPanel {
     private void createGUI() {
         setPreferredSize(new Dimension(600, 400));
 
-
         //First Name
         JLabel fLabel = new JLabel(" First Name: ");
         JTextField fTextField = new JTextField(12);
@@ -48,6 +47,7 @@ public class UICreditCardInfo extends JPanel {
         JPanel fPane = new JPanel();
         fPane.setLayout(new BoxLayout(fPane, BoxLayout.X_AXIS));
         fTextField.setMaximumSize(new Dimension(1000, 40));
+
         fPane.add(fLabel);
         fPane.add(fTextField);
 
@@ -96,7 +96,7 @@ public class UICreditCardInfo extends JPanel {
         cPane.setLayout(new BoxLayout(cPane, BoxLayout.X_AXIS));
         cPane.setSize(new Dimension(800, 100));
 
-        JLabel dLabel = new JLabel("Expiration Date (xx/xx/xxxx): ");
+        JLabel dLabel = new JLabel("Expiration Date (mm/dd/yyyy): ");
         JTextField dTextField1 = new JTextField(12);
         JTextField dTextField2 = new JTextField(12);
         JTextField dTextField3 = new JTextField(12);
@@ -147,7 +147,7 @@ public class UICreditCardInfo extends JPanel {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.X_AXIS));
 
-        JButton buttonSubmit = new JButton("Update");
+        JButton buttonSubmit = new JButton("Update Credit Card Information");
         buttonSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonSubmit.addActionListener(new ActionListener() {
             @Override
