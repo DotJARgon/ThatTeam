@@ -307,18 +307,15 @@ public class HotelManagement {
      * @param reserveID The reservation ID of the reservation being checked out
      */
     public void checkOut(int reserveID){
-        if(allReservations.get(reserveID).getCheckedIn()){
-            this.allReservations.get(reserveID).setCheckedIn(false);
-            this.allReservations.get(reserveID).setCheckedOut(true);
-        }
+        this.allReservations.get(reserveID).setCheckedIn(false);
+        this.allReservations.get(reserveID).setCheckedOut(true);
         Billing newBilling = BillingCalculator.generate(allReservations.get(reserveID));
         allReservations.get(reserveID).setBilling(newBilling);
         Guest g = null;
         if(UI.getCurrentClient() instanceof Guest)
             g = (Guest) UI.getCurrentClient();
-        else {
+        else 
             g = ((Clerk) UI.getCurrentClient()).getGuest();
-        }
         if(g.getCorporation().equals("")){
             allReservations.get(reserveID).getBilling().setPaid(true);
         }

@@ -20,28 +20,20 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import billing_services.BillingCalculator;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import hotel_management.*;
-import ui.billing.ReservationBilling;
-import ui.custom.*;
-import ui.rooms.*;
-import ui.user.*;
-import user_services.*;
-
+import billing_services.BillingCalculator;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.ReservationLoader;
 import hotel_management.Room;
 import hotel_management.RoomLoader;
+import ui.billing.ReservationBilling;
 import ui.custom.Clickable;
-import ui.custom.ClickableText;
 import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
 import ui.rooms.ReserveRoomsPage;
-import ui.rooms.ViewRoomsPage;
 import ui.user.AddClerkPage;
 import ui.user.AddCorporationPage;
 import ui.user.HelpGuestPage;

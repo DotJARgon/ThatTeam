@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import hotel_management.HotelManagement;
 import ui.UI;
 import ui.custom.NavUpdate;
 import user_services.Account;
@@ -43,7 +44,19 @@ public class MainPage extends JPanel implements NavUpdate {
     	this.addclerk.addActionListener(e -> UI.navTo(UI.Routes.ADD_CLERK));
     	this.viewreses.addActionListener(e -> UI.navTo(UI.Routes.VIEW_RESERVATIONS));
     	this.addcorp.addActionListener(e -> UI.navTo(UI.Routes.ADD_CORP));
-    	this.paycorp.addActionListener(e -> UI.navTo(UI.Routes.ADD_CORP)); //TODO
+    	this.paycorp.addActionListener(e -> {
+    		Guest g = null;
+            if(UI.getCurrentClient() instanceof Guest)
+                g = (Guest) UI.getCurrentClient();
+            else 
+                g = ((Clerk) UI.getCurrentClient()).getGuest();
+            for(int rID: g.getReservations()) {
+            	if(HotelManagement.getHotelManagement().getAllReservations().get(rID).getCheckedOut()) {
+            		HotelManagement.getHotelManagement().getAllReservations().get(rID).getBilling().setPaid(true);
+            		JOptionPane.showMessageDialog(null, "Reservation " + rID + " has been paid");
+            	}
+            }
+    	}); //TODO
     	
 
         this.add(this.logout);

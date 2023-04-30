@@ -16,24 +16,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Clerk extends Account{
 	Guest helpingGuest;
 	
-<<<<<<< HEAD
-	public void checkIn(Reservation res, Guest g) {
-
-	}
-	public void checkOut(Reservation res, Guest g) {
-		
-	}
-	public void modifyRoomInfo(int roomID, int newNumBeds, Room.BedType newBedType, boolean newSmoke, Room.QualityType newQuality) {
-		Room changeRoom = HotelManagement.getHotelManagement().getRoomByID(roomID);
-		changeRoom.setNumBeds(newNumBeds);
-		changeRoom.setBedType(newBedType);
-		changeRoom.setCanSmoke(newSmoke);
-		changeRoom.setQualityType(newQuality);
-		HotelManagement.getHotelManagement().getRooms().remove(roomID);
-		HotelManagement.getHotelManagement().getRooms().put(roomID, changeRoom);
-	}
-=======
->>>>>>> debug_guest
 	public void setGuest(Guest g) {
 		helpingGuest = g;
 	}

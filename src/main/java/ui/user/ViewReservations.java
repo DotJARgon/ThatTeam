@@ -6,7 +6,9 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
@@ -39,7 +41,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
-        c.weightx = .33;
+        c.weightx = .25;
     	c.insets = new Insets(5,5,5,5);
     	
     	JButton back = new JButton("Back");
@@ -83,13 +85,40 @@ public class ViewReservations extends JPanel implements NavUpdate{
 			}
     	});
     	this.add(remove, c);
+    	
+    	c.gridx++;
+    	JButton check = new JButton("Check In/Out");
+    	check.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = resTable.getSelectedRow();
+				int resID = Integer.parseInt((String) resTable.getValueAt(row, 0));
+				GregorianCalendar resStart = new GregorianCalendar();
+		        resStart.setTime(HotelManagement.getHotelManagement().getAllReservations().get(resID).getStart());
+		        GregorianCalendar currTime = new GregorianCalendar();
+		        resStart.setTime(new Date());
+		        if(row == -1) {
+		        	JOptionPane.showMessageDialog(null,"No reservation selected");
+		        }
+		        else if(HotelManagement.getHotelManagement().getAllReservations().get(resID).getCheckedIn() &&
+		        		resStart.get(Calendar.YEAR) == currTime.get(Calendar.YEAR) &&
+		                resStart.get(Calendar.MONTH) == currTime.get(Calendar.MONTH) && resStart.get(Calendar.DATE) == currTime.get(Calendar.DATE))
+					HotelManagement.getHotelManagement().checkIn(resID);
+		        else if(!HotelManagement.getHotelManagement().getAllReservations().get(resID).getCheckedIn())
+		        	HotelManagement.getHotelManagement().checkOut(resID);
+				else
+					JOptionPane.showMessageDialog(null,"Guest cannot be checked in at this time");
+			}
+    	});
+    	this.add(check, c);
+    
 		
 
     	c.gridx = 0;
     	c.gridy++;
     	c.ipady = 100;
     	c.ipadx = 500;
-    	c.gridwidth = 3;
+    	c.gridwidth = 4;
 		this.tablePanel.setLayout(new BoxLayout(this.tablePanel, BoxLayout.Y_AXIS));
 		this.tablePanel.add(new JScrollPane(this.resTable));
 		this.resTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
