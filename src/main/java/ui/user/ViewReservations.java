@@ -185,14 +185,16 @@ public class ViewReservations extends JPanel implements NavUpdate{
             	int ndx = 0;
             	for(int id : g.getReservations()) {
             		Reservation r = HotelManagement.getHotelManagement().getAllReservations().get(id);
-            		data[ndx][0] = Integer.toString(r.getID());
-	                data[ndx][1] = Arrays.toString(r.getRooms());
-	                data[ndx][2] = r.getStart().toString();
-	                data[ndx][3] = r.getEnd().toString();
-	                data[ndx][4] = r.getCheckedIn();
-	                data[ndx][5] = r.getCheckedOut();
-	                data[ndx][6] = r.getCanceled();
-	                ndx++;
+            		if(r != null) {
+						data[ndx][0] = Integer.toString(r.getID());
+						data[ndx][1] = Arrays.toString(r.getRooms());
+						data[ndx][2] = r.getStart().toString();
+						data[ndx][3] = r.getEnd().toString();
+						data[ndx][4] = r.getCheckedIn();
+						data[ndx][5] = r.getCheckedOut();
+						data[ndx][6] = r.getCanceled();
+						ndx++;
+					}
             	}
             }
             else {

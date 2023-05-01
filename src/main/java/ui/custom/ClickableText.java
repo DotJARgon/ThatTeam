@@ -5,6 +5,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * ClickableText is a custom ui element that appears like a hyperlink,
+ * it has a click action event that allows for custom behavior when clicking
+ * it
+ * */
 public class ClickableText extends JLabel {
     private Color defaultColor = DefaultPalette.defaultColor;
     private Color highlightColor = DefaultPalette.highlightColor;
