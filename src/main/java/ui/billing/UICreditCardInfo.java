@@ -14,13 +14,16 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class UICreditCardInfo extends JPanel {
-    private final Guest guest;
+    private Guest guest;
     private Boolean isCreditCardValid;
     public Boolean IsCreditCardValid() {
         return isCreditCardValid;
     }
     public Guest getGuest() {
         return guest;
+    }
+    public void setGuest(Guest g) {
+        guest = g;
     }
 
     public UICreditCardInfo() {
@@ -199,20 +202,20 @@ public class UICreditCardInfo extends JPanel {
                         fake = true;
                     }
                     if (!aTextField.getText().equals(guest.getAddress())) {
-                        if (aTextField.getText().equals("")) {
-                            fake = true;
-                        }
-                        else {
-                            guest.setAddress(aTextField.getText());
-                        }
+                        //if (aTextField.getText().equals("")) {
+                        fake = true;
+                        //}
+                        // {
+                            //guest.setAddress(aTextField.getText());
+                        //}
                     }
                     if (!cTextField.getText().equals(String.valueOf(guest.getCardNum()))) {
-                        if (cTextField.getText().equals("")) {
-                            fake = true;
-                        }
-                        else {
-                            guest.setCardNum(Integer.parseInt(cTextField.getText()));
-                        }
+                        //if (cTextField.getText().equals("")) {
+                        fake = true;
+                        //}
+                        //else {
+                        //    guest.setCardNum(Integer.parseInt(cTextField.getText()));
+                        //}
                     }
                     if (!dTextField1.getText().equals(String.valueOf(1+guest.getCardExpiration().getMonth()))) {
                         fake = true;
@@ -220,7 +223,7 @@ public class UICreditCardInfo extends JPanel {
                     if (!dTextField2.getText().equals(String.valueOf(guest.getCardExpiration().getDate()))) {
                         fake = true;
                     }
-                    if (!dTextField3.getText().equals(String.valueOf(guest.getCardExpiration().getYear()))) {
+                    if (!dTextField3.getText().equals(String.valueOf(1900+guest.getCardExpiration().getYear()))) {
                         fake = true;
                     }
                     if (fake) {

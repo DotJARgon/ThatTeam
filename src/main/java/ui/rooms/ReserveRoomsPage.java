@@ -105,11 +105,15 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
             if(UI.getCurrentClient() instanceof Guest guest) {
                 UICreditCardInfo creditCardInfo = new UICreditCardInfo();
-                creditCardInfo.getGuest().setFirstName("f");
-                creditCardInfo.getGuest().setLastName("l");
-                creditCardInfo.getGuest().setAddress("a");
-                creditCardInfo.getGuest().setCardNum(1);
-                creditCardInfo.getGuest().setCardExpiration(guest.getCardExpiration());
+                creditCardInfo.setGuest(guest);
+                System.out.println(creditCardInfo.getGuest().getCardExpiration().getMonth());
+                System.out.println(creditCardInfo.getGuest().getCardExpiration().getDate());
+                System.out.println(creditCardInfo.getGuest().getCardExpiration().getYear());
+                //creditCardInfo.getGuest().setFirstName("f");
+                //creditCardInfo.getGuest().setLastName("l");
+                //creditCardInfo.getGuest().setAddress("a");
+                //creditCardInfo.getGuest().setCardNum(1);
+                //creditCardInfo.getGuest().setCardExpiration(guest.getCardExpiration());
 
                 HotelManagement.getHotelManagement().addReservation(res, guest);
                 JOptionPane.showMessageDialog(null, new ReservationBilling(res));
