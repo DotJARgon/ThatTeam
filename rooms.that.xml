@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:xmlList xmlns:ns2="xml_wrapper">
+    <xml_items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>101</ID>
+            <numBeds>1</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>102</ID>
+            <numBeds>2</numBeds>
+            <qualityType>EXECUTIVE</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>103</ID>
+            <numBeds>4</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>104</ID>
+            <numBeds>1</numBeds>
+            <qualityType>EXECUTIVE</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>105</ID>
+            <numBeds>3</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>106</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>107</ID>
+            <numBeds>1</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>108</ID>
+            <numBeds>2</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>109</ID>
+            <numBeds>1</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>110</ID>
+            <numBeds>1</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>201</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>202</ID>
+            <numBeds>2</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>203</ID>
+            <numBeds>3</numBeds>
+            <qualityType>EXECUTIVE</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>204</ID>
+            <numBeds>1</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>205</ID>
+            <numBeds>1</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>206</ID>
+            <numBeds>2</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>207</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>208</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>209</ID>
+            <numBeds>1</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>210</ID>
+            <numBeds>2</numBeds>
+            <qualityType>EXECUTIVE</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>301</ID>
+            <numBeds>3</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>302</ID>
+            <numBeds>1</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>303</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>304</ID>
+            <numBeds>1</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>305</ID>
+            <numBeds>2</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>306</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>307</ID>
+            <numBeds>2</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>308</ID>
+            <numBeds>2</numBeds>
+            <qualityType>EXECUTIVE</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>309</ID>
+            <numBeds>3</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>310</ID>
+            <numBeds>1</numBeds>
+            <qualityType>EXECUTIVE</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>401</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>402</ID>
+            <numBeds>3</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>403</ID>
+            <numBeds>2</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>QUEEN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>404</ID>
+            <numBeds>2</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>405</ID>
+            <numBeds>4</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>406</ID>
+            <numBeds>1</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>407</ID>
+            <numBeds>2</numBeds>
+            <qualityType>ECONOMY</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>TWIN</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>408</ID>
+            <numBeds>2</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>KING</bedType>
+            <canSmoke>false</canSmoke>
+            <ID>409</ID>
+            <numBeds>3</numBeds>
+            <qualityType>BUSINESS</qualityType>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="room">
+            <bedType>FULL</bedType>
+            <canSmoke>true</canSmoke>
+            <ID>410</ID>
+            <numBeds>1</numBeds>
+            <qualityType>COMFORT</qualityType>
+        </items>
+    </xml_items>
+</ns2:xmlList>

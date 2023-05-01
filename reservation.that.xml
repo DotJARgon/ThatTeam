@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:xmlList xmlns:ns2="xml_wrapper">
+    <xml_items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="reservation">
+            <billing>
+                <cancelled>false</cancelled>
+                <cancelledCost>0.0</cancelledCost>
+                <paid>false</paid>
+            </billing>
+            <canceled>false</canceled>
+            <checkedIn>false</checkedIn>
+            <checkedOut>false</checkedOut>
+            <end>2023-05-18T00:00:00-05:00</end>
+            <ID>0</ID>
+            <reserved>2023-04-30T20:19:35.152-05:00</reserved>
+            <rooms>105</rooms>
+            <start>2023-05-01T00:00:00-05:00</start>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="reservation">
+            <billing>
+                <cancelled>true</cancelled>
+                <cancelledCost>0.0</cancelledCost>
+                <paid>false</paid>
+            </billing>
+            <canceled>true</canceled>
+            <checkedIn>false</checkedIn>
+            <checkedOut>false</checkedOut>
+            <end>2023-05-05T19:10:41.825-05:00</end>
+            <ID>2</ID>
+            <reserved>2023-04-27T19:10:41.872-05:00</reserved>
+            <rooms>105</rooms>
+            <rooms>107</rooms>
+            <start>2023-05-03T19:10:41.825-05:00</start>
+        </items>
+    </xml_items>
+</ns2:xmlList>

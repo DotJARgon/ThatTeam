@@ -33,7 +33,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
 	private JTable resTable;
 	private Guest g;
 	private JPanel tablePanel;
-	private JButton back, modify, remove, check;
+	private JButton back, modify, generate, remove, check;
 	private GridBagConstraints c;
 	public ViewReservations() {
 		this.resTable = new JTable();
@@ -67,6 +67,23 @@ public class ViewReservations extends JPanel implements NavUpdate{
 			}
     	});
     	this.add(modify, c);
+    	
+    	c.gridx++;
+    	generate = new JButton("Billing");
+    	generate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = resTable.getSelectedRow();
+				if(row != -1) {
+					int resID = Integer.parseInt((String) resTable.getValueAt(row, 0));
+					HotelManagement.getHotelManagement().getRes(resID).getBilling().calculateTotalCost();
+					JOptionPane.showMessageDialog(null, new ReservationBilling(HotelManagement.getHotelManagement().getRes(resID)));
+				}
+				else
+					JOptionPane.showMessageDialog(null, "No reservation selected");
+			}
+    	});
+    	this.add(generate, c);
 
     	c.gridx++;
     	remove = new JButton("Cancel");
@@ -81,7 +98,8 @@ public class ViewReservations extends JPanel implements NavUpdate{
 					HotelManagement.getHotelManagement().cancelReservation(resID, g);
 					int modelRow = resTable.convertRowIndexToModel(row);
 					DefaultTableModel model = (DefaultTableModel)resTable.getModel();
-					model.removeRow(modelRow);
+					if(HotelManagement.getHotelManagement().getRes(resID) == null)
+						model.removeRow(modelRow);
 				}
 				else
 					JOptionPane.showMessageDialog(null,"Reservation cannot be canceled because it is too late");
@@ -149,11 +167,11 @@ public class ViewReservations extends JPanel implements NavUpdate{
         		g = ((Clerk)account).getGuest();
         	
         	if(g == null || account instanceof Guest) {
-                c.weightx = .33;
+                c.weightx = .25;
                 check.setVisible(false);
         	}
         	else{
-        		c.weightx = .25;
+        		c.weightx = .2;
                 check.setVisible(true);
         	}
 
@@ -196,6 +214,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
 
             this.remove(this.back);
             this.remove(this.modify);
+            this.remove(this.generate);
             this.remove(this.remove);
             this.remove(this.check);
             this.remove(this.resTable);
@@ -208,6 +227,8 @@ public class ViewReservations extends JPanel implements NavUpdate{
             this.add(this.back, c);
             c.gridx++;
             this.add(this.modify, c);
+            c.gridx++;
+            this.add(this.generate, c);
             c.gridx++;
             this.add(this.remove, c);
             c.gridx++;
