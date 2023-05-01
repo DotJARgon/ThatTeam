@@ -2,6 +2,7 @@ package user_services;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
@@ -29,8 +30,9 @@ public class Guest extends Account {
 		reservations = new Vector<>();
 		address = "";
 		creditCardNum = 0;
-		creditCardExpiration = new Date();
-		corporation = new String("");
+		//Random date, used to test input for credit card information
+		creditCardExpiration = new Date(2023, Calendar.JUNE, 21);
+		corporation = "";
 	}
 
 	/**

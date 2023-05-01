@@ -13,6 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import billing_services.Billing;
 import hotel_management.HotelManagement;
 import hotel_management.Reservation;
 import hotel_management.Room;
@@ -100,25 +101,37 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
             Date start = startDate.getDate();
             Date end = endDate.getDate();
 
-            Reservation res = new Reservation(0, start, end, null, roomIds, false, false);
+            Reservation res = new Reservation(0, start, end, new Billing(), roomIds, false, false);
 
             if(UI.getCurrentClient() instanceof Guest guest) {
                 UICreditCardInfo creditCardInfo = new UICreditCardInfo();
+                creditCardInfo.getGuest().setFirstName("f");
+                creditCardInfo.getGuest().setLastName("l");
+                creditCardInfo.getGuest().setAddress("a");
+                creditCardInfo.getGuest().setCardNum(1);
+                creditCardInfo.getGuest().setCardExpiration(guest.getCardExpiration());
+
+                HotelManagement.getHotelManagement().addReservation(res, guest);
+                JOptionPane.showMessageDialog(null, new ReservationBilling(res));
+
                 JOptionPane.showMessageDialog(null, creditCardInfo);
 
-
                 if (creditCardInfo.IsCreditCardValid()) {
-                    JOptionPane.showMessageDialog(null, new ReservationBilling(res));
                     int a = JOptionPane.showConfirmDialog(null,
-                            "Cost: " + res.getBilling().getCost(), "Purchase?", JOptionPane.YES_NO_OPTION);
+                            "Cost: " + String.valueOf(res.getBilling().getCost()), "Purchase?", JOptionPane.YES_NO_OPTION);
                     if (a == 0) {
-                        HotelManagement.getHotelManagement().addReservation(res, guest);
                         JOptionPane.showMessageDialog(null, "Successfully purchased");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null,"Purchase has been cancelled.",
+                                "Oops", JOptionPane.ERROR_MESSAGE);
+                        HotelManagement.getHotelManagement().cancelReservation(res.getID(), guest);
                     }
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Credit card never got passed.",
+                    JOptionPane.showMessageDialog(null,"Purchase has been cancelled.",
                             "Oops", JOptionPane.ERROR_MESSAGE);
+                    HotelManagement.getHotelManagement().cancelReservation(res.getID(), guest);
                 }
 
             }
