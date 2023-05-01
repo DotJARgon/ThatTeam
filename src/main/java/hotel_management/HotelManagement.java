@@ -4,12 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -55,6 +50,8 @@ public class HotelManagement {
     //there is a static number of rooms
     private ConcurrentHashMap<Integer, Room> rooms;
 
+    private Set<Integer> userIds;
+
     /**
      * getHotelManagement returns a singleton of the HotelManagement class
      * @return returns the HotelManagement object
@@ -73,6 +70,8 @@ public class HotelManagement {
         this.allReservations = ReservationLoader.loadReservations();
         this.accounts = UserLoader.loadUsers();
         this.rooms = RoomLoader.loadRooms();
+        this.userIds = new HashSet<>();
+        for(Account a : this.accounts.values()) this.userIds.add(a.getId());
     }
 
     /**
@@ -137,6 +136,9 @@ public class HotelManagement {
     	newAcc.setLastName(l);
     	this.accounts.put(n, newAcc);
         UserLoader.saveUsers(accounts.values().stream().toList());
+
+        this.userIds = new HashSet<>();
+        for(Account a : this.accounts.values()) this.userIds.add(a.getId());
     }
     
     /**
@@ -243,6 +245,9 @@ public class HotelManagement {
         HotelManagement.getHotelManagement().getAccounts().remove(promotedAcc);
         HotelManagement.getHotelManagement().getAccounts().put(promotedAcc, promoted);
         UserLoader.saveUsers(accounts.values().stream().toList());
+
+        this.userIds = new HashSet<>();
+        for(Account a : this.accounts.values()) this.userIds.add(a.getId());
     }
     
     public ConcurrentHashMap<Integer, Room> getRooms(){

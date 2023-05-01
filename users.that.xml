@@ -15,6 +15,17 @@
             <corporation></corporation>
         </items>
         <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="guest">
+            <firstName></firstName>
+            <id>0</id>
+            <lastName></lastName>
+            <password>d41d8cd98f00b204e9800998ecf8427e</password>
+            <securityA>d41d8cd98f00b204e9800998ecf8427e</securityA>
+            <securityQ></securityQ>
+            <username></username>
+            <cardNum>0</cardNum>
+            <corporation></corporation>
+        </items>
+        <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="guest">
             <firstName>Christian</firstName>
             <id>0</id>
             <lastName>Ocana</lastName>
