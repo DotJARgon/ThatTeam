@@ -23,9 +23,6 @@ public class RegisterPage extends UserField {
     protected final JTextField secQ = new JTextField(), secA = new JTextField(), firstName = new JTextField(), lastName = new JTextField();
     private final JLabel enterQ, enterA, enterF, enterL;
     private final Clickable registerAction = () -> {
-        //immediately go to register user
-        UI.navTo(UI.Routes.REGISTER);
-
         Object[] options = { "OK", "CANCEL" };
         int option = JOptionPane.showOptionDialog(null,
                 "Would you like to register with this username and password?",
