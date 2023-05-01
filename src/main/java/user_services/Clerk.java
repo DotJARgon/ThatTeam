@@ -19,9 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "clerk")
 public class Clerk extends Account{
 	Guest helpingGuest;
-<<<<<<< HEAD
-	
-=======
 
 	public void checkIn(Reservation res, Guest g) {
 
@@ -38,7 +35,6 @@ public class Clerk extends Account{
 		HotelManagement.getHotelManagement().getRooms().remove(roomID);
 		HotelManagement.getHotelManagement().getRooms().put(roomID, changeRoom);
 	}
->>>>>>> 7dd2d0c42050d5f70e936cde4731148e96eb8b3e
 	public void setGuest(Guest g) {
 		helpingGuest = g;
 	}

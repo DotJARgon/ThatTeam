@@ -5,16 +5,29 @@ import ui.custom.Clickable;
 import ui.UI;
 import ui.custom.ClickableText;
 import user_services.Account;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.jar.JarEntry;
+/**
+ * The ResetPage class is responsible for initalizing and managing
+ * the page for resetting password. The page handles the verification
+ * of which user's password is being changed, and verification on
+ * the answer to the question and the new passwords.
+ *
+ * @author  Bryant Huang
+ * @version  1.6
+ * @since 4/28/2023
+ */
 
 public class ResetPage extends UserField {
     protected final JTextField username = new JTextField(), secA = new JTextField(), newPass = new JTextField();
     private final JLabel Q = new JLabel(), A, Pass, reqUser;
     private Account accountValidation;
     private final ClickableText verifyUser;
+    /**
+     * When the button verifyUser is pressed, this function verifies that the user is a real user then displays the security question
+     * to the user
+     */
     private final Clickable updateUser = () -> {
         //System.out.println(HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()).getSecurityA() + " " + HotelManagement.getHotelManagement().getAccountByUsername(this.username.getText()).getSecurityQ());
         this.accountValidation = HotelManagement.getHotelManagement().getUser(this.username.getText()); //change to getUser()
@@ -22,9 +35,20 @@ public class ResetPage extends UserField {
         this.Q.setText("<html>" + accountValidation.getSecurityQ() + "</html>");
         //this.Q.setMaximumSize(new Dimension(100, 10));
     };
+    /**
+     * Handles the navigation after a click of the login page button
+     */
     private final Clickable loginPageAction = () -> {
         UI.navTo(UI.Routes.LOGIN);
     };
+
+    /**
+     * Checks if the answer is equal to the set user's questions. If so,
+     * Show a dialog page to confirm the change, and change the user's password and rehash it,
+     * and redirect the page to login. If the username entered doesn't exist, prompt the user to
+     * create a new account.
+     */
+
     private final Clickable resetAction = () -> {
 
         this.accountValidation = HotelManagement.getHotelManagement().getUser(this.username.getText());
@@ -80,7 +104,10 @@ public class ResetPage extends UserField {
             }
         }
     };
-
+    /**
+     * A constructor of the ResetPage object, which creates and initializes the page object with
+     * the proper fields.
+     */
     public ResetPage() {
         super("Reset Password", "Return to login",2);
         this.verifyUser = new ClickableText("Click to see security question!");
@@ -109,6 +136,7 @@ public class ResetPage extends UserField {
         QGrid.fill = GridBagConstraints.NONE;
         QGrid.gridx = 0;
         QGrid.gridy = 4;
+        QGrid.gridwidth = 3;
 
         GridBagConstraints enterAGrid = new GridBagConstraints();
         enterAGrid.fill = GridBagConstraints.HORIZONTAL;
@@ -144,6 +172,11 @@ public class ResetPage extends UserField {
         this.right.addClickAction(this.loginPageAction);
         this.verifyUser.addClickAction(this.updateUser);
     }
+
+    /**
+        Overrides the navUpdate function in the UI, to clean the
+        page once navigated off, and repopulate the page once navigated on.
+    */
     @Override
     public void navUpdate() {
         this.username.setText("");

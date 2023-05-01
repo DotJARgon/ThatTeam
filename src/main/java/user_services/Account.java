@@ -58,12 +58,16 @@ public class Account {
     /**
      * A constructor of the account object, which hashes the password using the md5
      * encryption method
+     * @param firstName the first name of the owner of the account
+     * @param lastName the last name of the owner of the account
      * @param username the username of the account
      * @param password the password of the account
      * @param securityQ the security question of the account
      * @param securityA the security answer of the question in the account
      */
-    public Account(String username, String password, String securityA, String securityQ) {
+    public Account(String firstName, String lastName, String username, String password, String securityA, String securityQ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.password = md5(password, username);
         this.securityQ = securityQ;

@@ -58,8 +58,8 @@ public class Guest extends Account {
 		corporation = new String("");
 	}
 
-	public Guest(String username, String password, String securityA, String securityB) {
-		super(username,password,securityA,securityB);
+	public Guest(String username, String password, String securityA, String securityB, String firstName, String lastName) {
+		super(username,password,securityA,securityB,firstName,lastName);
 		corporation = new String("");
 	}
 

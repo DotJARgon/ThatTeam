@@ -351,9 +351,9 @@ public class HotelManagement {
      * @param securityB the security question answer of the account
      * @return
      */
-    public Guest registerUser(String username, String password, String securityA, String securityB) {
+    public Guest registerUser(String username, String password, String securityA, String securityB, String firstName, String lastName) {
         if(!accounts.containsKey(username)) {
-            Guest acc = new Guest(username, password, securityA, securityB);
+            Guest acc = new Guest(username, password, securityA, securityB, firstName, lastName);
             accounts.put(username, acc);
             UserLoader.saveUsers(accounts.values().stream().toList());
             return acc;

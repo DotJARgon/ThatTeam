@@ -9,6 +9,14 @@ import user_services.Account;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The LoginPage
+ *
+ * @author  Bryant Huang
+ * @version  1.6
+ * @since 5/1/2023
+ */
+
 public class LoginPage extends UserField {
     private final ClickableText reset = new ClickableText("Reset Password");
     private final Clickable loginAction = () -> {

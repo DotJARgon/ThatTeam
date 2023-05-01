@@ -68,11 +68,11 @@ public class UserField extends JPanel implements NavUpdate {
         else {
             loginC.fill = GridBagConstraints.NONE;
             loginC.gridx = -2;
-            loginC.gridy = 10;
+            loginC.gridy = 13;
 
             registerC.fill = GridBagConstraints.NONE;
             registerC.gridx = 0;
-            registerC.gridy = 10;
+            registerC.gridy = 13;
 
             this.add(left, loginC);
             this.add(right, registerC);
