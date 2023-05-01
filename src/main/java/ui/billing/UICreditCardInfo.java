@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -166,7 +167,7 @@ public class UICreditCardInfo extends JPanel {
                 *     payment was successful and updates the user's reservation list
                 */
 
-                boolean no = false;
+                /*boolean no = false;
                 if (aTextField.getText().isEmpty()) {
                     no = true;
                 }
@@ -230,13 +231,21 @@ public class UICreditCardInfo extends JPanel {
                         JOptionPane.showMessageDialog(null, "Some of the information inputted is incorrect. Please update it.",
                                 "Oops", JOptionPane.ERROR_MESSAGE);
                         isCreditCardValid = false;
-                    }
-                    else {
+                    }*/
+                    //else {
                         JOptionPane.showMessageDialog(null, "Credit Card info successfully updated",
                                 "Yay", JOptionPane.DEFAULT_OPTION);
+
                         isCreditCardValid = true;
-                    }
-                }
+
+                guest.setAddress(aTextField.getText());
+                guest.setCardNum(Integer.parseInt(cTextField.getText()));
+                guest.setCardExpiration(new Date(Integer.parseInt(dTextField3.getText())-1900,
+                        Integer.parseInt(dTextField1.getText())-1,
+                        Integer.parseInt(dTextField2.getText())));
+
+                    //}
+                //}
             }
         });
 
