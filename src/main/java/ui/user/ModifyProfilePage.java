@@ -18,6 +18,7 @@ import ui.custom.NavUpdate;
 import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
+import user_services.UserLoader;
 
 public class ModifyProfilePage extends JPanel implements NavUpdate{
 	private JTextField nameTxt, firstTxt, lastTxt;
@@ -65,9 +66,7 @@ public class ModifyProfilePage extends JPanel implements NavUpdate{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Account c = UI.getCurrentClient();
-				c.setUsername(nameTxt.getText());
-				c.setFirstName(firstTxt.getText());
-				c.setLastName(lastTxt.getText());
+				HotelManagement.getHotelManagement().modifyProfile(c.getUsername(), nameTxt.getText(), firstTxt.getText(), lastTxt.getText());
 				UI.navTo(UI.Routes.MAIN_PAGE);
 			}
 		});

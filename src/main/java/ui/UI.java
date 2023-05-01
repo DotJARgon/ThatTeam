@@ -365,6 +365,7 @@ public class UI extends JFrame {
     }
 
     public static void main(String[] args) {
+    	/*
         ArrayList<Room> roomsDebug = new ArrayList<>();
         for(int i = 0; i < 10; i++) {
             Room room = new Room(i,2,Room.BedType.QUEEN,false,Room.QualityType.COMFORT);
@@ -415,9 +416,9 @@ public class UI extends JFrame {
         a.setHashedPassword(Integer.toString(3));
         accountsDebug.add(a);
         
-        /*AccountList accountList = new AccountList();
-        accountList.setAccountsList(accountsDebug);
-        UserLoader.saveUsers(accountList);*/
+        //AccountList accountList = new AccountList();
+        //accountList.setAccountsList(accountsDebug);
+        //UserLoader.saveUsers(accountList);
 
         UserLoader.saveUsers(accountsDebug);
         ConcurrentHashMap<String, Account> accounts = UserLoader.loadUsers();
@@ -425,7 +426,7 @@ public class UI extends JFrame {
 
         JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));
         BillingCalculator.calculateCancelledCost(reservationsDebug.get(0));
-        JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));
+        JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));*/
 
         UI ui = getUI();
     }

@@ -25,6 +25,7 @@ public class Reservation {
     private int[] rooms;
 	private boolean checkedIn;
 	private boolean checkedOut;
+	private boolean canceled;
 
 	/**
 	 * The default constructor for the reservation object
@@ -50,6 +51,7 @@ public class Reservation {
 		this.rooms = r;
 		this.checkedIn = chI;
 		this.checkedOut = chO;
+		this.setCanceled(false);
     }
 	
 	//Accessor function for start
@@ -135,5 +137,13 @@ public class Reservation {
 		start = s;
 		end = e;
 		rooms = r;
+	}
+
+	public boolean getCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(boolean canceled) {
+		this.canceled = canceled;
 	}
 }

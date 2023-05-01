@@ -1,5 +1,6 @@
 package ui.rooms;
 
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,9 +23,15 @@ import ui.custom.NavUpdate;
 public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 	private final JLabel numLbl, bedsLbl, smokeLbl, typeLbl, qualLbl;
 	private Room newRoom;
+	private final JPanel container;
 	public AddModifyRoomsPage(){
 		super();
-		this.setLayout(new GridLayout(6,2,15,15));
+		this.setLayout(new GridBagLayout());
+		container = new JPanel();
+		int contW = 100;
+		int contH = 30;
+		container.setBounds(0, 0, contW, contH);
+		container.setLayout(new GridLayout(6,2,15,15));
 		
 		//Instructions
 		//enterInfo = new JLabel("Please enter the room's new info:");
@@ -32,21 +39,21 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		
 		//Input room number
 		numLbl = new JLabel("Room number:");
-		this.add(numLbl);
+		container.add(numLbl);
 		JSpinner inputNum = new JSpinner();
-		this.add(inputNum);
+		container.add(inputNum);
 		
 		//Input number of beds
 		bedsLbl = new JLabel("Number of beds:");
-		this.add(bedsLbl);
+		container.add(bedsLbl);
 		JSpinner inputBeds = new JSpinner();
-		this.add(inputBeds);
+		container.add(inputBeds);
 		
 		//Input smoking
 		smokeLbl = new JLabel("Smoking permitted:");
-		this.add(smokeLbl);
+		container.add(smokeLbl);
 		JCheckBox smoking = new JCheckBox();
-		this.add(smoking);
+		container.add(smoking);
 		
 		//Input bed type
 		JPanel bedTypePnl = new JPanel();
@@ -70,7 +77,7 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		bedTypePnl.add(full);
 		bedTypePnl.add(queen);
 		bedTypePnl.add(king);
-		this.add(bedTypePnl);
+		container.add(bedTypePnl);
 		
 		//Input quality level
 		JPanel qualTypePnl = new JPanel();
@@ -94,7 +101,7 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		qualTypePnl.add(business);
 		qualTypePnl.add(comfort);
 		qualTypePnl.add(economy);
-		this.add(qualTypePnl);
+		container.add(qualTypePnl);
 		
 		//Back
 		JButton backButton = new JButton("Back");
@@ -103,7 +110,7 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
         		UI.navTo(UI.Routes.VIEW_ROOMS);
         	}
         });
-		this.add(backButton);
+		container.add(backButton);
 
 		//Submit
 		JButton submitButton = new JButton("Submit");
@@ -119,7 +126,9 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 	        	}
         	}
         });
-		this.add(submitButton);
+		container.add(submitButton);
+		
+		this.add(container);
 	}
 	@Override
 	public void navUpdate() {

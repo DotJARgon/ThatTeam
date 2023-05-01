@@ -109,6 +109,7 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
             
             int ndx = 0;
             for(Map.Entry<Integer,Room> r: rooms.entrySet()) {
+            	System.out.println("Room: " + r.getValue().getID());
             	data[ndx][0] = Integer.toString(r.getValue().getID());
                 data[ndx][1] = r.getValue().getBedType().toString();
                 data[ndx][2] = r.getValue().getCanSmoke() ? "Can smoke" : "Cannot smoke";

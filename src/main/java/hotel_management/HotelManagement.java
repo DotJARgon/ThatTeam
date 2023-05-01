@@ -85,6 +85,7 @@ public class HotelManagement {
     public Billing generateBilling(Reservation reservation) {
         Billing billing = BillingCalculator.generate(reservation);
         reservation.setBilling(billing);
+    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
         return reservation.getBilling();
     }
 
@@ -128,6 +129,16 @@ public class HotelManagement {
         return accounts;
     }
 
+    public void modifyProfile(String u, String n, String f, String l) {
+    	Account newAcc = this.accounts.get(u);
+    	this.accounts.remove(u);
+    	newAcc.setUsername(n);
+    	newAcc.setFirstName(f);
+    	newAcc.setLastName(l);
+    	this.accounts.put(n, newAcc);
+        UserLoader.saveUsers(accounts.values().stream().toList());
+    }
+    
     /**
      * addReservation adds a reservation object into HotelManagement and its
      * corresponding Guest that is making the reservation
@@ -164,9 +175,8 @@ public class HotelManagement {
     	GregorianCalendar currDate = new GregorianCalendar();
     	currDate.setTime(new Date()); //prolly not necessary, but for security
     	if(currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2 ||
-    	   currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363) {
+    	   currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363) 
     		BillingCalculator.calculateCancelledCost(res);
-    	}
     	else
 	    	allReservations.remove(resID);
     	if(g == null) {
@@ -181,17 +191,18 @@ public class HotelManagement {
     		}
     	}
     	//remove associations
-    	if(g != null) {
+    	if(g != null) 
     		g.cancelReservation(resID);
-	    	for(int r: res.getRooms()) {
-	    		rooms.get(r).cancelReservation(resID);
-	    	}
-    	}
+    	for(int r: res.getRooms()) 
+    		rooms.get(r).cancelReservation(resID);
+    	res.setCanceled(true);
+    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
     }
     
     //Assumes the reservation exists
     public void modifyReservation(int resID, Date s, Date e, int[] rooms) {
     	allReservations.get(resID).modify(s, e, rooms);
+    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
     }
     
     public Reservation getRes(int resID) {
@@ -213,9 +224,6 @@ public class HotelManagement {
     	else
     		rooms.put(id, new Room(id, b, bt, s, qt));
     	RoomLoader.saveRooms(this.rooms.values().stream().toList());
-    	
-    	for(Room r : this.rooms.values())System.out.print(r.getID()+" ");
-    	System.out.println();
     }
 
     /**
@@ -311,6 +319,7 @@ public class HotelManagement {
             g = ((Clerk) UI.getCurrentClient()).getGuest();
         if(g.getCorporation().equals(""))
             allReservations.get(reserveID).getBilling().setPaid(true);
+    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
     }
 
     /**
@@ -350,23 +359,6 @@ public class HotelManagement {
             return acc;
         }
         return null;
-    }
-
-    private void loadUsers() {
-        try {
-            List<Account> users = XMLParser.load("users.xml", XMLList.class, Account.class, Guest.class, Clerk.class, Admin.class);
-            this.accounts = new ConcurrentHashMap<>();
-            for(Account account : users) {
-                this.accounts.put(account.getUsername(), account);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void saveUsers() {
-        List<Account> a = this.accounts.values().stream().collect(Collectors.toList());
-        XMLParser.save(a, "users.xml", XMLList.class, Account.class, Guest.class, Clerk.class, Admin.class);
     }
     
     public Account getUser(String s) {

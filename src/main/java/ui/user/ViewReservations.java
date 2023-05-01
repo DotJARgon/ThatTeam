@@ -159,7 +159,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
 
         	//populate table
             String[] columns = new String[] {
-            	"Reservation ID", "Rooms", "Start Date", "End Date", "Checked In", "Checked Out"
+            	"Reservation ID", "Rooms", "Start Date", "End Date", "Checked In", "Checked Out", "Canceled"
             };
             Object[][] data;
             if(g != null) {
@@ -173,6 +173,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
 	                data[ndx][3] = r.getEnd().toString();
 	                data[ndx][4] = r.getCheckedIn();
 	                data[ndx][5] = r.getCheckedOut();
+	                data[ndx][6] = r.getCanceled();
 	                ndx++;
             	}
             }
@@ -186,6 +187,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
 	                data[ndx][3] = r.getValue().getEnd().toString();
 	                data[ndx][4] = r.getValue().getCheckedIn();
 	                data[ndx][5] = r.getValue().getCheckedOut();
+	                data[ndx][6] = r.getValue().getCanceled();
 	                ndx++;
 	            }
             }
