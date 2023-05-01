@@ -4,7 +4,8 @@ import hotel_management.HotelManagement;
 import ui.custom.Clickable;
 import ui.UI;
 import user_services.Account;
-
+import java.util.Random;
+import java.lang.Math;
 import javax.swing.*;
 import java.awt.*;
 
@@ -36,13 +37,32 @@ public class RegisterPage extends UserField {
         if(option == 0) {
             //create a new account, temporary until register user
             //exists
-            Account account = HotelManagement.getHotelManagement().registerUser(username.getText(), password.getText(), secQ.getText(), secA.getText(), firstName.getText(), lastName.getText());
+            int id = 0;
+            Random rand = new Random();
+            do {
+                id = Math.abs(rand.nextInt());
+                System.out.println(id);
+            } while (HotelManagement.getHotelManagement().checkID(id));
+            Account account = HotelManagement.getHotelManagement().registerUser(username.getText(), password.getText(), firstName.getText(), lastName.getText(), id, secQ.getText(), secA.getText());
             if(account != null) {
                 UI.updateCurrentClient(account);
                 UI.navTo(UI.Routes.MAIN_PAGE);
             }
             else {
-                UI.navTo(UI.Routes.REGISTER);
+                Object[] options2 = { "LOG IN", "REGISTER" };
+                int option2 = JOptionPane.showOptionDialog(null,
+                        "This Username Already Exists! Would You Like to Log In Instead?",
+                        "Register",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                        null, options, options[0]);
+
+                if (option2 == 0) {
+                    UI.navTo(UI.Routes.LOGIN);
+                }
+                else {
+                    UI.navTo(UI.Routes.REGISTER);
+                }
+
             }
         }
         else {

@@ -57,9 +57,9 @@ public class Guest extends Account {
 		creditCardExpiration = exp;
 		corporation = new String("");
 	}
-
-	public Guest(String username, String password, String securityA, String securityB, String firstName, String lastName) {
-		super(username,password,securityA,securityB,firstName,lastName);
+//public Account(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
+	public Guest(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
+		super(username,password,firstName,lastName, id, securityQ,securityA);
 		corporation = new String("");
 	}
 

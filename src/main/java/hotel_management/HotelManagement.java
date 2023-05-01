@@ -353,19 +353,25 @@ public class HotelManagement {
      * @param username the username of the account
      * @param password the password of the account
      * @param securityA the security question of the account
-     * @param securityB the security question answer of the account
+     * @param securityQ the security question answer of the account
      * @return
      */
-    public Guest registerUser(String username, String password, String securityA, String securityB, String firstName, String lastName) {
+    public Guest registerUser(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
         if(!accounts.containsKey(username)) {
-            Guest acc = new Guest(username, password, securityA, securityB, firstName, lastName);
+            Guest acc = new Guest(username, password, firstName, lastName, id, securityQ, securityA);
             accounts.put(username, acc);
             UserLoader.saveUsers(accounts.values().stream().toList());
+            this.userIds.add(id);
+            System.out.println("bruh");
+
             return acc;
         }
         return null;
     }
-    
+
+    public boolean checkID(int ID) {
+        return userIds.contains(ID);
+    }
     public Account getUser(String s) {
     	return accounts.get(s);
     }

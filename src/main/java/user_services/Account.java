@@ -54,26 +54,6 @@ public class Account {
         this.securityQ = securityQ;
         this.securityA = md5(securityA, securityQ);
     }
-
-    /**
-     * A constructor of the account object, which hashes the password using the md5
-     * encryption method
-     * @param firstName the first name of the owner of the account
-     * @param lastName the last name of the owner of the account
-     * @param username the username of the account
-     * @param password the password of the account
-     * @param securityQ the security question of the account
-     * @param securityA the security answer of the question in the account
-     */
-    public Account(String username, String password, String securityA, String securityQ,String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.password = md5(password, username);
-        this.securityQ = securityQ;
-        this.securityA = md5(securityA, securityQ);
-        System.out.println("user: " + this.username + " pass: " + this.password + " securityQ: " + this.securityQ + " securityA " + this.securityA);
-    }
     
     public String getUsername() {
         return username;
