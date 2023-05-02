@@ -100,22 +100,24 @@ public class HotelManagement {
         Vector<Room> availableRooms = new Vector<>();
     	if(end.before(start) || end.equals(start))
     		return availableRooms;
-        for(Map.Entry<Integer,Room> r: rooms.entrySet()) {
+        for(Room r : this.rooms.values()) {
             boolean roomAvailable = true;
-            for(Integer resNum: r.getValue().getReservations()) {
-            	Reservation res = allReservations.get(resNum);
-            	if(start.equals(res.getStart()) || start.equals(res.getEnd()) ||
-            	   end.equals(res.getStart()) || end.equals(res.getEnd()))
-            		roomAvailable = false;
-            	else if(start.before(res.getStart())) {
-                    if(end.after(res.getStart()))
+            for(Integer resNum: r.getReservations()) {
+                Reservation res = allReservations.get(resNum);
+            	if(res != null) {
+                    if(start.equals(res.getStart()) || start.equals(res.getEnd()) ||
+                            end.equals(res.getStart()) || end.equals(res.getEnd()))
+                        roomAvailable = false;
+                    else if(start.before(res.getStart())) {
+                        if(end.after(res.getStart()))
+                            roomAvailable = false;
+                    }
+                    else if(start.before(res.getEnd()))
                         roomAvailable = false;
                 }
-                else if(start.before(res.getEnd()))
-                    roomAvailable = false;
             }
             if(roomAvailable)
-                availableRooms.add(r.getValue());
+                availableRooms.add(r);
         }
         return availableRooms;
     }
@@ -135,10 +137,10 @@ public class HotelManagement {
     	newAcc.setFirstName(f);
     	newAcc.setLastName(l);
     	this.accounts.put(n, newAcc);
-        UserLoader.saveUsers(accounts.values().stream().toList());
-
         this.userIds = new HashSet<>();
         for(Account a : this.accounts.values()) this.userIds.add(a.getId());
+
+        this.saveUsers();
     }
     
     /**
@@ -149,13 +151,15 @@ public class HotelManagement {
      */
     public void addReservation(Reservation res, Guest g) {
         res.setBilling(BillingCalculator.generate(res));
+
         allReservations.put(res.getID(), res);
         //loop thru reservation's rooms. Will typically be 1 room
         for(int r : res.getRooms()) {
         	rooms.get(r).addReservation(res.getID());
         }
         g.addReservation(res.getID());
-        ReservationLoader.saveReservations(allReservations.values().stream().toList());
+        this.saveUsers();
+        this.saveReservations();
     }
 
     public Room getRoomByID(int i){
@@ -170,41 +174,41 @@ public class HotelManagement {
      * @param g The guest account related to the reservation
      */
     public void cancelReservation(int resID, Guest g) {
-    	Reservation res = allReservations.get(resID);
-    	//Determine whether to charge the guest
-    	GregorianCalendar resDate = new GregorianCalendar();
-    	resDate.setTime(res.getReserved());
-    	GregorianCalendar currDate = new GregorianCalendar();
-    	currDate.setTime(new Date()); //prolly not necessary, but for security
-    	if(currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2 ||
-    	   currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363) 
-    		BillingCalculator.calculateCancelledCost(res);
-    	else
-	    	allReservations.remove(resID);
-    	if(g == null) {
-    		for(Map.Entry<String, Account> acc : this.accounts.entrySet()) {
-    			if(acc.getValue() instanceof Guest) {
-    				Guest currG = (Guest)acc.getValue();
-    				if(currG.getReservations().contains(resID));{
-    					g = currG;
-    					break;
-    				}
-    			}
-    		}
-    	}
-    	//remove associations
-    	if(g != null) 
-    		g.cancelReservation(resID);
-    	for(int r: res.getRooms()) 
-    		rooms.get(r).cancelReservation(resID);
-    	res.setCanceled(true);
-    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
+        Reservation res = allReservations.get(resID);
+        //Determine whether to charge the guest
+        GregorianCalendar resDate = new GregorianCalendar();
+        resDate.setTime(res.getReserved());
+        GregorianCalendar currDate = new GregorianCalendar();
+        currDate.setTime(new Date()); //prolly not necessary, but for security
+        if(currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2 ||
+                currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363)
+            BillingCalculator.calculateCancelledCost(res);
+
+        if(g == null) {
+            for(Map.Entry<String, Account> acc : this.accounts.entrySet()) {
+                if(acc.getValue() instanceof Guest) {
+                    Guest currG = (Guest)acc.getValue();
+                    if(currG.getReservations().contains(resID));{
+                        g = currG;
+                        break;
+                    }
+                }
+            }
+        }
+        //remove associations
+        if(g != null) g.cancelReservation(resID);
+
+        for(int r: res.getRooms()) rooms.get(r).cancelReservation(resID);
+        res.setCanceled(true);
+
+        this.saveUsers();
+        this.saveReservations();
     }
     
     //Assumes the reservation exists
     public void modifyReservation(int resID, Date s, Date e, int[] rooms) {
     	allReservations.get(resID).modify(s, e, rooms);
-    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
+    	this.saveReservations();
     }
     
     public Reservation getRes(int resID) {
@@ -221,11 +225,11 @@ public class HotelManagement {
      * @param qt the quality type of the room
      */
     public void addModifyRoom(int id, int b, Room.BedType bt, boolean s, Room.QualityType qt){
-    	if(rooms.containsKey(id))
-    		rooms.get(id).updateRoom(b, bt, s, qt);
-    	else
-    		rooms.put(id, new Room(id, b, bt, s, qt));
-    	RoomLoader.saveRooms(this.rooms.values().stream().toList());
+        if(rooms.containsKey(id))
+            rooms.get(id).updateRoom(b, bt, s, qt);
+        else
+            rooms.put(id, new Room(id, b, bt, s, qt));
+        this.saveRooms();
     }
 
     /**
@@ -306,6 +310,7 @@ public class HotelManagement {
      */
     public void checkIn(int reserveID){
         this.allReservations.get(reserveID).setCheckedIn(true);
+        this.saveReservations();
     }
 
     /**
@@ -324,7 +329,8 @@ public class HotelManagement {
             g = ((Clerk) UI.getCurrentClient()).getGuest();
         if(g.getCorporation().equals(""))
             allReservations.get(reserveID).getBilling().setPaid(true);
-    	ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
+
+        this.saveReservations();
     }
 
     /**
@@ -340,7 +346,6 @@ public class HotelManagement {
             //System.out.println(accounts.get(username));
             if (account != null) {
                 if (account.matches(password)) {
-                    System.out.println("bruh.");
                     return account;
                 }
         }
@@ -360,13 +365,23 @@ public class HotelManagement {
         if(!accounts.containsKey(username)) {
             Guest acc = new Guest(username, password, firstName, lastName, id, securityQ, securityA);
             accounts.put(username, acc);
-            UserLoader.saveUsers(accounts.values().stream().toList());
             this.userIds.add(id);
-            System.out.println("bruh");
+
+            this.saveUsers();
 
             return acc;
         }
         return null;
+    }
+
+    public void saveRooms() {
+        RoomLoader.saveRooms(this.rooms.values().stream().toList());
+    }
+    public void saveUsers() {
+        UserLoader.saveUsers(this.accounts.values().stream().toList());
+    }
+    public void saveReservations() {
+        ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
     }
 
     public boolean checkID(int ID) {

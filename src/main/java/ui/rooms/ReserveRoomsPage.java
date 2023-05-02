@@ -41,6 +41,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
     public ReserveRoomsPage() {
         super();
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(Box.createHorizontalGlue());
 
@@ -52,6 +53,11 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
         this.startDate = new DateBox();
         this.endDate = new DateBox();
+
+        //add these as callbacks
+        this.startDate.setCallback(this::navUpdate);
+        this.endDate.setCallback(this::navUpdate);
+
         this.datePanel.add(startDate);
         this.datePanel.add(endDate);
 
@@ -73,6 +79,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
     }
 
     public void reserveRooms() {
+
         if(startDate.getDate().after(endDate.getDate())) {
             JOptionPane.showMessageDialog(this, "Dates are wrong",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,7 +108,7 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
             Date start = startDate.getDate();
             Date end = endDate.getDate();
 
-            Reservation res = new Reservation(0, start, end, new Billing(), roomIds, false, false);
+            Reservation res = new Reservation((int) (Math.random()*Integer.MAX_VALUE), start, end, new Billing(), roomIds, false, false);
 
             if(UI.getCurrentClient() instanceof Guest guest) {
                 UICreditCardInfo creditCardInfo = new UICreditCardInfo();
@@ -109,11 +116,6 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
                 System.out.println(creditCardInfo.getGuest().getCardExpiration().getMonth());
                 System.out.println(creditCardInfo.getGuest().getCardExpiration().getDate());
                 System.out.println(creditCardInfo.getGuest().getCardExpiration().getYear());
-                //creditCardInfo.getGuest().setFirstName("f");
-                //creditCardInfo.getGuest().setLastName("l");
-                //creditCardInfo.getGuest().setAddress("a");
-                //creditCardInfo.getGuest().setCardNum(1);
-                //creditCardInfo.getGuest().setCardExpiration(guest.getCardExpiration());
 
                 HotelManagement.getHotelManagement().addReservation(res, guest);
                 JOptionPane.showMessageDialog(null, new ReservationBilling(res));

@@ -52,6 +52,11 @@ public class ModifyReservationPage extends JPanel implements NavUpdate {
 
         this.startDate = new DateBox();
         this.endDate = new DateBox();
+
+        //add these as callbacks
+        this.startDate.setCallback(this::navUpdate);
+        this.endDate.setCallback(this::navUpdate);
+
         this.datePanel.add(startDate);
         this.datePanel.add(endDate);
 

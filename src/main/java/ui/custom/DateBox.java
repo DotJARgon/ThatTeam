@@ -31,16 +31,24 @@ public class DateBox extends JPanel {
         this.day = d;
         this.updateDays();
         this.updateDate();
+        if(this.callback != null) this.callback.navUpdate();
     };
 
-    private final ActionListener nextMonth = e -> this.nextMonth();
-    private final ActionListener prevMonth = e -> this.prevMonth();
+    private final ActionListener nextMonth = e -> {
+        this.nextMonth();
+        if(this.callback != null) this.callback.navUpdate();
+    };
+    private final ActionListener prevMonth = e -> {
+        this.prevMonth();
+        if(this.callback != null) this.callback.navUpdate();
+    };
 
     private final ActionListener nextYear = e -> {
         this.year++;
         this.yearLabel.setText(Integer.toString(this.year));
         this.updateDays();
         this.updateDate();
+        if(this.callback != null) this.callback.navUpdate();
     };
     private final ActionListener prevYear = e -> {
         Calendar cal = Calendar.getInstance();
@@ -49,10 +57,13 @@ public class DateBox extends JPanel {
         this.yearLabel.setText(Integer.toString(this.year));
         this.updateDays();
         this.updateDate();
+        if(this.callback != null) this.callback.navUpdate();
     };
 
     private Color highlightColor = DefaultPalette.highlightColor;
     private Color defaultColor = DefaultPalette.defaultColor;
+
+    private NavUpdate callback;
 
     public DateBox() {
         super();
@@ -215,17 +226,9 @@ public class DateBox extends JPanel {
         }
 
         return null;
+    }
 
-        /*
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/DD/YYYY", Locale.ENGLISH);
-        Calendar cal = Calendar.getInstance();
-        try {
-            System.out.println(this.dateLabel.getText());
-            cal.setTime(sdf.parse(this.dateLabel.getText()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println("TIME: " + cal.getTime().toString());
-        return cal.getTime();*/
+    public void setCallback(NavUpdate callback) {
+        this.callback = callback;
     }
 }

@@ -239,7 +239,7 @@ public class ViewReservations extends JPanel implements NavUpdate{
         	c.gridy++;
         	c.ipady = 100;
         	c.ipadx = 500;
-        	c.gridwidth = 4;
+        	c.gridwidth = 5;
             this.add(this.tablePanel, c);
         }
         else {

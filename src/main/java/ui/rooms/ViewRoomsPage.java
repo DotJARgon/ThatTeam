@@ -103,7 +103,7 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
 
         	//populate table
             String[] columns = new String[] {
-            	"Room number", "Beds", "Smoker status", "Quality"
+            	"Room number", "Beds", "Smoker status", "Quality", "Number of beds"
             };
             Object[][] data = new Object[rooms.size()][columns.length];
             
@@ -114,6 +114,7 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
                 data[ndx][1] = r.getValue().getBedType().toString();
                 data[ndx][2] = r.getValue().getCanSmoke() ? "Can smoke" : "Cannot smoke";
                 data[ndx][3] = r.getValue().getQualityType().toString();
+				data[ndx][4] = r.getValue().getNumBeds();
                 ndx++;
             }
 
