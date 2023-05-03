@@ -1,49 +1,32 @@
 package ui.billing;
-
-import com.formdev.flatlaf.FlatLightLaf;
-import com.sun.xml.bind.v2.model.impl.DummyPropertyInfo;
 import user_services.Guest;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 
 
 public class UICreditCardInfo extends JPanel {
-    private Guest guest;
-    private Boolean isCreditCardValid;
-    public Boolean IsCreditCardValid() {
-        return isCreditCardValid;
-    }
-    public Guest getGuest() {
-        return guest;
-    }
-    public void setGuest(Guest g) {
-        guest = g;
-    }
+    private final Guest guest;
+    private boolean isCreditCardValid;
 
-    public UICreditCardInfo() {
+    private final JTextField fTextField, lTextField, aTextField, cTextField, dTextField1, dTextField2, cwTextField;
+
+    public UICreditCardInfo(Guest guest) {
         super();
-        isCreditCardValid = false;
-        guest = new Guest();
+        this.guest = guest;
+        this.isCreditCardValid = false;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(16, 16, 16, 16));
 
-        createGUI();
-
-    }
-
-    private void createGUI() {
         setPreferredSize(new Dimension(600, 400));
 
         //First Name
         JLabel fLabel = new JLabel(" First Name: ");
-        JTextField fTextField = new JTextField(12);
+        fTextField = new JTextField(12);
         JPanel namePane = new JPanel();
         namePane.setLayout(new BoxLayout(namePane, BoxLayout.X_AXIS));
         namePane.setSize(new Dimension(800, 100));
@@ -57,7 +40,7 @@ public class UICreditCardInfo extends JPanel {
 
         //Last Name
         JLabel lLabel = new JLabel(" Last Name: ");
-        JTextField lTextField = new JTextField(12);
+        lTextField = new JTextField(12);
 
         JPanel lPane = new JPanel();
         lPane.setLayout(new BoxLayout(lPane, BoxLayout.X_AXIS));
@@ -73,7 +56,7 @@ public class UICreditCardInfo extends JPanel {
         JPanel aPane = new JPanel();
         aPane.setLayout(new BoxLayout(aPane, BoxLayout.X_AXIS));
 
-        JTextField aTextField = new JTextField(12);
+        aTextField = new JTextField(12);
         aTextField.setMaximumSize(new Dimension(3000, 40));
 
         aPane.add(aLabel);
@@ -87,7 +70,7 @@ public class UICreditCardInfo extends JPanel {
 
         //Credit Card Number
         JLabel cLabel = new JLabel("Credit Card Number: ");
-        JTextField cTextField = new JTextField(20);
+        cTextField = new JTextField(20);
         cTextField.setMaximumSize(new Dimension(3000, 40));
         JPanel bPane = new JPanel();
         bPane.setLayout(new BoxLayout(bPane, BoxLayout.X_AXIS));
@@ -100,25 +83,28 @@ public class UICreditCardInfo extends JPanel {
         cPane.setLayout(new BoxLayout(cPane, BoxLayout.X_AXIS));
         cPane.setSize(new Dimension(800, 100));
 
-        JLabel dLabel = new JLabel("Expiration Date (mm/dd/yyyy): ");
-        JTextField dTextField1 = new JTextField(12);
-        JTextField dTextField2 = new JTextField(12);
-        JTextField dTextField3 = new JTextField(12);
+        JLabel dLabel = new JLabel("Expiration Date (mm/yyyy): ");
+        dTextField1 = new JTextField(12);
+        dTextField2 = new JTextField(12);
         JLabel dLabelA = new JLabel(" / ");
-        JLabel dLabelB = new JLabel(" / ");
 
         dLabelA.setMaximumSize(new Dimension(10, 30));
-        dLabelB.setMaximumSize(new Dimension(10, 30));
-        dTextField1.setMaximumSize(new Dimension(20, 30));
-        dTextField2.setMaximumSize(new Dimension(20, 30));
-        dTextField3.setMaximumSize(new Dimension(60, 30));
+        dTextField1.setMaximumSize(new Dimension(30, 30));
+        dTextField2.setMaximumSize(new Dimension(60, 30));
 
         cPane.add(dLabel);
         cPane.add(dTextField1);
         cPane.add(dLabelA);
         cPane.add(dTextField2);
-        cPane.add(dLabelB);
-        cPane.add(dTextField3);
+
+        JPanel cwPane = new JPanel();
+        cwPane.setLayout(new BoxLayout(cwPane, BoxLayout.X_AXIS));
+        cwPane.setSize(new Dimension(800, 100));
+        JLabel cwLabel = new JLabel("Enter cw: ");
+        cwTextField = new JTextField(3);
+        cwTextField.setMaximumSize(new Dimension(40, 30));
+        cwPane.add(cwLabel);
+        cwPane.add(cwTextField);
 
         JLabel blank1 = new JLabel(" ");
         blank1.setSize(new Dimension(800, 600));
@@ -153,106 +139,10 @@ public class UICreditCardInfo extends JPanel {
 
         JButton buttonSubmit = new JButton("Update Credit Card Information");
         buttonSubmit.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonSubmit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /* FIXME: WHAT IT SHOULD DO:
-                *  1. Checks if the information submitted is valid
-                *  2. If it is invalid, states its invalid and returns back to this window
-                *  3. If it is valid, asks user yes-or-no if they want to be charge
-                *  4. If the credit card has a date that expired or not enough credits to pay for the total price,
-                *     inputs an error message and returns the user back to this window
-                *  5. If the credit card has an ongoing date and enough credits to pay for the total price, the
-                *     credit card gets updated by subtracting it from the price and confirms the user that the
-                *     payment was successful and updates the user's reservation list
-                */
-
-                /*boolean no = false;
-                if (aTextField.getText().isEmpty()) {
-                    no = true;
-                }
-                else if (cTextField.getText().isEmpty()) {
-                    no = true;
-                }
-                else if (fTextField.getText().isEmpty()) {
-                    no = true;
-                }
-                else if (lTextField.getText().isEmpty()) {
-                    no = true;
-                }
-                else if (dTextField1.getText().isEmpty()) {
-                    no = true;
-                }
-                else if (dTextField2.getText().isEmpty()) {
-                    no = true;
-                }
-                else if (dTextField3.getText().isEmpty()) {
-                    no = true;
-                }
-                if (no) {
-                    JOptionPane.showMessageDialog(null, "Not all information is entered. Please update it.",
-                            "Oops", JOptionPane.ERROR_MESSAGE);
-                    isCreditCardValid = false;
-                }
-                else {
-                    boolean fake = false;
-                    if (!fTextField.getText().equals(guest.getFirstName())) {
-                        fake = true;
-                    }
-                    if (!lTextField.getText().equals(guest.getLastName())) {
-                        fake = true;
-                    }
-                    if (!aTextField.getText().equals(guest.getAddress())) {
-                        //if (aTextField.getText().equals("")) {
-                        fake = true;
-                        //}
-                        // {
-                            //guest.setAddress(aTextField.getText());
-                        //}
-                    }
-                    if (!cTextField.getText().equals(String.valueOf(guest.getCardNum()))) {
-                        //if (cTextField.getText().equals("")) {
-                        fake = true;
-                        //}
-                        //else {
-                        //    guest.setCardNum(Integer.parseInt(cTextField.getText()));
-                        //}
-                    }
-                    if (!dTextField1.getText().equals(String.valueOf(1+guest.getCardExpiration().getMonth()))) {
-                        fake = true;
-                    }
-                    if (!dTextField2.getText().equals(String.valueOf(guest.getCardExpiration().getDate()))) {
-                        fake = true;
-                    }
-                    if (!dTextField3.getText().equals(String.valueOf(1900+guest.getCardExpiration().getYear()))) {
-                        fake = true;
-                    }
-                    if (fake) {
-                        JOptionPane.showMessageDialog(null, "Some of the information inputted is incorrect. Please update it.",
-                                "Oops", JOptionPane.ERROR_MESSAGE);
-                        isCreditCardValid = false;
-                    }*/
-                    //else {
-                        JOptionPane.showMessageDialog(null, "Credit Card info successfully updated",
-                                "Yay", JOptionPane.DEFAULT_OPTION);
-
-                        isCreditCardValid = true;
-
-                guest.setAddress(aTextField.getText());
-                guest.setCardNum(Integer.parseInt(cTextField.getText()));
-                guest.setCardExpiration(new Date(Integer.parseInt(dTextField3.getText())-1900,
-                        Integer.parseInt(dTextField1.getText())-1,
-                        Integer.parseInt(dTextField2.getText())));
-
-                    //}
-                //}
-            }
-        });
 
 
         buttonPane.add(blank3);
         buttonPane.add(buttonSubmit);
-
 
         add(aPane);
         add(blank4);
@@ -260,37 +150,114 @@ public class UICreditCardInfo extends JPanel {
         add(bPane);
         add(blank6);
         add(cPane);
+        add(cwPane);
         add(blank7);
         add(blank8);
         add(buttonPane);
 
-        namePane.setVisible(true);
-        setVisible(true);
+        buttonSubmit.addActionListener(e -> {
+            this.isCreditCardValid = validateInputs();
+            if(this.isCreditCardValid) {
+                String firstName = fTextField.getText();
+                String lastName = lTextField.getText();
+                String address = aTextField.getText();
+                String cardnumber = cTextField.getText();
 
-    }
+                String month = dTextField1.getText();
+                String year = dTextField2.getText();
+
+                String cw = cwTextField.getText();
+
+                int m = Integer.parseInt(month);
+                int y = Integer.parseInt(year);
+
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.MONTH, m);
+                cal.set(Calendar.YEAR, y);
+
+                this.guest.setCardFirstName(firstName);
+                this.guest.setCardLastName(lastName);
+                this.guest.setAddress(address);
+                this.guest.setCardNum(cardnumber);
+                this.guest.setCardExpiration(cal.getTime());
+                this.guest.setCw(cw);
 
 
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame("Enter your credit card information");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //Create and set up the content pane.
-        UICreditCardInfo newContentPane = new UICreditCardInfo();
-        newContentPane.setOpaque(true); //content panes must be opaque
-        frame.setContentPane(newContentPane);
-
-        //Display the window.
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-
-
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
+                JOptionPane.showMessageDialog(null,
+                        "Credit Card info successfully updated, you may close this window",
+                        "Updated", JOptionPane.DEFAULT_OPTION);
+            }
+            else {
+                JOptionPane.showMessageDialog(null,
+                        "One or more entries are incorrect, please fix them, or your card is expired",
+                        "Incorrect", JOptionPane.ERROR_MESSAGE);
             }
         });
+
+        fTextField.setText(guest.getCardFirstName());
+        lTextField.setText(guest.getCardLastName());
+        aTextField.setText(guest.getAddress());
+        cTextField.setText(guest.getCardNum());
+        cwTextField.setText(guest.getCw());
+        Date exp = guest.getCardExpiration();
+        if(exp != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(exp);
+            dTextField1.setText(Integer.toString(cal.get(Calendar.MONTH)));
+            dTextField2.setText(Integer.toString(cal.get(Calendar.YEAR)));
+        }
+
+        this.isCreditCardValid = validateInputs();
+
+        namePane.setVisible(true);
+        setVisible(true);
     }
+
+    private boolean validateInputs() {
+        String firstName = fTextField.getText();
+        String lastName = lTextField.getText();
+        String address = aTextField.getText();
+        String cardnumber = cTextField.getText();
+        String month = dTextField1.getText();
+        String year = dTextField2.getText();
+        String cw = cwTextField.getText();
+
+        //if empty strings return false
+        if(firstName.equals("") || lastName.equals("") || address.equals("") || cardnumber.equals("") || cardnumber.equals("") || month.equals("") || year.equals(""))
+            return false;
+
+        //if not numbers
+        if(!cardnumber.matches("[0-9]+") || !month.matches("[0-9]+") || !year.matches("[0-9]+") || !cw.matches("[0-9]+"))
+            return false;
+
+        //apparently credit card numbers are 16 digits
+        if(cardnumber.length() != 16)
+            return false;
+
+        if(cw.length() != 3)
+            return false;
+
+        int m = Integer.parseInt(month);
+        int y = Integer.parseInt(year);
+
+        //invalid month
+        if(m < 1 || m > 12)
+            return false;
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, m);
+        cal.set(Calendar.YEAR, y);
+
+        //if the card is expired
+        if(cal.before(Calendar.getInstance()))
+            return false;
+
+        return true;
+    }
+
+
+    public boolean isCreditCardValid() {
+        return isCreditCardValid;
+    }
+
 }

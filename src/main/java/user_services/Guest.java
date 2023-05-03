@@ -18,8 +18,7 @@ import java.util.Vector;
 @XmlRootElement(name = "guest")
 public class Guest extends Account {
 	private Vector<Integer> reservations;
-	private String address, corporation;
-	private int creditCardNum;
+	private String address, corporation, cardFirstName, cardLastName, creditCardNum, cw;
 	private Date creditCardExpiration;
 
 	/**
@@ -29,38 +28,26 @@ public class Guest extends Account {
 		super();
 		reservations = new Vector<>();
 		address = "";
-		creditCardNum = 0;
-		//Random date, used to test input for credit card information
-		creditCardExpiration = new Date(2023, Calendar.JUNE, 21);
+		creditCardNum = "";
+		creditCardExpiration = Calendar.getInstance().getTime();
+		cardFirstName = "";
+		cardLastName = "";
+		creditCardNum = "";
+		cw = "";
 		corporation = "";
 	}
 
-	/**
-	 * A constructor for the Guest object
-	 * @param u the username of the guest
-	 * @param p the password of the guest, properly salted
-	 * @param fn the firstname of the guest
-	 * @param ln the last name of the guest
-	 * @param i the unique user id of the guest
-	 * @param a the address of the guest for billing
-	 * @param n the credit card number of the guest account
-	 * @param exp the credit card expiration date of the guest
-	 *            account
-	 * @param qS the security question of the guest
-	 * @param qA the security question answer of the guest
-	 */
-	public Guest(String u, String p, String fn, String ln, int i, String a, int n, Date exp, String qS, String qA) {
-		super(u, p, fn, ln, i, qS, qA);
-		reservations = new Vector<>();
-		address = a;
-		creditCardNum = n;
-		creditCardExpiration = exp;
-		corporation = new String("");
-	}
-//public Account(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
 	public Guest(String username, String password, String firstName, String lastName, int id, String securityQ, String securityA) {
 		super(username,password,firstName,lastName, id, securityQ,securityA);
-		corporation = new String("");
+		reservations = new Vector<>();
+		address = "";
+		creditCardNum = "";
+		creditCardExpiration = Calendar.getInstance().getTime();
+		cardFirstName = "";
+		cardLastName = "";
+		creditCardNum = "";
+		cw = "";
+		corporation = "";
 	}
 
 	public void addReservation(int r) {
@@ -83,11 +70,11 @@ public class Guest extends Account {
 		this.address = address;
 	}
 
-	public int getCardNum() {
+	public String getCardNum() {
 		return creditCardNum;
 	}
 
-	public void setCardNum(int creditCardNum) {
+	public void setCardNum(String creditCardNum) {
 		this.creditCardNum = creditCardNum;
 	}
 
@@ -114,5 +101,29 @@ public class Guest extends Account {
 
 	public void setCorporation(String corporation) {
 		this.corporation = corporation;
+	}
+
+	public String getCardFirstName() {
+		return cardFirstName;
+	}
+
+	public void setCardFirstName(String cardFirstName) {
+		this.cardFirstName = cardFirstName;
+	}
+
+	public String getCardLastName() {
+		return cardLastName;
+	}
+
+	public void setCardLastName(String cardLastName) {
+		this.cardLastName = cardLastName;
+	}
+
+	public String getCw() {
+		return cw;
+	}
+
+	public void setCw(String cw) {
+		this.cw = cw;
 	}
 }

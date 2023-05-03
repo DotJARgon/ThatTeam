@@ -27,10 +27,10 @@ import user_services.Clerk;
 import user_services.Guest;
 
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
-    private final JTable roomsTable;
+    protected final JTable roomsTable;
     private final JPanel tablePanel, datePanel;
     private final JButton reserveRooms, refresh;
-    private final DateBox startDate, endDate;
+    protected final DateBox startDate, endDate;
 
     private final ActionListener reserveListener = e -> {
         reserveRooms();
@@ -111,35 +111,18 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
             Reservation res = new Reservation((int) (Math.random()*Integer.MAX_VALUE), start, end, new Billing(), roomIds, false, false);
 
             if(UI.getCurrentClient() instanceof Guest guest) {
-                UICreditCardInfo creditCardInfo = new UICreditCardInfo();
-                creditCardInfo.setGuest(guest);
-                System.out.println(creditCardInfo.getGuest().getCardExpiration().getMonth());
-                System.out.println(creditCardInfo.getGuest().getCardExpiration().getDate());
-                System.out.println(creditCardInfo.getGuest().getCardExpiration().getYear());
-
-                HotelManagement.getHotelManagement().addReservation(res, guest);
-                JOptionPane.showMessageDialog(null, new ReservationBilling(res));
-
+                UICreditCardInfo creditCardInfo = new UICreditCardInfo(guest);
                 JOptionPane.showMessageDialog(null, creditCardInfo);
 
-                if (creditCardInfo.IsCreditCardValid()) {
-                    int a = JOptionPane.showConfirmDialog(null,
-                            "Cost: " + String.valueOf(res.getBilling().getCost()), "Purchase?", JOptionPane.YES_NO_OPTION);
-                    if (a == 0) {
-                        JOptionPane.showMessageDialog(null, "Successfully purchased");
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null,"Purchase has been cancelled.",
-                                "Oops", JOptionPane.ERROR_MESSAGE);
-                        HotelManagement.getHotelManagement().cancelReservation(res.getID(), guest);
-                    }
+                if(creditCardInfo.isCreditCardValid()) {
+                    JOptionPane.showMessageDialog(null, "Successfully Reserved");
+                    HotelManagement.getHotelManagement().addReservation(res, guest);
+                    JOptionPane.showMessageDialog(null, new ReservationBilling(res));
                 }
                 else {
-                    JOptionPane.showMessageDialog(null,"Purchase has been cancelled.",
+                    JOptionPane.showMessageDialog(null,"Cancelled or invalid card information",
                             "Oops", JOptionPane.ERROR_MESSAGE);
-                    HotelManagement.getHotelManagement().cancelReservation(res.getID(), guest);
                 }
-
             }
             else if(UI.getCurrentClient() instanceof Clerk clerk) {
             	if(((Clerk)UI.getCurrentClient()).getGuest() != null) {
