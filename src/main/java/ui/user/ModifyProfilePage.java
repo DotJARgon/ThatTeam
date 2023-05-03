@@ -20,10 +20,18 @@ import user_services.Clerk;
 import user_services.Guest;
 import user_services.UserLoader;
 
+/**
+ * This is the ModifyProfilePage, this allows a user to change their username,
+ * firstname and lastname
+ */
 public class ModifyProfilePage extends JPanel implements NavUpdate{
 	private JTextField nameTxt, firstTxt, lastTxt;
 	private final JPanel container;
-	
+
+	/**
+	 * This is the ModifyProfilePage default constructor, it simply sets up
+	 * the UI elements
+	 */
 	public ModifyProfilePage(){
 		this.setLayout(new GridBagLayout());
 		container = new JPanel();
@@ -73,7 +81,11 @@ public class ModifyProfilePage extends JPanel implements NavUpdate{
 		container.add(submitBut);
 		this.add(container, new GridBagConstraints());
 	}
-	
+
+	/**
+	 * navUpdate in ModifyProfilePage populates the username, firstname, and lastname
+	 * fields in this page with their respective values in the current account logged in
+	 */
 	@Override
 	public void navUpdate() {
 		nameTxt.setText(UI.getCurrentClient().getUsername());

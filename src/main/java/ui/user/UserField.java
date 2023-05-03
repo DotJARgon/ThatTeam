@@ -6,12 +6,26 @@ import ui.custom.NavUpdate;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * UserField is a versatile component meant for either logging in or registering a new user,
+ * it has a title, two input fields, one is username the other is password, and two clickable
+ * text fields
+ */
 public class UserField extends JPanel implements NavUpdate {
     protected final JTextField username = new JTextField();
     JPasswordField password = new JPasswordField();
     private final JLabel enterUsername, enterPassword;
     protected final ClickableText left, right;
-    //protected final String resetUsername = "";
+
+    /**
+     * This is the UserField constructor, it takes in two strings, leftName
+     * being the text label of the left clickable text component, and rightName
+     * being the same for the right clickable text component, and reg is a control for
+     * specific types of UserFields
+     * @param leftName The name of the left clickable text component
+     * @param rightName The name of the right clickable text component
+     * @param reg A control for a type of UserField layout
+     */
     public UserField(String leftName, String rightName, int reg) {
         super();
         this.enterUsername = new JLabel("Enter Username:");
@@ -79,6 +93,9 @@ public class UserField extends JPanel implements NavUpdate {
         }
     }
 
+    /**
+     * navUpdate in UserField clears all text input fields
+     */
     @Override
     public void navUpdate() {
         this.username.setText("");

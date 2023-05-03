@@ -23,6 +23,15 @@ import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
 
+/**
+ * ViewReservations is a page for either a Guest or the Clerk, for a Guest account, it shows
+ * all of the reservations that user has made, and allows them to edit, view the billing of, or
+ * cancel any of those reservations as long as it is allowed! For a clerk, if they are helping
+ * a guest, then they can see that guest's reservations and can do all of the previous actions,
+ * if the Clerk is not helping a specific guest, they see all reservations that have been made
+ * and even ones that have been cancelled! The Clerk also has the option to checkin/checkout a
+ * reservation!
+ */
 public class ViewReservations extends JPanel implements NavUpdate {
 	private JTable resTable;
 	private Guest g;
@@ -30,6 +39,10 @@ public class ViewReservations extends JPanel implements NavUpdate {
 	private JButton back, modify, generate, remove, check;
 	private GridBagConstraints c;
 
+	/**
+	 * This is the default constructor of ViewReservations, it simply initializes its
+	 * UI elements
+	 */
 	public ViewReservations() {
 		this.resTable = new JTable();
 		this.tablePanel = new JPanel();
@@ -151,6 +164,11 @@ public class ViewReservations extends JPanel implements NavUpdate {
 		this.tablePanel.setVisible(false);
 	}
 
+	/**
+	 * navUpdate in ViewReservations gets all of the reservations that the current
+	 * user in their current state can view, as well as updates the UI to give options
+	 * or hide options that match the corresponding account that should have access
+	 */
 	@Override
 	public void navUpdate() {
 		this.tablePanel.setVisible(true);

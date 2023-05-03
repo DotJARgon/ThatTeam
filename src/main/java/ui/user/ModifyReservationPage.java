@@ -1,29 +1,22 @@
 package ui.user;
 
-import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.Vector;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import hotel_management.HotelManagement;
-import hotel_management.Reservation;
-import hotel_management.Room;
 import ui.UI;
-import ui.custom.DateBox;
-import ui.custom.NavUpdate;
 import ui.rooms.ReserveRoomsPage;
-import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
 
+/**
+ * This is the ModifyReservationPage, which extends functionality from ReserveRoomsPage,
+ * however it differs in that it has an id for which reservation is selected, and is slightly
+ * different in how it performs a reservation, it does not prompt card information as there
+ * would have been no way to make a reservation without having proper card info, and instead
+ * of making a new reservation for the current logged in account, it edits the values of a
+ * reservation of the guest of a clerk account logged in
+ */
 public class ModifyReservationPage extends ReserveRoomsPage {
     private int currResID = -1;
 
@@ -59,10 +52,10 @@ public class ModifyReservationPage extends ReserveRoomsPage {
             if(UI.getCurrentClient() instanceof Guest)
                 HotelManagement.getHotelManagement().modifyReservation(currResID, start, end, roomIds);
             else if(UI.getCurrentClient() instanceof Clerk) {
-            	if(((Clerk)UI.getCurrentClient()).getGuest() != null)
-            		HotelManagement.getHotelManagement().modifyReservation(currResID, start, end, roomIds);
-            	else
-            		JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
+                if(((Clerk)UI.getCurrentClient()).getGuest() != null)
+                    HotelManagement.getHotelManagement().modifyReservation(currResID, start, end, roomIds);
+                else
+                    JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
             }
             this.currResID = -1;
 
@@ -71,6 +64,10 @@ public class ModifyReservationPage extends ReserveRoomsPage {
         }
     }
 
+    /**
+     * setID sets the id of the ModifyReservationPage's reservation that it is modify
+     * @param id The id of the reservation to modify
+     */
     public void setID(int id) {
     	this.currResID = id;
     }

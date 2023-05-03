@@ -76,6 +76,10 @@ public class RegisterPage extends UserField {
         UI.navTo(UI.Routes.RESET_PASSWORD);
     };
 
+    /**
+     * This is the RegisterPage default constructor, it simply sets up the
+     * UI elements of this page
+     */
     public RegisterPage() {
         super("Register", "Return to login", 1);
         this.enterQ = new JLabel("Enter Security Question:");
@@ -143,6 +147,9 @@ public class RegisterPage extends UserField {
         this.right.addClickAction(this.loginPageAction);
     }
 
+    /**
+     * navUpdate in RegisterPage clears all textfields
+     */
     @Override
     public void navUpdate() {
         this.username.setText("");

@@ -174,9 +174,8 @@ public class ResetPage extends UserField {
     }
 
     /**
-        Overrides the navUpdate function in the UI, to clean the
-        page once navigated off, and repopulate the page once navigated on.
-    */
+     * navUpdate in ResetPage clears all text inputs
+     */
     @Override
     public void navUpdate() {
         this.username.setText("");
