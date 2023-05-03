@@ -8,8 +8,15 @@ import java.awt.*;
 import java.util.Arrays;
 
 /**
- *
- * */
+ * The Reservation Billing class is a specific panel that
+ * shows a billing of a Reservation, passed in the constructor,
+ * in an easily digestible manner, it is meant to be shown
+ * so users can easily view it
+ * @author  Alexzander DeVries, Lizzie Nix, Bryant Huang,
+ *          Marcelo Carpenter, Christian Ocana
+ * @version  4.2
+ * @since 3/15/23
+ */
 public class ReservationBilling extends JPanel {
     public ReservationBilling(Reservation reservation) {
         super(new GridBagLayout());

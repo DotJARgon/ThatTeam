@@ -29,14 +29,11 @@ import user_services.Guest;
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     protected final JTable roomsTable;
     private final JPanel tablePanel, datePanel;
-    private final JButton reserveRooms, refresh;
+    private final JButton reserveRooms;
     protected final DateBox startDate, endDate;
 
     private final ActionListener reserveListener = e -> {
         reserveRooms();
-    };
-    private final ActionListener refreshListener = e -> {
-        this.navUpdate();
     };
 
     public ReserveRoomsPage() {
@@ -67,13 +64,11 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
 
         this.reserveRooms = new JButton("Reserve");
         this.reserveRooms.addActionListener(reserveListener);
-        this.refresh = new JButton("Refresh");
-        this.refresh.addActionListener(refreshListener);
+
 
         this.add(datePanel);
         this.add(tablePanel);
         this.add(reserveRooms);
-        this.add(refresh);
 
         this.tablePanel.setVisible(false);
     }
