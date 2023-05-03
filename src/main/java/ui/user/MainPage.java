@@ -22,6 +22,9 @@ import user_services.Guest;
  * for a user to easily get to any page from on convenient center. It only displays the buttons to go to pages
  * that this user has permission to go to! Like for example, the Admin can only log out, create a clerk, or modify
  * their profile info! While a clerk cannot create a clerk however can view rooms or even help a guest!
+ * @author  Lizzie Nix and Marcelo Carpenter
+ * @version  3.1
+ * @since 3/26/23
  */
 public class MainPage extends JPanel implements NavUpdate {
 	private final JButton logout, reserveroom, viewroom, helpguest, stophelp, addclerk, viewreses, addcorp, paycorp, modprofile;

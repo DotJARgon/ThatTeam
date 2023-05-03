@@ -16,6 +16,9 @@ import java.util.Locale;
  * that selection into a Date object. The date selection is also updated by default
  * to be the current date, and prevents the user from ever selecting a date anytime
  * before the current date!
+ * @author  Marcelo Carpenter
+ * @version  3.2
+ * @since 3/26/23
  */
 public class DateBox extends JPanel {
     private static final String[] MONTHS = new String[]{

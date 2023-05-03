@@ -10,6 +10,9 @@ import java.awt.*;
  * UserField is a versatile component meant for either logging in or registering a new user,
  * it has a title, two input fields, one is username the other is password, and two clickable
  * text fields
+ * @author  Marcelo Carpenter
+ * @version  1.3
+ * @since 3/15/23
  */
 public class UserField extends JPanel implements NavUpdate {
     protected final JTextField username = new JTextField();

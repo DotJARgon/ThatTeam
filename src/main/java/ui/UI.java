@@ -5,11 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,13 +19,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-import billing_services.BillingCalculator;
 import hotel_management.HotelManagement;
-import hotel_management.Reservation;
-import hotel_management.ReservationLoader;
 import hotel_management.Room;
-import hotel_management.RoomLoader;
-import ui.billing.ReservationBilling;
 import ui.custom.Clickable;
 import ui.custom.NavUpdate;
 import ui.rooms.AddModifyRoomsPage;
@@ -46,10 +37,6 @@ import ui.user.RegisterPage;
 import ui.user.ResetPage;
 import ui.user.ViewReservations;
 import user_services.Account;
-import user_services.Admin;
-import user_services.Clerk;
-import user_services.Guest;
-import user_services.UserLoader;
 
 
 /**
@@ -344,8 +331,27 @@ public class UI extends JFrame {
         else {
             UI.navTo(Routes.RESET_PASSWORD);
         }
-        //reset.setVisible(false);
     };
+
+    /**
+     * setModResID sets the reservation id for the ModifyReservationPage
+     * @param id The reservation id for the ModifyReservationsPage to use
+     */
+    public void setModResID(int id) {
+        this.modifyResPage.setID(id);
+    }
+
+    /**
+     * setModifyRoomsPage sets the room for the ModifyRoomsPage to edit
+     * @param room The room to modify using the ModifyRoomsPage
+     */
+    public void setModifyRoomsPage(Room room) {this.modifyRoomsPage.setSelectedRoom(room);}
+
+    /**
+     * nav show the corresponding page to the string key, never meant to be called
+     * directly, call UI.navTo
+     * @param page The string key of the page to be shown
+     */
     private void nav(String page) {
         //reset.isVisible();
         cl.show(this.main, page);
@@ -365,74 +371,6 @@ public class UI extends JFrame {
     }
 
     public static void main(String[] args) {
-    	/*
-        ArrayList<Room> roomsDebug = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            Room room = new Room(i,2,Room.BedType.QUEEN,false,Room.QualityType.COMFORT);
-            roomsDebug.add(room);
-        }
-        RoomLoader.saveRooms(roomsDebug);
-
-        ArrayList<Reservation> reservationsDebug = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
-        for(int i = 0; i < 10; i++) {
-            Reservation reservation = new Reservation(i, cal.getTime(), cal.getTime(), null, new int[] {1, 2, 3}, false, false);
-            reservation.setBilling(BillingCalculator.generate(reservation));
-            reservationsDebug.add(reservation);
-        }
-        ReservationLoader.saveReservations(reservationsDebug);
-
-        ArrayList<Account> accountsDebug = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            Guest g = new Guest();
-            g.setUsername("bob" + i);
-            g.setFirstName("Bob");
-            g.setLastName("Harvey");
-            g.setSecurityQ("Your mother was a hamster and your father was smelt of elderberries");
-            g.setHashedSecurityA("No you!");
-            g.setHashedPassword(Integer.toString(i));
-            System.out.println(g.getSecurityA());
-            Vector<Integer> rv = new Vector<>();
-            rv.add(1);
-            rv.add(2);
-            rv.add(3);
-            g.setReservations(rv);
-            accountsDebug.add(g);
-        }
-
-        Clerk c = new Clerk();
-        c.setUsername("sheila1");
-        c.setFirstName("Sheila");
-        c.setLastName("Smith");
-        c.setHashedPassword(Integer.toString(1));
-        c.setSecurityQ("What is the best Christmas movie of all time?");
-        c.setHashedSecurityA("Die Hard");
-        accountsDebug.add(c);
-        
-        Admin a = new Admin();
-        a.setUsername("Jimbo3");
-        a.setFirstName("Jim");
-        a.setLastName("Bob");
-        a.setHashedPassword(Integer.toString(3));
-        accountsDebug.add(a);
-        
-        //AccountList accountList = new AccountList();
-        //accountList.setAccountsList(accountsDebug);
-        //UserLoader.saveUsers(accountList);
-
-        UserLoader.saveUsers(accountsDebug);
-        ConcurrentHashMap<String, Account> accounts = UserLoader.loadUsers();
-        for(Account acc : accounts.values()) System.out.println(acc.getUsername());
-
-        JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));
-        BillingCalculator.calculateCancelledCost(reservationsDebug.get(0));
-        JOptionPane.showMessageDialog(null, new ReservationBilling(reservationsDebug.get(0)));*/
-
         UI ui = getUI();
     }
-    
-    public void setModResID(int id) {
-    	this.modifyResPage.setID(id);
-    }
-    public void setModifyRoomsPage(Room room) {this.modifyRoomsPage.setSelectedRoom(room);}
 }

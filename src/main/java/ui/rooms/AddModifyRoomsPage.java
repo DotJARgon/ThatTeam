@@ -25,6 +25,9 @@ import ui.custom.NavUpdate;
  * a room that has been set. The user can either modify that room, or if they did not
  * select a room previously or they changed the ID field, then a new room will be
  * created
+ * @author  Lizzie Nix
+ * @version  2.7
+ * @since 3/21/23
  */
 public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 	private final JLabel numLbl, bedsLbl, smokeLbl, typeLbl, qualLbl;

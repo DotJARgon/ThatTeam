@@ -14,8 +14,7 @@ import javax.swing.border.EmptyBorder;
  * sanitation to make sure the inputs would be a valid credit card,
  * and populates by default with the values guest has, and double
  * checks that information whether or not it is valid
- * @author  Alexzander DeVries, Lizzie Nix, Bryant Huang,
- *          Marcelo Carpenter, Christian Ocana
+ * @author  Christian Ocana
  * @version  4.2
  * @since 3/15/23
  */

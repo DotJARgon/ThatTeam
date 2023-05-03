@@ -122,24 +122,38 @@ public class HotelManagement {
         return availableRooms;
     }
 
+    /**
+     * getAllReservations returns all of the id to reservation mappings
+     * @return all reservation mappings
+     */
     public ConcurrentHashMap<Integer, Reservation> getAllReservations() {
         return allReservations;
     }
 
+    /**
+     * getAccounts returns all of the username to account mappings
+     * @return all account mappings
+     */
     public ConcurrentHashMap<String, Account> getAccounts() {
         return accounts;
     }
 
-    public void modifyProfile(String u, String n, String f, String l) {
-    	Account newAcc = this.accounts.get(u);
-    	this.accounts.remove(u);
-    	newAcc.setUsername(n);
-    	newAcc.setFirstName(f);
-    	newAcc.setLastName(l);
-    	this.accounts.put(n, newAcc);
+    /**
+     * modifyProfile changes the username, firstname and lastname of an already existing user
+     * @param username the original username of the user
+     * @param new_username the new username of the user
+     * @param new_firstname the new firstname of the user
+     * @param new_lastname the new lastname of the user
+     */
+    public void modifyProfile(String username, String new_username, String new_firstname, String new_lastname) {
+        Account newAcc = this.accounts.get(username);
+        this.accounts.remove(username);
+        newAcc.setUsername(new_username);
+        newAcc.setFirstName(new_firstname);
+        newAcc.setLastName(new_lastname);
+        this.accounts.put(new_username, newAcc);
         this.userIds = new HashSet<>();
         for(Account a : this.accounts.values()) this.userIds.add(a.getId());
-
         this.saveUsers();
     }
     
@@ -162,8 +176,13 @@ public class HotelManagement {
         this.saveReservations();
     }
 
-    public Room getRoomByID(int i){
-        return this.rooms.get(i);
+    /**
+     * getRoomByID gets a room by its id
+     * @param id The id of the room to get
+     * @return either null if the room does not exist or the room associated with that id
+     */
+    public Room getRoomByID(int id){
+        return this.rooms.get(id);
     }
 
     /**
@@ -205,6 +224,13 @@ public class HotelManagement {
         this.saveReservations();
     }
 
+    /**
+     * hasCancellationFee returns true if the reservation, if it were cancelled now, would result
+     * in a cancellation fee, this is so the status of a cancellation can be known ahead of time.
+     * It assumes the reservation id is a valid reservation as well
+     * @param resID The reservation id to check
+     * @return true if the cancellation fee would incur if it was cancelled now, false otherwise
+     */
     public boolean hasCancellationFee(int resID) {
         Reservation res = allReservations.get(resID);
         //Determine whether to charge the guest
@@ -216,15 +242,29 @@ public class HotelManagement {
         return ((currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2) ||
                 (currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363));
     }
-    
-    //Assumes the reservation exists
+
+    /**
+     * modifyReservation modifies a reservation with a new start and end date, and
+     * a new set of rooms
+     * @param resID The id of the reservation to modify
+     * @param start the new start date
+     * @param end the new end date
+     * @param rooms the new rooms
+     */
     public void modifyReservation(int resID, Date start, Date end, int[] rooms) {
         Reservation res = allReservations.get(resID);
-    	res.modify(start, end, rooms);
-    	res.setBilling(BillingCalculator.generate(res));
-    	this.saveReservations();
+    	if(res != null) {
+            res.modify(start, end, rooms);
+            res.setBilling(BillingCalculator.generate(res));
+            this.saveReservations();
+        }
     }
-    
+
+    /**
+     * getRes gets a reservation based off of its id
+     * @param resID The id of the reservation to get
+     * @return null if that resID does not exist or the reservation associated with that id
+     */
     public Reservation getRes(int resID) {
     	return allReservations.get(resID);
     }
@@ -267,12 +307,22 @@ public class HotelManagement {
         this.userIds = new HashSet<>();
         for(Account a : this.accounts.values()) this.userIds.add(a.getId());
     }
-    
+
+    /**
+     * getRooms returns the rooms mapping
+     * @return the map of rooms ids to room objects
+     */
     public ConcurrentHashMap<Integer, Room> getRooms(){
     	return rooms;
     }
-    public Room getRoom(int k) {
-    	return rooms.get(k);
+
+    /**
+     * getRoom returns a room by id
+     * @param id The id of the room to get
+     * @return null if the room does not exist, or the room corresponding with that id
+     */
+    public Room getRoom(int id) {
+    	return rooms.get(id);
     }
 
     /**
@@ -309,13 +359,6 @@ public class HotelManagement {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    
-    public Account logOut() {
-        //logs the user out of their session, this
-        //will clear any lingering temporary data
-        //about this user
-        return null;
     }
 
     /**
@@ -388,20 +431,40 @@ public class HotelManagement {
         return null;
     }
 
+    /**
+     * saveRooms saves all of the rooms to an xml file
+     */
     public void saveRooms() {
         RoomLoader.saveRooms(this.rooms.values().stream().toList());
     }
+    /**
+     * saveUsers saves all of the accounts to an xml file
+     */
     public void saveUsers() {
         UserLoader.saveUsers(this.accounts.values().stream().toList());
     }
+    /**
+     * saveReservations saves all of the reservations to an xml file
+     */
     public void saveReservations() {
         ReservationLoader.saveReservations(this.allReservations.values().stream().toList());
     }
 
-    public boolean checkID(int ID) {
-        return userIds.contains(ID);
+    /**
+     * checkID is to check if an id already exists
+     * @param id the id to check
+     * @return true if the id exists false otherwise
+     */
+    public boolean checkID(int id) {
+        return userIds.contains(id);
     }
-    public Account getUser(String s) {
-    	return accounts.get(s);
+
+    /**
+     * getUser gets a user based off of their username
+     * @param username The username of the user to get
+     * @return either null if the username does not exist or the corresponding Account
+     */
+    public Account getUser(String username) {
+    	return accounts.get(username);
     }
 }

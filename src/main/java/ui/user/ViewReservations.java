@@ -31,6 +31,9 @@ import user_services.Guest;
  * if the Clerk is not helping a specific guest, they see all reservations that have been made
  * and even ones that have been cancelled! The Clerk also has the option to checkin/checkout a
  * reservation!
+ * @author  Lizzie Nix
+ * @version  4.2
+ * @since 3/21/23
  */
 public class ViewReservations extends JPanel implements NavUpdate {
 	private JTable resTable;

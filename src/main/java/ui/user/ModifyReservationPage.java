@@ -16,6 +16,9 @@ import user_services.Guest;
  * would have been no way to make a reservation without having proper card info, and instead
  * of making a new reservation for the current logged in account, it edits the values of a
  * reservation of the guest of a clerk account logged in
+ * @author  Lizzie Nix
+ * @version  3.3
+ * @since 3/28/23
  */
 public class ModifyReservationPage extends ReserveRoomsPage {
     private int currResID = -1;

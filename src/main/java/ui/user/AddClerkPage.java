@@ -24,6 +24,9 @@ import user_services.Guest;
  * however it is required that the Guest account has no reservations previously,
  * it needs to be an entirely new account, as it makes no sense
  * for a Clerk to have any reservations
+ * @author  Alexzander DeVries
+ * @version  1.1
+ * @since 3/29/23
  */
 public class AddClerkPage extends JPanel implements NavUpdate {
 	private final JTextField text;

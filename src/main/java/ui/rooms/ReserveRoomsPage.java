@@ -34,6 +34,9 @@ import user_services.Guest;
  * as well as it will prompt the user to either enter their credit card
  * info for the first time or make sure their card info is correct. Then a
  * billing is shown, this billing is what the user will be charged once they check in
+ * @author  Marcelo Carpenter
+ * @version  3.1
+ * @since 3/20/23
  */
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     protected final JTable roomsTable;

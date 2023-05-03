@@ -22,6 +22,9 @@ import user_services.Guest;
 /**
  * The HelpGuestPage is meant for the Clerk account, it allows a
  * Clerk to select a Guest by the username and start helping them!
+ * @author  Lizzie Nix
+ * @version  2.1
+ * @since 3/26/23
  */
 public class HelpGuestPage extends JPanel implements NavUpdate {
 	private JTextField text;

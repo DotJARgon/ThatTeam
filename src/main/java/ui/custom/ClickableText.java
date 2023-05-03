@@ -9,7 +9,10 @@ import java.awt.event.MouseEvent;
  * ClickableText is a custom ui element that appears like a hyperlink,
  * it has a click action event that allows for custom behavior when clicking
  * it
- * */
+ * @author  Marcelo Carpenter
+ * @version  1.1
+ * @since 3/14/23
+ */
 public class ClickableText extends JLabel {
     private Color defaultColor = DefaultPalette.defaultColor;
     private Color highlightColor = DefaultPalette.highlightColor;

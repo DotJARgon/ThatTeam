@@ -23,6 +23,9 @@ import user_services.UserLoader;
 /**
  * This is the ModifyProfilePage, this allows a user to change their username,
  * firstname and lastname
+ * @author  Christian Ocana
+ * @version  1.1
+ * @since 3/24/23
  */
 public class ModifyProfilePage extends JPanel implements NavUpdate{
 	private JTextField nameTxt, firstTxt, lastTxt;

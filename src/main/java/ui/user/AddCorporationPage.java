@@ -19,6 +19,9 @@ import user_services.Guest;
 /**
  * This is the AddCorporationPage, it allows a Guest account to add a corporation
  * to themselves, this is the corporation that is charged!
+ * @author  Alexzander DeVries
+ * @version  1.1
+ * @since 3/29/23
  */
 public class AddCorporationPage extends JPanel implements NavUpdate{
 	private JTextField text;

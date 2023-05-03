@@ -27,6 +27,9 @@ import user_services.Account;
  * The ViewRoomsPage displays rooms and gives the user the ability to do a
  * variety of things such as editing a room, removing it, or returning to the
  * main menu
+ * @author  Lizzie Nix
+ * @version  2.3
+ * @since 3/21/23
  */
 public class ViewRoomsPage extends JPanel implements NavUpdate {
 	private JTable roomsTable;
