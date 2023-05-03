@@ -36,7 +36,8 @@ public class ResetPage extends UserField {
         //this.Q.setMaximumSize(new Dimension(100, 10));
     };
     /**
-     * Handles the navigation after a click of the login page button
+     * Handles the navigation after a click of the login page button, and redirects the
+     * page to a different page.
      */
     private final Clickable loginPageAction = () -> {
         UI.navTo(UI.Routes.LOGIN);
@@ -54,7 +55,7 @@ public class ResetPage extends UserField {
         this.accountValidation = HotelManagement.getHotelManagement().getUser(this.username.getText());
         this.Q.setText(accountValidation.getSecurityQ());
 
-        System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
+        //System.out.println(secA.getText() + " " + newPass.getText() + " " + username.getText());
         if (!(secA.getText().equals("") || newPass.equals(""))) {
             //System.out.println(secA.getText());
             Object[] options = {"OK", "CANCEL"};
@@ -133,7 +134,7 @@ public class ResetPage extends UserField {
         SGrid.gridy = 2;
 
         GridBagConstraints QGrid = new GridBagConstraints();
-        QGrid.fill = GridBagConstraints.NONE;
+        QGrid.fill = GridBagConstraints.HORIZONTAL;
         QGrid.gridx = 0;
         QGrid.gridy = 4;
         QGrid.gridwidth = 3;
