@@ -20,10 +20,26 @@ import hotel_management.Room;
 import ui.UI;
 import ui.custom.NavUpdate;
 
+/**
+ * AddModifyRoomsPage is a page for editing a room, it also can display the information of
+ * a room that has been set. The user can either modify that room, or if they did not
+ * select a room previously or they changed the ID field, then a new room will be
+ * created
+ */
 public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 	private final JLabel numLbl, bedsLbl, smokeLbl, typeLbl, qualLbl;
-	private Room newRoom;
+	private final JSpinner inputNum, inputBeds;
+	private final JCheckBox smoking;
+	private final JRadioButton executive, business, comfort, economy;
+	private final JRadioButton twin, full, queen, king;
+	private final ButtonGroup qualityGroup, bedTypeGroup;
+	private Room selectedRoom;
 	private final JPanel container;
+
+	/**
+	 * This is the default constructor of AddModifyRoomsPage, it simply
+	 * puts the UI elements in their place
+	 */
 	public AddModifyRoomsPage(){
 		super();
 		this.setLayout(new GridBagLayout());
@@ -40,19 +56,19 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		//Input room number
 		numLbl = new JLabel("Room number:");
 		container.add(numLbl);
-		JSpinner inputNum = new JSpinner();
+		inputNum = new JSpinner();
 		container.add(inputNum);
 		
 		//Input number of beds
 		bedsLbl = new JLabel("Number of beds:");
 		container.add(bedsLbl);
-		JSpinner inputBeds = new JSpinner();
+		inputBeds = new JSpinner();
 		container.add(inputBeds);
 		
 		//Input smoking
 		smokeLbl = new JLabel("Smoking permitted:");
 		container.add(smokeLbl);
-		JCheckBox smoking = new JCheckBox();
+		smoking = new JCheckBox();
 		container.add(smoking);
 		
 		//Input bed type
@@ -60,14 +76,14 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		bedTypePnl.setLayout(new BoxLayout(bedTypePnl, BoxLayout.Y_AXIS));
 		typeLbl = new JLabel("Bed Type:");
 		bedTypePnl.add(typeLbl);
-		ButtonGroup bedTypeGroup = new ButtonGroup();
-		JRadioButton twin = new JRadioButton("Twin");
+		bedTypeGroup = new ButtonGroup();
+		twin = new JRadioButton("Twin");
 		twin.setActionCommand("TWIN");
-		JRadioButton full = new JRadioButton("Full");
+		full = new JRadioButton("Full");
 		full.setActionCommand("FULL");
-		JRadioButton queen = new JRadioButton("Queen");
+		queen = new JRadioButton("Queen");
 		queen.setActionCommand("QUEEN");
-		JRadioButton king = new JRadioButton("King");
+		king = new JRadioButton("King");
 		king.setActionCommand("KING");
 		bedTypeGroup.add(twin);
 		bedTypeGroup.add(full);
@@ -84,14 +100,14 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		qualTypePnl.setLayout(new BoxLayout(qualTypePnl, BoxLayout.Y_AXIS));
 		qualLbl = new JLabel("Room Quality:");
 		qualTypePnl.add(qualLbl);
-		ButtonGroup qualityGroup = new ButtonGroup();
-		JRadioButton executive = new JRadioButton("Executive");
+		qualityGroup = new ButtonGroup();
+		executive = new JRadioButton("Executive");
 		executive.setActionCommand("EXECUTIVE");
-		JRadioButton business = new JRadioButton("Business");
+		business = new JRadioButton("Business");
 		business.setActionCommand("BUSINESS");
-		JRadioButton comfort = new JRadioButton("Comfort");
+		comfort = new JRadioButton("Comfort");
 		comfort.setActionCommand("COMFORT");
-		JRadioButton economy = new JRadioButton("Economy");
+		economy = new JRadioButton("Economy");
 		economy.setActionCommand("ECONOMY");
 		qualityGroup.add(executive);
 		qualityGroup.add(business);
@@ -130,7 +146,45 @@ public class AddModifyRoomsPage extends JPanel implements NavUpdate {
 		
 		this.add(container);
 	}
+
+	/**
+	 * navUpdate in AddModifyRoomsPage clears out all of the information
+	 * in it, otherwise, it takes the current selected room, and populates
+	 * this page using the values in it
+	 */
 	@Override
 	public void navUpdate() {
+		inputNum.setValue(0);
+		inputBeds.setValue(0);
+		smoking.setSelected(false);
+		qualityGroup.clearSelection();
+		bedTypeGroup.clearSelection();
+		if(selectedRoom != null) {
+			inputNum.setValue(selectedRoom.getID());
+			inputBeds.setValue(selectedRoom.getNumBeds());
+			smoking.setSelected(selectedRoom.getCanSmoke());
+
+			switch(selectedRoom.getQualityType()) {
+				case EXECUTIVE: executive.setSelected(true); break;
+				case BUSINESS: business.setSelected(true); break;
+				case COMFORT: comfort.setSelected(true); break;
+				case ECONOMY: economy.setSelected(true); break;
+			}
+
+			switch(selectedRoom.getBedType()) {
+				case TWIN: twin.setSelected(true); break;
+				case FULL: full.setSelected(true); break;
+				case QUEEN: queen.setSelected(true); break;
+				case KING: king.setSelected(true); break;
+			}
+		}
+	}
+
+	/**
+	 * setSelectedRoom sets the currently selected room of this page
+	 * @param selectedRoom The room to be made the selected page
+	 */
+	public void setSelectedRoom(Room selectedRoom) {
+		this.selectedRoom = selectedRoom;
 	}
 }

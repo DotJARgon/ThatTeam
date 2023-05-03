@@ -434,4 +434,5 @@ public class UI extends JFrame {
     public void setModResID(int id) {
     	this.modifyResPage.setID(id);
     }
+    public void setModifyRoomsPage(Room room) {this.modifyRoomsPage.setSelectedRoom(room);}
 }

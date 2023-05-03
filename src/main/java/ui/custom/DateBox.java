@@ -6,13 +6,17 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * DateBox is a custom UI element that allows for selecting a date, and converting
+ * that selection into a Date object. The date selection is also updated by default
+ * to be the current date, and prevents the user from ever selecting a date anytime
+ * before the current date!
+ */
 public class DateBox extends JPanel {
     private static final String[] MONTHS = new String[]{
             "January", "February", "March", "April", "May", "June", "July",
@@ -65,6 +69,10 @@ public class DateBox extends JPanel {
 
     private NavUpdate callback;
 
+    /**
+     * This is the default constructor of DateBox, it initializes the currently
+     * selected date to the current date
+     */
     public DateBox() {
         super();
         this.setLayout(new GridBagLayout());
@@ -158,12 +166,21 @@ public class DateBox extends JPanel {
 
     }
 
+    /**
+     * nextMonth sets the next month, between 1-12
+     */
     private void nextMonth() {
         this.month = (this.month + 1) % 12;
         this.monthLabel.setText(MONTHS[this.month]);
         this.updateDays();
         this.updateDate();
     }
+
+    /**
+     * prevMonth calculates and sets the previous month, and
+     * makes sure it does not select a month that is before
+     * the current date
+     */
     private void prevMonth() {
         Calendar cal = Calendar.getInstance();
         int m = cal.get(Calendar.MONTH);
@@ -177,6 +194,13 @@ public class DateBox extends JPanel {
         }
     }
 
+    /**
+     * updateDays firstly finds the number of days in a given month and
+     * year, this takes leap years into account, and makes sure the selected day, if for
+     * example, January 31st was selected, but turns to February, it automatically
+     * selects the nearest day that is valid, as well as only makes the days that can be
+     * selected visible and hiding all others
+     */
     private void updateDays() {
         Calendar cal = Calendar.getInstance();
         int d = cal.get(Calendar.DAY_OF_MONTH);
@@ -209,11 +233,18 @@ public class DateBox extends JPanel {
         this.dayButtons[this.day - 1].setForeground(this.highlightColor);
     }
 
+    /**
+     * updateDate updates the displayed date in DateBox
+     */
     private void updateDate() {
         String date = (this.month + 1) + "/" + (this.day) + "/" + (this.year);
         this.dateLabel.setText(date);
     }
 
+    /**
+     * getDate converts the displayed date into a Date object, and returns it
+     * @return the selected date
+     */
     public Date getDate() {
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
@@ -228,6 +259,11 @@ public class DateBox extends JPanel {
         return null;
     }
 
+    /**
+     * setCallback is a NavUpdate callback, it is specifically for UI elements
+     * that need to be updated when new dates are selected
+     * @param callback the NavUpdate to be called when any day is selected
+     */
     public void setCallback(NavUpdate callback) {
         this.callback = callback;
     }

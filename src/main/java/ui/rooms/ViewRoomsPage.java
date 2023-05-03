@@ -50,17 +50,24 @@ public class ViewRoomsPage extends JPanel implements NavUpdate{
     	
     	c.gridx++;
     	JButton modify = new JButton("Edit");
-    	modify.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				UI.navTo(UI.Routes.MODIFY_ROOMS);
+		modify.addActionListener(e -> {
+			UI.getUI().setModifyRoomsPage(null);
+			int row = roomsTable.getSelectedRow();
+			if(row != -1) {
+				int roomID = Integer.parseInt((String) roomsTable.getValueAt(row, 0));
+				Room room = HotelManagement.getHotelManagement().getRoomByID(roomID);
+				if(room != null) {
+					UI.getUI().setModifyRoomsPage(room);
+				}
 			}
-    	});
-    	this.add(modify, c);
 
-    	c.gridx++;
-    	JButton remove = new JButton("Remove");
-    	remove.addActionListener(new ActionListener() {
+			UI.navTo(UI.Routes.MODIFY_ROOMS);
+		});
+		this.add(modify, c);
+
+		c.gridx++;
+		JButton remove = new JButton("Remove");
+		remove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = roomsTable.getSelectedRow();

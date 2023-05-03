@@ -26,6 +26,9 @@ import user_services.Account;
 import user_services.Clerk;
 import user_services.Guest;
 
+/**
+ * 
+ */
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     protected final JTable roomsTable;
     private final JPanel tablePanel, datePanel;
