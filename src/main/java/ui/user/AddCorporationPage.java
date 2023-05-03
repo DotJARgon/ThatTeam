@@ -16,10 +16,18 @@ import ui.UI;
 import ui.custom.NavUpdate;
 import user_services.Guest;
 
+/**
+ * This is the AddCorporationPage, it allows a Guest account to add a corporation
+ * to themselves, this is the corporation that is charged!
+ */
 public class AddCorporationPage extends JPanel implements NavUpdate{
 	private JTextField text;
 	private JPanel container;
-	
+
+	/**
+	 * This is the default constructor of AddCorporationPage, it simply
+	 * initializes all of the UI elements
+	 */
 	public AddCorporationPage(){
 		this.setLayout(new GridBagLayout());
 		container = new JPanel();
@@ -60,7 +68,10 @@ public class AddCorporationPage extends JPanel implements NavUpdate{
 		container.add(submitBut);
 		this.add(container, new GridBagConstraints());
 	}
-	
+
+	/**
+	 * navUpdate in AddCorporationPage does not do anything
+	 */
 	@Override
 	public void navUpdate() {
 

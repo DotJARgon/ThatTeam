@@ -10,13 +10,16 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The LoginPage
+ * The LoginPage extends the UserField, it allows the user to login using
+ * their username and password, when the login button is clicked, if that information
+ * was correct, then the user is logged in, otherwise, they are prompted whether they
+ * want to register a new account. There are also clickable text options for either
+ * selecting to register a new account or reset password!
  *
- * @author  Bryant Huang
+ * @author  Bryant Huang and Marcelo Carpenter
  * @version  1.6
  * @since 5/1/2023
  */
-
 public class LoginPage extends UserField {
     private final ClickableText reset = new ClickableText("Reset Password");
     private final Clickable loginAction = () -> {
@@ -65,6 +68,10 @@ public class LoginPage extends UserField {
 
     //remember to add a route!
 
+    /**
+     * This is the LoginPage default constructor, is sets the reset button, which
+     * is an additional component not found in UserField
+     */
     public LoginPage() {
         super("Login", "Register new account?", 0);
         GridBagConstraints resetC = new GridBagConstraints();

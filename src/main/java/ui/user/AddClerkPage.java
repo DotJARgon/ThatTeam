@@ -18,9 +18,21 @@ import ui.custom.NavUpdate;
 import user_services.Account;
 import user_services.Guest;
 
-public class AddClerkPage extends JPanel implements NavUpdate{
+/**
+ * The AddClerkPage is only accessibly by and Admin account, and allows the
+ * admin to promote any singular Guest account and makes them a Clerk account,
+ * however it is required that the Guest account has no reservations previously,
+ * it needs to be an entirely new account, as it makes no sense
+ * for a Clerk to have any reservations
+ */
+public class AddClerkPage extends JPanel implements NavUpdate {
 	private final JTextField text;
 	private JPanel container;
+
+	/**
+	 * This is the defualt constructor of the AddClerkPage, it initializes
+	 * all of the UI elements
+	 */
 	public AddClerkPage(){
 		this.setLayout(new GridBagLayout());
 		container = new JPanel();
@@ -63,11 +75,14 @@ public class AddClerkPage extends JPanel implements NavUpdate{
 		container.add(submitBut);
 		this.add(container, new GridBagConstraints());
 	}
-	
+
+	/**
+	 * navUpdate in AddClerkPage does nothing, it is needed however
+	 * as it is a UI page that is navigateable
+	 */
 	@Override
 	public void navUpdate() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }
