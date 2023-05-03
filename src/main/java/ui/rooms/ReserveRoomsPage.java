@@ -27,7 +27,13 @@ import user_services.Clerk;
 import user_services.Guest;
 
 /**
- * 
+ * ReserveRoomsPage is the page for making reservations. It gives the user the
+ * ability to select certain dates to checkout a room, rooms will only show
+ * for a given set of dates if and only if those rooms are not reserved in any
+ * part of that period! Additionally more than one room can be selected,
+ * as well as it will prompt the user to either enter their credit card
+ * info for the first time or make sure their card info is correct. Then a
+ * billing is shown, this billing is what the user will be charged once they check in
  */
 public class ReserveRoomsPage extends JPanel implements NavUpdate {
     protected final JTable roomsTable;
@@ -39,6 +45,9 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         reserveRooms();
     };
 
+    /**
+     * This is the ReserveRoomsPage, it simply sets up the GUI
+     */
     public ReserveRoomsPage() {
         super();
 
@@ -76,6 +85,13 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         this.tablePanel.setVisible(false);
     }
 
+    /**
+     * reserveRooms is the called function that performs all of the logic
+     * for reserving a set of selected rooms, it checks to make sure rooms
+     * are selected, the start and end dates are proper, and also prompts the
+     * user to enter their credit card info as well as works for the clerk too, and
+     * allows the clerk to make a reservation for a guest
+     */
     public void reserveRooms() {
 
         if(startDate.getDate().after(endDate.getDate())) {
@@ -135,6 +151,10 @@ public class ReserveRoomsPage extends JPanel implements NavUpdate {
         }
     }
 
+    /**
+     * navUpdate here collects all of the reservations that are available and displays
+     * them nicely in the table
+     */
     @Override
     public void navUpdate() {
         this.tablePanel.setVisible(true);
