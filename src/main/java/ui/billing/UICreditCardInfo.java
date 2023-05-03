@@ -8,12 +8,29 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 
+/**
+ * The UICreditCardInfo class is meant to help with entering credit card
+ * information for a user to pay for their reservation, it has input
+ * sanitation to make sure the inputs would be a valid credit card,
+ * and populates by default with the values guest has, and double
+ * checks that information whether or not it is valid
+ * @author  Alexzander DeVries, Lizzie Nix, Bryant Huang,
+ *          Marcelo Carpenter, Christian Ocana
+ * @version  4.2
+ * @since 3/15/23
+ */
 public class UICreditCardInfo extends JPanel {
     private final Guest guest;
     private boolean isCreditCardValid;
 
     private final JTextField fTextField, lTextField, aTextField, cTextField, dTextField1, dTextField2, cwTextField;
 
+    /**
+     * This is the UICreditCardInfo constructor, it takes in a guest and
+     * preopulates the textfields
+     *
+     * @param guest The guest object to get the current card information
+     * */
     public UICreditCardInfo(Guest guest) {
         super();
         this.guest = guest;
@@ -213,6 +230,14 @@ public class UICreditCardInfo extends JPanel {
         setVisible(true);
     }
 
+    /**
+     * validateInputs is meant to validate each of the textfields, so all
+     * of them need to have some text, the number fields need to only
+     * consist of numbers, the month and year cannot be before today,
+     * as that card would be expired, the cardnumber needs to be 16
+     * characters, and the cw needs to be 3 characters.
+     * @return returns true if all of the inputs pass the validation, false otherwise
+     * */
     private boolean validateInputs() {
         String firstName = fTextField.getText();
         String lastName = lTextField.getText();
@@ -255,7 +280,11 @@ public class UICreditCardInfo extends JPanel {
         return true;
     }
 
-
+    /**
+     * isCrediCardValid is a simple getter for the internal isCreditCardValid flag,
+     * which is true when the values of the text field is valid and false otherwise
+     * @return true when the info entered is valid, false otherwise
+     */
     public boolean isCreditCardValid() {
         return isCreditCardValid;
     }

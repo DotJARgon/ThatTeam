@@ -18,6 +18,12 @@ import java.util.Arrays;
  * @since 3/15/23
  */
 public class ReservationBilling extends JPanel {
+    /**
+     * Constructor of the ReservationBilling page, it takes in just
+     * one parameter
+     *
+     * @param reservation The reservation to use to display the billing info
+     */
     public ReservationBilling(Reservation reservation) {
         super(new GridBagLayout());
         GridBagConstraints g = new GridBagConstraints();
