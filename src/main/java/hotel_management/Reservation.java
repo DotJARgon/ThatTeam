@@ -120,11 +120,12 @@ public class Reservation {
 		this.checkedOut = checkedOut;
 	}
 
-	public void setReserved(Date r){
-		this.reserved = r;
-	}
 	public Date getReserved() {
 		return reserved;
+	}
+
+	public void setReserved(Date reserved) {
+		this.reserved = reserved;
 	}
 
 	@Override

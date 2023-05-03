@@ -40,15 +40,28 @@ public class Billing {
         discount = d;
     }
 
-    public Double getTip() {
-        return tip;
-    }
     public Double getCost() {
         return cost;
     }
 
+    public void setCost(Double cost) {
+        this.cost = cost;
+    }
+
+    public Double getTip() {
+        return tip;
+    }
+
+    public void setTip(Double tip) {
+        this.tip = tip;
+    }
+
     public Double getDiscount() {
         return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 
     public Double getCancelledCost() {

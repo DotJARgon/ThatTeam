@@ -120,8 +120,6 @@
             <cardNum>1234567890123456</cardNum>
             <corporation></corporation>
             <cw>101</cw>
-            <reservations>100191877</reservations>
-            <reservations>1699260220</reservations>
             <reservations>258843617</reservations>
             <reservations>956830102</reservations>
             <reservations>2068545691</reservations>
@@ -209,7 +207,7 @@
                 <securityQ>Your mother was a hamster and your father was smelt of elderberries</securityQ>
                 <username>bob1</username>
                 <address>address</address>
-                <cardExpiration>0003-01-18T00:00:00-06:00</cardExpiration>
+                <cardExpiration>0003-02-01T00:00:00-06:00</cardExpiration>
                 <cardFirstName></cardFirstName>
                 <cardLastName></cardLastName>
                 <cardNum>123456789</cardNum>

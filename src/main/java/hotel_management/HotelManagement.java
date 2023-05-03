@@ -180,8 +180,8 @@ public class HotelManagement {
         resDate.setTime(res.getReserved());
         GregorianCalendar currDate = new GregorianCalendar();
         currDate.setTime(new Date()); //prolly not necessary, but for security
-        if(currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2 ||
-                currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363)
+        if((currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2) ||
+                (currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363))
             BillingCalculator.calculateCancelledCost(res);
 
         if(g == null) {
@@ -204,10 +204,24 @@ public class HotelManagement {
         this.saveUsers();
         this.saveReservations();
     }
+
+    public boolean hasCancellationFee(int resID) {
+        Reservation res = allReservations.get(resID);
+        //Determine whether to charge the guest
+        GregorianCalendar resDate = new GregorianCalendar();
+        resDate.setTime(res.getReserved());
+        GregorianCalendar currDate = new GregorianCalendar();
+        currDate.setTime(new Date()); //prolly not necessary, but for security
+        //if within cancellation time
+        return ((currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR) && currDate.get(Calendar.DAY_OF_YEAR) - resDate.get(Calendar.DAY_OF_YEAR) > 2) ||
+                (currDate.get(Calendar.YEAR) == resDate.get(Calendar.YEAR)+1 && resDate.get(Calendar.DAY_OF_YEAR) - currDate.get(Calendar.DAY_OF_YEAR) < 363));
+    }
     
     //Assumes the reservation exists
-    public void modifyReservation(int resID, Date s, Date e, int[] rooms) {
-    	allReservations.get(resID).modify(s, e, rooms);
+    public void modifyReservation(int resID, Date start, Date end, int[] rooms) {
+        Reservation res = allReservations.get(resID);
+    	res.modify(start, end, rooms);
+    	res.setBilling(BillingCalculator.generate(res));
     	this.saveReservations();
     }
     

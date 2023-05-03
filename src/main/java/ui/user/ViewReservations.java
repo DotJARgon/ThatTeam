@@ -79,11 +79,28 @@ public class ViewReservations extends JPanel implements NavUpdate {
 			if(row == -1)
 				JOptionPane.showMessageDialog(null,"No reservation has been selected");
 			else if(HotelManagement.getHotelManagement().getRes(resID).getStart().after(Calendar.getInstance().getTime())) {
-				HotelManagement.getHotelManagement().cancelReservation(resID, g);
-				int modelRow = resTable.convertRowIndexToModel(row);
-				DefaultTableModel model = (DefaultTableModel)resTable.getModel();
-				if(HotelManagement.getHotelManagement().getRes(resID) == null)
+
+				if(HotelManagement.getHotelManagement().hasCancellationFee(resID)) {
+					Object[] options = {"OK", "CANCEL"};
+					int option = JOptionPane.showOptionDialog(null,
+							"Cancellation will result in 80% fee, do you still want to cancel?",
+							"Late Cancellation Fee",
+							JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE,
+							null, options, options[0]);
+					if(option == 0) {
+						HotelManagement.getHotelManagement().cancelReservation(resID, g);
+						int modelRow = resTable.convertRowIndexToModel(row);
+						DefaultTableModel model = (DefaultTableModel)resTable.getModel();
+						model.removeRow(modelRow);
+					}
+				}
+				else {
+					HotelManagement.getHotelManagement().cancelReservation(resID, g);
+					int modelRow = resTable.convertRowIndexToModel(row);
+					DefaultTableModel model = (DefaultTableModel)resTable.getModel();
 					model.removeRow(modelRow);
+				}
+
 			}
 			else
 				JOptionPane.showMessageDialog(null,"Reservation cannot be canceled because it is too late");
@@ -173,7 +190,7 @@ public class ViewReservations extends JPanel implements NavUpdate {
 
 			//populate table
 			String[] columns = new String[] {
-					"Reservation ID", "Rooms", "Start Date", "End Date", "Checked In", "Checked Out", "Canceled"
+					"Reservation ID", "Rooms", "Reserved On", "Start Date", "End Date", "Checked In", "Checked Out", "Canceled"
 			};
 			Object[][] data = (g != null) ?
 					new Object[g.getReservations().size()][columns.length]
@@ -196,11 +213,12 @@ public class ViewReservations extends JPanel implements NavUpdate {
 				if(r != null) {
 					data[ndx][0] = Integer.toString(r.getID());
 					data[ndx][1] = Arrays.toString(r.getRooms());
-					data[ndx][2] = r.getStart().toString();
-					data[ndx][3] = r.getEnd().toString();
-					data[ndx][4] = r.getCheckedIn();
-					data[ndx][5] = r.getCheckedOut();
-					data[ndx][6] = r.getCanceled();
+					data[ndx][2] = r.getReserved().toString();
+					data[ndx][3] = r.getStart().toString();
+					data[ndx][4] = r.getEnd().toString();
+					data[ndx][5] = r.getCheckedIn();
+					data[ndx][6] = r.getCheckedOut();
+					data[ndx][7] = r.getCanceled();
 					ndx++;
 				}
 			}
