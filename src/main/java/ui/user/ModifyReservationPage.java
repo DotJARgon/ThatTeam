@@ -51,14 +51,19 @@ public class ModifyReservationPage extends ReserveRoomsPage {
 
             Date start = startDate.getDate();
             Date end = endDate.getDate();
-
-            if(UI.getCurrentClient() instanceof Guest)
-                HotelManagement.getHotelManagement().modifyReservation(currResID, start, end, roomIds);
-            else if(UI.getCurrentClient() instanceof Clerk) {
-                if(((Clerk)UI.getCurrentClient()).getGuest() != null)
+            if(HotelManagement.getHotelManagement().getRes(currResID).getCanceled())
+                JOptionPane.showMessageDialog(null, "Cannot modify canceled reservation");
+            else if(HotelManagement.getHotelManagement().getRes(currResID).getCheckedIn())
+                JOptionPane.showMessageDialog(null, "Cannot modify reservation after check in");
+            else {
+                if (UI.getCurrentClient() instanceof Guest)
                     HotelManagement.getHotelManagement().modifyReservation(currResID, start, end, roomIds);
-                else
-                    JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
+                else if (UI.getCurrentClient() instanceof Clerk) {
+                    if (((Clerk) UI.getCurrentClient()).getGuest() != null)
+                        HotelManagement.getHotelManagement().modifyReservation(currResID, start, end, roomIds);
+                    else
+                        JOptionPane.showMessageDialog(null, "Cannot reserve for guest because there is no designated guest");
+                }
             }
             this.currResID = -1;
 

@@ -254,11 +254,9 @@ public class HotelManagement {
     public void modifyReservation(int resID, Date start, Date end, int[] rooms) {
         Reservation res = allReservations.get(resID);
         if(res != null) {
-            if(!res.getCanceled() && !res.getCheckedIn()) {
-                res.modify(start, end, rooms);
-                res.setBilling(BillingCalculator.generate(res));
-                this.saveReservations();
-            }
+            res.modify(start, end, rooms);
+            res.setBilling(BillingCalculator.generate(res));
+            this.saveReservations();
         }
     }
 
