@@ -24,21 +24,8 @@ public class Billing {
     /**
      * Default constructor for the Billing class
      */
-    public Billing(){
+    public Billing(){}
 
-    }
-
-    /**
-     *
-     * @param d the discount amount from the total cost
-     * @param tc the total cost of the reservation made
-     * @param t the amount tipped by the user
-     */
-    protected Billing(Double d, Double tc, Double t) {
-        cost = tc;
-        tip = t;
-        discount = d;
-    }
 
     public Double getCost() {
         return cost;

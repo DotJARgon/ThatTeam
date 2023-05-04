@@ -13,7 +13,6 @@ import java.security.*;
  * @since 3/25/23
  */
 @XmlRootElement(name = "account")
-//@XmlType(propOrder = { "username", "password", "firstName", "lastName", "id" })
 public class Account {
     private String username = "";
     private String password = "";
@@ -21,7 +20,7 @@ public class Account {
     private String lastName = "";
     private String securityQ = "";
     private String securityA = "";
-    private int id = 0;
+    private int id;
 
     /**
      * The default constructor for an account object

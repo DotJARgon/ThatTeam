@@ -98,13 +98,13 @@ public class HotelManagement {
      */
     public Vector<Room> getAvailableRooms(Date start, Date end) {
         Vector<Room> availableRooms = new Vector<>();
-    	if(end.before(start) || end.equals(start))
-    		return availableRooms;
+        if(end.before(start) || end.equals(start))
+            return availableRooms;
         for(Room r : this.rooms.values()) {
             boolean roomAvailable = true;
             for(Integer resNum: r.getReservations()) {
                 Reservation res = allReservations.get(resNum);
-            	if(res != null) {
+                if(res != null) {
                     if(start.equals(res.getStart()) || start.equals(res.getEnd()) ||
                             end.equals(res.getStart()) || end.equals(res.getEnd()))
                         roomAvailable = false;
@@ -169,7 +169,7 @@ public class HotelManagement {
         allReservations.put(res.getID(), res);
         //loop thru reservation's rooms. Will typically be 1 room
         for(int r : res.getRooms()) {
-        	rooms.get(r).addReservation(res.getID());
+            rooms.get(r).addReservation(res.getID());
         }
         g.addReservation(res.getID());
         this.saveUsers();
@@ -253,10 +253,12 @@ public class HotelManagement {
      */
     public void modifyReservation(int resID, Date start, Date end, int[] rooms) {
         Reservation res = allReservations.get(resID);
-    	if(res != null) {
-            res.modify(start, end, rooms);
-            res.setBilling(BillingCalculator.generate(res));
-            this.saveReservations();
+        if(res != null) {
+            if(!res.getCanceled()) {
+                res.modify(start, end, rooms);
+                res.setBilling(BillingCalculator.generate(res));
+                this.saveReservations();
+            }
         }
     }
 
@@ -399,12 +401,12 @@ public class HotelManagement {
     public Account logIn(String username, String password) {
         //query data base, will be added soon,
         //likely will need to change the logIn with a token
-            Account account = accounts.get(username);
-            //System.out.println(accounts.get(username));
-            if (account != null) {
-                if (account.matches(password)) {
-                    return account;
-                }
+        Account account = accounts.get(username);
+        //System.out.println(accounts.get(username));
+        if (account != null) {
+            if (account.matches(password)) {
+                return account;
+            }
         }
         //if no username or password matches with the ones of an already existing account
         return null;
